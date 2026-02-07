@@ -1,0 +1,29 @@
+# Homepage
+home:
+    path: /
+    controller: App\Controllers\PortfolioController::index
+
+# CV
+cv:
+    path: /cv
+    controller: App\Controllers\PortfolioController::cv
+
+# Contacto
+contact:
+    path: /contacto
+    controller: App\Controllers\PortfolioController::contact
+
+# PPiA
+ppia:
+    path: /ppia
+    controller: App\Controllers\PortfolioController::ppia
+
+# VibeCoding - Lista
+vibe_coding:
+    path: /vibe-coding
+    controller: App\Controllers\ArticleController::index
+
+# VibeCoding - Artículo individual
+vibe_coding_article:
+    path: /vibe-coding/{slug}
+    controller: App\Controllers\ArticleController::show

@@ -1,0 +1,48 @@
+
+###> symfony/framework-bundle ###
+/.env.local
+/.env.local.php
+/.env.*.local
+/config/secrets/prod/prod.decrypt.private.php
+/public/bundles/
+/var/
+/vendor/
+###< symfony/framework-bundle ###
+
+###> Security & Credentials ###
+# NEVER commit these files
+*.pem
+*.key
+*.crt
+*.p12
+*.pfx
+id_rsa*
+*.pub
+.ssh/
+*.credentials
+credentials.json
+secrets.json
+
+# Environment files with real data
+.env.production
+.env.prod
+.env.vps
+
+# Infrastructure configs with real IPs/credentials
+.infrastructure/*-real.md
+.infrastructure/production-*.md
+###< Security & Credentials ###
+
+###> Infrastructure (optional - can commit templates) ###
+# Uncomment if you want to hide ALL infrastructure files:
+# .infrastructure/
+###< Infrastructure ###
+
+###> IDE ###
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+###< IDE ###
