@@ -1,0 +1,27 @@
+parameters:
+    level: 9
+    paths:
+        - src
+    excludePaths:
+        - src/Kernel.php
+
+    # PHPStan Level 9: Maximum strictness
+
+    # Type coverage
+    checkMissingIterableValueType: true
+    checkGenericClassInNonGenericObjectType: true
+
+    # Strict rules
+    checkAlwaysTrueCheckTypeFunctionCall: true
+    checkAlwaysTrueInstanceof: true
+    checkAlwaysTrueStrictComparison: true
+    checkExplicitMixedMissingReturn: true
+    checkFunctionNameCase: true
+    checkInternalClassCaseSensitivity: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true
+    checkUninitializedProperties: true
+
+    # Error reporting
+    reportUnmatchedIgnoredErrors: true
+    reportMaybesInPropertyPhpDocTypes: true
+    reportStaticMethodSignatures: true
