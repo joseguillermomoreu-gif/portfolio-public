@@ -1,0 +1,36 @@
+{
+  "personal_info": {
+    "name": "Test User",
+    "title": "Test Developer",
+    "tagline": "Testing is my passion",
+    "bio": "I love writing tests",
+    "location": "Test City, Test Country",
+    "photo": "/test/photo.jpg",
+    "website": "https://test.example.com"
+  },
+  "contact": {
+    "email": "test@example.com",
+    "phone": "+1 555 TEST"
+  },
+  "social_networks": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/testuser",
+      "icon": "github"
+    }
+  ],
+  "skills": [
+    {
+      "name": "PHP",
+      "level": "expert",
+      "years": 5,
+      "stars": 5
+    },
+    {
+      "name": "Testing",
+      "level": "expert",
+      "years": 3,
+      "stars": 5
+    }
+  ]
+}

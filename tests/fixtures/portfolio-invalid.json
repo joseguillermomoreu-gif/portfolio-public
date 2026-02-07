@@ -1,0 +1,4 @@
+{
+  "personal_info": "this should be an object, not a string",
+  "invalid": "json structure"
+}
