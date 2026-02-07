@@ -110,9 +110,9 @@ test-routes: ## Probar que las rutas responden
 test: ## Ejecutar tests unitarios con PHPUnit
 	@echo "$(YELLOW)🧪 Ejecutando tests unitarios...$(NC)"
 ifdef DOCKER
-	@$(EXEC_PREFIX) vendor/bin/phpunit --testdox
+	@$(EXEC_PREFIX) vendor/bin/phpunit --testdox --no-coverage
 else
-	@vendor/bin/phpunit --testdox
+	@vendor/bin/phpunit --testdox --no-coverage
 endif
 	@echo "$(GREEN)✓ Tests completados$(NC)"
 

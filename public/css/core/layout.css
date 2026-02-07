@@ -82,11 +82,23 @@ main {
     padding: var(--spacing-xs);
     border-radius: var(--radius-sm);
     transition: all var(--transition-base);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
 }
 
 .theme-toggle:hover {
     background: var(--bg-secondary);
     color: var(--accent-primary);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
 }
 
 /* Footer */
@@ -129,7 +141,7 @@ main {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 849px) {
     .nav-links {
         display: none;
     }
@@ -140,5 +152,10 @@ main {
 
     .footer-content {
         padding: 0 var(--spacing-sm);
+    }
+
+    /* Hide theme toggle on mobile - dark mode is forced */
+    .theme-toggle {
+        display: none !important;
     }
 }
