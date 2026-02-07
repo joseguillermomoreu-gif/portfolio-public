@@ -27,7 +27,7 @@ test.describe('Base Template - Header & Navigation', () => {
     await expect(navLinks).toHaveCount(5);
 
     // Verify all navigation links
-    const expectedLinks = ['Home', 'CV', 'PPiA', 'VibeCoding', 'Contacto'];
+    const expectedLinks = ['Home', 'CV', 'PPiA', 'Code & AI', 'Contacto'];
     for (let i = 0; i < expectedLinks.length; i++) {
       await expect(navLinks.nth(i)).toHaveText(expectedLinks[i]);
     }

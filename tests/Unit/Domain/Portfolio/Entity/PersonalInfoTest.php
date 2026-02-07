@@ -151,4 +151,206 @@ final class PersonalInfoTest extends TestCase
         $this->assertSame($expectedData['photo'], $personalInfo->photo());
         $this->assertSame($expectedData['website'], $personalInfo->website());
     }
+
+    /**
+     * @dataProvider emptyStringProvider
+     */
+    public function test_it_should_reject_empty_name(string $emptyValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Name cannot be empty');
+
+        new PersonalInfo(
+            $emptyValue,
+            'Title',
+            'Tagline',
+            'Bio',
+            'Location',
+            null,
+            null
+        );
+    }
+
+    /**
+     * @dataProvider emptyStringProvider
+     */
+    public function test_it_should_reject_empty_title(string $emptyValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Title cannot be empty');
+
+        new PersonalInfo(
+            'Name',
+            $emptyValue,
+            'Tagline',
+            'Bio',
+            'Location',
+            null,
+            null
+        );
+    }
+
+    /**
+     * @dataProvider emptyStringProvider
+     */
+    public function test_it_should_reject_empty_tagline(string $emptyValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Tagline cannot be empty');
+
+        new PersonalInfo(
+            'Name',
+            'Title',
+            $emptyValue,
+            'Bio',
+            'Location',
+            null,
+            null
+        );
+    }
+
+    /**
+     * @dataProvider emptyStringProvider
+     */
+    public function test_it_should_reject_empty_bio(string $emptyValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Bio cannot be empty');
+
+        new PersonalInfo(
+            'Name',
+            'Title',
+            'Tagline',
+            $emptyValue,
+            'Location',
+            null,
+            null
+        );
+    }
+
+    /**
+     * @dataProvider emptyStringProvider
+     */
+    public function test_it_should_reject_empty_location(string $emptyValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Location cannot be empty');
+
+        new PersonalInfo(
+            'Name',
+            'Title',
+            'Tagline',
+            'Bio',
+            $emptyValue,
+            null,
+            null
+        );
+    }
+
+    public function test_it_should_reject_empty_photo_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Photo must be null or non-empty string');
+
+        new PersonalInfo(
+            'Name',
+            'Title',
+            'Tagline',
+            'Bio',
+            'Location',
+            '',
+            null
+        );
+    }
+
+    public function test_it_should_reject_empty_website_string(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Website must be null or non-empty string');
+
+        new PersonalInfo(
+            'Name',
+            'Title',
+            'Tagline',
+            'Bio',
+            'Location',
+            null,
+            ''
+        );
+    }
+
+    public function test_it_should_accept_valid_website_url(): void
+    {
+        $validUrls = [
+            'https://josemoreupeso.es',
+            'http://example.com',
+            'https://subdomain.example.com',
+            'https://example.com/path/to/page'
+        ];
+
+        foreach ($validUrls as $url) {
+            $personalInfo = new PersonalInfo(
+                'Name',
+                'Title',
+                'Tagline',
+                'Bio',
+                'Location',
+                null,
+                $url
+            );
+
+            $this->assertSame($url, $personalInfo->website());
+        }
+    }
+
+    public function test_it_should_trim_whitespace_from_required_fields(): void
+    {
+        $personalInfo = new PersonalInfo(
+            '  José Moreu Peso  ',
+            '  Senior Developer  ',
+            '  Tagline  ',
+            '  Bio text  ',
+            '  Madrid  ',
+            null,
+            null
+        );
+
+        $this->assertSame('José Moreu Peso', $personalInfo->name());
+        $this->assertSame('Senior Developer', $personalInfo->title());
+        $this->assertSame('Tagline', $personalInfo->tagline());
+        $this->assertSame('Bio text', $personalInfo->bio());
+        $this->assertSame('Madrid', $personalInfo->location());
+    }
+
+    public function test_it_should_handle_special_characters_in_strings(): void
+    {
+        $personalInfo = new PersonalInfo(
+            'José Moréu-Péso',
+            'Senior Developer & Tech Lead',
+            'Building @scalable systems 🚀',
+            'Passionate about <coding> & "innovation"',
+            'Madrid, España',
+            '/images/josé-profile.jpg',
+            'https://josemoreupeso.es?ref=portfolio&id=123'
+        );
+
+        $this->assertStringContainsString('José', $personalInfo->name());
+        $this->assertStringContainsString('&', $personalInfo->title());
+        $this->assertStringContainsString('🚀', $personalInfo->tagline());
+        $this->assertStringContainsString('<coding>', $personalInfo->bio());
+    }
+
+    /**
+     * Data provider for empty string values
+     */
+    public static function emptyStringProvider(): array
+    {
+        return [
+            'empty string' => [''],
+            'whitespace only' => ['   '],
+            'tab only' => ["\t"],
+            'newline only' => ["\n"],
+            'mixed whitespace' => ["  \t\n  "]
+        ];
+    }
 }

@@ -15,26 +15,26 @@ final class ArticleController extends AbstractController
         private readonly JsonArticleRepository $articleRepository
     ) {}
 
-    #[Route('/vibe-coding', name: 'vibe_coding')]
+    #[Route('/code-ai', name: 'code_ai')]
     public function index(): Response
     {
         $articles = $this->articleRepository->findAll();
-        
-        return $this->render('pages/vibe-coding/index.html.twig', [
+
+        return $this->render('pages/code-ai/index.html.twig', [
             'articles' => array_map(fn($article) => $article->toArray(), $articles),
         ]);
     }
 
-    #[Route('/vibe-coding/{slug}', name: 'vibe_coding_article')]
+    #[Route('/code-ai/{slug}', name: 'code_ai_article')]
     public function show(string $slug): Response
     {
         $article = $this->articleRepository->findBySlug($slug);
-        
+
         if (!$article) {
             throw $this->createNotFoundException('Artículo no encontrado');
         }
-        
-        return $this->render('pages/vibe-coding/show.html.twig', [
+
+        return $this->render('pages/code-ai/show.html.twig', [
             'article' => $article->toArray(),
         ]);
     }

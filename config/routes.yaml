@@ -18,12 +18,12 @@ ppia:
     path: /ppia
     controller: App\Controllers\PortfolioController::ppia
 
-# VibeCoding - Lista
-vibe_coding:
-    path: /vibe-coding
+# Code & AI - Lista
+code_ai:
+    path: /code-ai
     controller: App\Controllers\ArticleController::index
 
-# VibeCoding - Artículo individual
-vibe_coding_article:
-    path: /vibe-coding/{slug}
+# Code & AI - Artículo individual
+code_ai_article:
+    path: /code-ai/{slug}
     controller: App\Controllers\ArticleController::show

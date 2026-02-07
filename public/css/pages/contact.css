@@ -1,0 +1,143 @@
+/**
+ * Contact Page Styles
+ * Styles specific to the contact page layout
+ */
+
+.contact-page {
+    padding: 6rem 2rem 4rem;
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Contact Header */
+.contact-header h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.contact-header p {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+/* Contact Card */
+.contact-card {
+    background: var(--bg-secondary);
+    border-radius: 2rem;
+    padding: 3rem;
+    margin: 3rem 0;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+    border-color: var(--accent-primary);
+    transform: translateY(-5px);
+}
+
+/* Contact Info Grid */
+.contact-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin: 2rem 0;
+}
+
+/* Contact Item (extends from cards.css) */
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: var(--bg-primary);
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+}
+
+.contact-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 217, 255, 0.15);
+}
+
+.contact-item i {
+    color: var(--accent-primary);
+}
+
+.contact-item a {
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.contact-item a:hover {
+    color: var(--accent-primary);
+}
+
+/* Social Section */
+.social-section {
+    margin: 4rem 0;
+}
+
+.social-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+
+.social-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.8rem;
+    padding: 2rem 1.5rem;
+    background: var(--bg-secondary);
+    border-radius: 1.5rem;
+    text-decoration: none;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+    min-width: 120px;
+}
+
+.social-btn:hover {
+    color: white;
+    transform: translateY(-8px);
+    border-color: var(--accent-primary);
+}
+
+/* Social button hover colors */
+.social-btn.github:hover {
+    background: #333;
+}
+
+.social-btn.linkedin:hover {
+    background: #0077B5;
+}
+
+.social-btn.globe:hover {
+    background: var(--accent-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-page {
+        padding: 5rem 1rem 3rem;
+    }
+
+    .contact-info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .social-buttons {
+        gap: 1rem;
+    }
+}

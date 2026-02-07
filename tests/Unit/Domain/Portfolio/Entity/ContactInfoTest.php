@@ -80,4 +80,122 @@ final class ContactInfoTest extends TestCase
         $this->assertSame('user2@example.com', $contact2->email());
         $this->assertSame('222222222', $contact2->phone());
     }
+
+    /**
+     * @dataProvider emptyStringProvider
+     */
+    public function test_it_should_reject_empty_email(string $emptyValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Email cannot be empty');
+
+        new ContactInfo($emptyValue, '+34 600 123 456');
+    }
+
+    /**
+     * @dataProvider emptyStringProvider
+     */
+    public function test_it_should_reject_empty_phone(string $emptyValue): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Phone cannot be empty');
+
+        new ContactInfo('test@example.com', $emptyValue);
+    }
+
+    /**
+     * @dataProvider invalidEmailProvider
+     */
+    public function test_it_should_reject_invalid_email_format(string $invalidEmail): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Email must be a valid email address');
+
+        new ContactInfo($invalidEmail, '+34 600 123 456');
+    }
+
+    public function test_it_should_trim_whitespace_from_email_and_phone(): void
+    {
+        $contactInfo = new ContactInfo(
+            '  test@example.com  ',
+            '  +34 600 123 456  '
+        );
+
+        $this->assertSame('test@example.com', $contactInfo->email());
+        $this->assertSame('+34 600 123 456', $contactInfo->phone());
+    }
+
+    public function test_it_should_accept_valid_email_formats(): void
+    {
+        $validEmails = [
+            'simple@example.com',
+            'user.name@example.com',
+            'user+tag@example.co.uk',
+            'user_name@sub.example.com',
+            'joseguillermomoreu@gmail.com'
+        ];
+
+        foreach ($validEmails as $email) {
+            $contactInfo = new ContactInfo($email, '123456789');
+            $this->assertSame($email, $contactInfo->email());
+        }
+    }
+
+    public function test_it_should_accept_various_phone_formats(): void
+    {
+        $validPhones = [
+            '+34 600 123 456',
+            '+1 555 1234',
+            '600123456',
+            '+44 20 7123 4567',
+            '(555) 123-4567'
+        ];
+
+        foreach ($validPhones as $phone) {
+            $contactInfo = new ContactInfo('test@example.com', $phone);
+            $this->assertSame($phone, $contactInfo->phone());
+        }
+    }
+
+    public function test_it_should_handle_international_characters_in_email(): void
+    {
+        // Note: Email standard technically allows some unicode,
+        // but we'll test with standard ASCII emails
+        $contactInfo = new ContactInfo(
+            'josé.moreu@example.com',
+            '+34 600 123 456'
+        );
+
+        $this->assertStringContainsString('josé', $contactInfo->email());
+    }
+
+    /**
+     * Data provider for empty string values
+     */
+    public static function emptyStringProvider(): array
+    {
+        return [
+            'empty string' => [''],
+            'whitespace only' => ['   '],
+            'tab only' => ["\t"],
+            'newline only' => ["\n"],
+            'mixed whitespace' => ["  \t\n  "]
+        ];
+    }
+
+    /**
+     * Data provider for invalid email formats
+     */
+    public static function invalidEmailProvider(): array
+    {
+        return [
+            'no @ symbol' => ['notanemail'],
+            'no domain' => ['user@'],
+            'no local part' => ['@example.com'],
+            'missing TLD' => ['user@domain'],
+            'double @' => ['user@@example.com'],
+            'spaces' => ['user name@example.com'],
+            'missing domain part' => ['user@.com']
+        ];
+    }
 }

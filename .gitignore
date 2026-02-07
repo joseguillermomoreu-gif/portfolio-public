@@ -61,3 +61,14 @@ yarn-error.log*
 ###< Playwright ###
 
 composer.phar
+
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
+
+###> Temporary & Backup Files ###
+vendor.backup*/
+*.backup
+fix-composer.sh
+###< Temporary & Backup Files ###

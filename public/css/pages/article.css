@@ -1,0 +1,83 @@
+/**
+ * Article Page Styles
+ * Individual article view layout
+ */
+
+.article-page {
+    padding: 6rem 2rem 4rem;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.article-header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+/* Article meta (reuses from article-cards.css but with adjustments) */
+.article-header .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    flex-wrap: wrap;
+}
+
+.article-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+/* Article Navigation */
+.article-nav {
+    background: var(--bg-secondary);
+    border-radius: 1rem;
+    padding: 2rem;
+    margin: 3rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--accent-primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.nav-back:hover {
+    gap: 1rem;
+    color: var(--accent-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .article-page {
+        padding: 5rem 1rem 3rem;
+    }
+
+    .article-title {
+        font-size: 2rem;
+    }
+
+    .article-header .article-meta {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .article-nav {
+        flex-direction: column;
+        text-align: center;
+    }
+}
