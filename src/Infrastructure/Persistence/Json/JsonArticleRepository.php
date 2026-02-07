@@ -13,10 +13,21 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
         private readonly string $dataPath = __DIR__ . '/../../../../data/articles.json'
     ) {}
 
+    /**
+     * @return array<int, Article>
+     */
     public function findAll(): array
     {
-        $data = json_decode(file_get_contents($this->dataPath), true);
-        
+        $jsonContent = file_get_contents($this->dataPath);
+        if ($jsonContent === false) {
+            throw new \RuntimeException("Failed to read articles data from {$this->dataPath}");
+        }
+
+        $data = json_decode($jsonContent, true);
+        if (!is_array($data) || !isset($data['articles']) || !is_array($data['articles'])) {
+            throw new \RuntimeException("Invalid JSON data in {$this->dataPath}");
+        }
+
         return array_map(
             fn(array $articleData) => Article::fromArray($articleData),
             $data['articles']
@@ -49,10 +60,14 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
         return null;
     }
 
+    /**
+     * @param array<int, string> $tags
+     * @return array<int, Article>
+     */
     public function findByTags(array $tags): array
     {
         $articles = $this->findAll();
-        
+
         return array_filter($articles, function (Article $article) use ($tags) {
             $articleTags = $article->tags();
             return !empty(array_intersect($tags, $articleTags));

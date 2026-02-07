@@ -15,7 +15,16 @@ final class JsonPortfolioRepository implements PortfolioRepositoryInterface
 
     public function find(): Portfolio
     {
-        $data = json_decode(file_get_contents($this->dataPath), true);
+        $jsonContent = file_get_contents($this->dataPath);
+        if ($jsonContent === false) {
+            throw new \RuntimeException("Failed to read portfolio data from {$this->dataPath}");
+        }
+
+        $data = json_decode($jsonContent, true);
+        if (!is_array($data)) {
+            throw new \RuntimeException("Invalid JSON data in {$this->dataPath}");
+        }
+
         return Portfolio::fromArray($data);
     }
 }

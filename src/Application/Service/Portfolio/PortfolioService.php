@@ -13,15 +13,18 @@ final class PortfolioService
         private readonly PortfolioRepositoryInterface $portfolioRepository
     ) {}
     
-    public function getPortfolio(): Portfolio 
+    public function getPortfolio(): Portfolio
     {
         return $this->portfolioRepository->find();
     }
-    
+
+    /**
+     * @return array<string, string|null>
+     */
     public function getPersonalInfo(): array
     {
         $portfolio = $this->getPortfolio();
-        
+
         return [
             'name' => $portfolio->personalInfo()->name(),
             'title' => $portfolio->personalInfo()->title(),
@@ -32,11 +35,14 @@ final class PortfolioService
             'website' => $portfolio->personalInfo()->website(),
         ];
     }
-    
+
+    /**
+     * @return array<string, string|null>
+     */
     public function getContactInfo(): array
     {
         $portfolio = $this->getPortfolio();
-        
+
         return [
             'email' => $portfolio->contactInfo()->email(),
             'phone' => $portfolio->contactInfo()->phone(),

@@ -36,7 +36,8 @@ final class Tag
 
     private static function slugify(string $text): string
     {
-        return strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $text)));
+        $replaced = preg_replace('/[^A-Za-z0-9-]+/', '-', $text);
+        return strtolower(trim($replaced ?? ''));
     }
 
     public function __toString(): string
