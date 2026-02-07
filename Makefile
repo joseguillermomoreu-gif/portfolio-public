@@ -106,6 +106,41 @@ test-routes: ## Probar que las rutas responden
 	@sleep 2
 	@curl -s http://localhost:$(PORT) | head -10 || echo "$(RED)❌ No responde$(NC)"
 
+# Comandos de testing
+test: ## Ejecutar tests unitarios con PHPUnit
+	@echo "$(YELLOW)🧪 Ejecutando tests unitarios...$(NC)"
+ifdef DOCKER
+	@$(EXEC_PREFIX) vendor/bin/phpunit --testdox
+else
+	@vendor/bin/phpunit --testdox
+endif
+	@echo "$(GREEN)✓ Tests completados$(NC)"
+
+phpstan: ## Análisis estático con PHPStan Level 9
+	@echo "$(YELLOW)🔍 Ejecutando PHPStan...$(NC)"
+ifdef DOCKER
+	@$(EXEC_PREFIX) vendor/bin/phpstan analyse --no-progress
+else
+	@vendor/bin/phpstan analyse --no-progress
+endif
+	@echo "$(GREEN)✓ PHPStan completado$(NC)"
+
+e2e: ## Ejecutar tests E2E con Playwright
+	@echo "$(YELLOW)🎭 Ejecutando tests E2E...$(NC)"
+	@npm test
+	@echo "$(GREEN)✓ Tests E2E completados$(NC)"
+
+e2e-ui: ## Ejecutar tests E2E con UI de Playwright
+	@echo "$(YELLOW)🎭 Ejecutando tests E2E en modo UI...$(NC)"
+	@npm run test:ui
+
+e2e-headed: ## Ejecutar tests E2E con navegador visible
+	@echo "$(YELLOW)🎭 Ejecutando tests E2E con navegador...$(NC)"
+	@npm run test:headed
+
+qa: test phpstan ## Ejecutar todos los checks de calidad (PHPUnit + PHPStan)
+	@echo "$(GREEN)✅ QA completado$(NC)"
+
 # Comandos de mantenimiento
 update: ## Actualizar dependencias
 	@echo "$(YELLOW)📦 Actualizando dependencias...$(NC)"
@@ -130,4 +165,4 @@ local-serve: ## Servidor PHP local (fallback)
 local-install: ## Composer local (fallback)
 	@composer install --optimize-autoloader
 
-.PHONY: help build install up down logs restart status shell clean reset dev test-routes update cache-clear serve stop local-serve local-install check-docker
+.PHONY: help build install up down logs restart status shell clean reset dev test-routes test phpstan e2e e2e-ui e2e-headed qa update cache-clear serve stop local-serve local-install check-docker
