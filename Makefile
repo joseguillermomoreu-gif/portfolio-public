@@ -125,9 +125,13 @@ else
 endif
 	@echo "$(GREEN)✓ PHPStan completado$(NC)"
 
-e2e: ## Ejecutar tests E2E con Playwright
-	@echo "$(YELLOW)🎭 Ejecutando tests E2E...$(NC)"
+e2e: ## Ejecutar tests E2E con Playwright (en Docker)
+	@echo "$(YELLOW)🎭 Ejecutando tests E2E en Docker...$(NC)"
+ifdef DOCKER
+	@$(DOCKER_COMPOSE_CMD) run --rm node npm test
+else
 	@npm test
+endif
 	@echo "$(GREEN)✓ Tests E2E completados$(NC)"
 
 e2e-ui: ## Ejecutar tests E2E con UI de Playwright
@@ -138,8 +142,24 @@ e2e-headed: ## Ejecutar tests E2E con navegador visible
 	@echo "$(YELLOW)🎭 Ejecutando tests E2E con navegador...$(NC)"
 	@npm run test:headed
 
+e2e-install: ## Instalar dependencias Node.js en Docker
+	@echo "$(YELLOW)📦 Instalando dependencias Node.js...$(NC)"
+ifdef DOCKER
+	@$(DOCKER_COMPOSE_CMD) run --rm node npm ci
+else
+	@npm ci
+endif
+	@echo "$(GREEN)✓ Dependencias Node.js instaladas$(NC)"
+
 qa: test phpstan ## Ejecutar todos los checks de calidad (PHPUnit + PHPStan)
 	@echo "$(GREEN)✅ QA completado$(NC)"
+
+validate: qa e2e ## Validar TODO antes de push (QA + E2E)
+	@echo ""
+	@echo "$(GREEN)╔════════════════════════════════════════╗$(NC)"
+	@echo "$(GREEN)║  ✅ VALIDACIÓN COMPLETA EXITOSA  ✅  ║$(NC)"
+	@echo "$(GREEN)╚════════════════════════════════════════╝$(NC)"
+	@echo "$(BLUE)🚀 Listo para hacer push$(NC)"
 
 # Comandos de mantenimiento
 update: ## Actualizar dependencias
