@@ -114,6 +114,19 @@
     transform: translateX(-50%) translateY(2px);
 }
 
+/* v1.4.6: Dark mode for scroll indicator in mobile (mobile is always dark) */
+@media (max-width: 768px) {
+    [data-theme="light"] .scroll-indicator,
+    [data-theme="dark"] .scroll-indicator {
+        color: rgba(255, 255, 255, 0.7);
+    }
+
+    [data-theme="light"] .scroll-indicator:hover,
+    [data-theme="dark"] .scroll-indicator:hover {
+        color: var(--accent-primary);
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .hero {
