@@ -44,6 +44,18 @@ test.describe('Contact Page - Smoke Tests', () => {
     await expect(instagramLink.first()).toBeVisible();
   });
 
+  test('GitHub link should point to user profile (v1.4.7)', async ({ page }) => {
+    await page.goto(`/contacto`);
+
+    // GitHub link should point to user profile, not specific repo
+    const githubLink = page.locator('.social-buttons a[href*="github.com"]').first();
+    await expect(githubLink).toBeVisible();
+
+    const href = await githubLink.getAttribute('href');
+    expect(href).toBe('https://github.com/joseguillermomoreu-gif');
+    expect(href).not.toContain('/portfolio');
+  });
+
   test('social links should have security attributes', async ({ page }) => {
     await page.goto(`/contacto`);
 

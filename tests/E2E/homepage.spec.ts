@@ -150,15 +150,21 @@ test.describe('Homepage - Portfolio Context (v1.2.0)', () => {
     expect(content).toMatch(/portfolio|demostración|habilidades/i);
   });
 
-  test('should have GitHub link to repository', async ({ page }) => {
+  test('should have GitHub link to user profile (not repo)', async ({ page }) => {
     await page.goto('/');
 
-    const githubLink = page.locator('a[href*="github.com/joseguillermomoreu-gif/portfolio"]');
+    // v1.4.7: GitHub link should point to user profile, not specific repo
+    const githubLink = page.locator('.portfolio-context a[href="https://github.com/joseguillermomoreu-gif"]').first();
     await expect(githubLink).toBeVisible();
 
     // Should open in new tab
     const target = await githubLink.getAttribute('target');
     expect(target).toBe('_blank');
+
+    // Should NOT link to /portfolio repo
+    const href = await githubLink.getAttribute('href');
+    expect(href).toBe('https://github.com/joseguillermomoreu-gif');
+    expect(href).not.toContain('/portfolio');
   });
 
   test('should mention open source', async ({ page }) => {
