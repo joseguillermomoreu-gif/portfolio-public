@@ -52,10 +52,10 @@
     font-family: var(--font-mono);
 }
 
-/* Responsive - v2.3.0: Always 2 columns on mobile for better UX */
+/* Responsive - v2.3.1: Force 2 columns on mobile (cache busting fix) */
 @media (max-width: 768px) {
     .stack-visual {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(2, 1fr) !important;
         gap: var(--spacing-sm);
     }
 
@@ -74,5 +74,30 @@
 
     .stack-years {
         font-size: 0.75rem;
+    }
+}
+
+/* Extra small screens - maintain 2 columns */
+@media (max-width: 480px) {
+    .stack-visual {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 1rem;
+    }
+
+    .stack-item {
+        padding: 1rem 0.75rem;
+    }
+
+    .stack-icon {
+        width: 32px;
+        height: 32px;
+    }
+
+    .stack-name {
+        font-size: 0.8rem;
+    }
+
+    .stack-years {
+        font-size: 0.7rem;
     }
 }
