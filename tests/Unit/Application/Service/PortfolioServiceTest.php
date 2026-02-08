@@ -19,10 +19,17 @@ use PHPUnit\Framework\TestCase;
  */
 final class PortfolioServiceTest extends TestCase
 {
-    /** @var (MockObject&PortfolioRepositoryInterface)|null */
-    private ?PortfolioRepositoryInterface $repositoryMock = null;
-    private ?PortfolioService $service = null;
-    private ?Portfolio $portfolioStub = null;
+    /**
+     * @var MockObject&PortfolioRepositoryInterface
+     * @phpstan-ignore-next-line - Initialized in setUp()
+     */
+    private PortfolioRepositoryInterface $repositoryMock;
+
+    /** @phpstan-ignore-next-line - Initialized in setUp() */
+    private PortfolioService $service;
+
+    /** @phpstan-ignore-next-line - Initialized in setUp() */
+    private Portfolio $portfolioStub;
 
     protected function setUp(): void
     {
