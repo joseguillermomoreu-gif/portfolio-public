@@ -9,7 +9,7 @@ use DateTimeImmutable;
 final class Article
 {
     /**
-     * @param array<int, string> $tags
+     * @param array<Tag> $tags
      */
     public function __construct(
         private readonly string $id,
@@ -58,7 +58,7 @@ final class Article
     }
 
     /**
-     * @return array<int, string>
+     * @return array<Tag>
      */
     public function tags(): array
     {
@@ -70,15 +70,33 @@ final class Article
      */
     public static function fromArray(array $data): self
     {
+        $id = $data['id'] ?? '';
+        $title = $data['title'] ?? '';
+        $slug = $data['slug'] ?? '';
+        $excerpt = $data['excerpt'] ?? '';
+        $content = $data['content'] ?? '';
+        $publishedAt = $data['published_at'] ?? '';
+        $updatedAt = $data['updated_at'] ?? '';
+        $tags = $data['tags'] ?? [];
+
+        assert(is_string($id));
+        assert(is_string($title));
+        assert(is_string($slug));
+        assert(is_string($excerpt));
+        assert(is_string($content));
+        assert(is_string($publishedAt));
+        assert(is_string($updatedAt));
+        assert(is_array($tags));
+
         return new self(
-            is_string($data['id'] ?? null) ? $data['id'] : throw new \InvalidArgumentException('Invalid id'),
-            is_string($data['title'] ?? null) ? $data['title'] : throw new \InvalidArgumentException('Invalid title'),
-            is_string($data['slug'] ?? null) ? $data['slug'] : throw new \InvalidArgumentException('Invalid slug'),
-            is_string($data['excerpt'] ?? null) ? $data['excerpt'] : throw new \InvalidArgumentException('Invalid excerpt'),
-            is_string($data['content'] ?? null) ? $data['content'] : throw new \InvalidArgumentException('Invalid content'),
-            new DateTimeImmutable(is_string($data['published_at'] ?? null) ? $data['published_at'] : throw new \InvalidArgumentException('Invalid published_at')),
-            new DateTimeImmutable(is_string($data['updated_at'] ?? null) ? $data['updated_at'] : throw new \InvalidArgumentException('Invalid updated_at')),
-            isset($data['tags']) && is_array($data['tags']) ? $data['tags'] : []
+            $id,
+            $title,
+            $slug,
+            $excerpt,
+            $content,
+            new DateTimeImmutable($publishedAt),
+            new DateTimeImmutable($updatedAt),
+            $tags
         );
     }
 

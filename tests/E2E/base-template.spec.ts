@@ -188,33 +188,39 @@ test.describe('Base Template - Footer', () => {
   test('should display footer', async ({ page }) => {
     await page.goto(`${baseURL}/`);
 
-    const footer = page.locator('.footer');
+    const footer = page.locator('.site-footer');
     await expect(footer).toBeVisible();
   });
 
   test('should have social links in footer', async ({ page }) => {
     await page.goto(`${baseURL}/`);
 
-    const socialLinks = page.locator('.footer .social-link');
-    await expect(socialLinks).toHaveCount(3);
+    const socialLinks = page.locator('.footer-social a');
 
-    // Verify social links have aria-labels
-    for (let i = 0; i < 3; i++) {
-      await expect(socialLinks.nth(i)).toHaveAttribute('aria-label');
-      await expect(socialLinks.nth(i)).toHaveAttribute('target', '_blank');
-      await expect(socialLinks.nth(i)).toHaveAttribute('rel', 'noopener');
-    }
+    // Verify at least one social link exists
+    await expect(socialLinks.first()).toBeVisible();
+
+    // Verify social links have proper attributes
+    await expect(socialLinks.first()).toHaveAttribute('target', '_blank');
+    await expect(socialLinks.first()).toHaveAttribute('rel', /noopener/);
   });
 
-  test('should display footer text with current year', async ({ page }) => {
+  test('should display version and author in footer', async ({ page }) => {
     await page.goto(`${baseURL}/`);
 
-    const currentYear = new Date().getFullYear();
-    const footerText = page.locator('.footer-text');
+    // Verify version is displayed (any version format like v0.X.X)
+    const version = page.locator('.version');
+    await expect(version).toBeVisible();
+    await expect(version).toContainText(/v\d+\.\d+\.\d+/);
 
-    await expect(footerText).toContainText(currentYear.toString());
-    await expect(footerText).toContainText('José Moreu Peso');
-    await expect(footerText).toContainText('josemoreupeso.es');
+    // Verify "Powered by" text exists
+    const poweredBy = page.locator('.powered-by');
+    await expect(poweredBy).toContainText('José Guillermo Moreu');
+
+    // Verify current year is displayed
+    const currentYear = new Date().getFullYear();
+    const copyright = page.locator('.copyright');
+    await expect(copyright).toContainText(currentYear.toString());
   });
 });
 

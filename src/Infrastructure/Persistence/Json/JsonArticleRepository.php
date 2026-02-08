@@ -14,18 +14,24 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
     ) {}
 
     /**
-     * @return array<int, Article>
+     * @return array<Article>
      */
     public function findAll(): array
     {
-        $jsonContent = file_get_contents($this->dataPath);
-        if ($jsonContent === false) {
+        $content = file_get_contents($this->dataPath);
+
+        if ($content === false) {
             throw new \RuntimeException("Failed to read articles data from {$this->dataPath}");
         }
 
-        $data = json_decode($jsonContent, true);
-        if (!is_array($data) || !isset($data['articles']) || !is_array($data['articles'])) {
-            throw new \RuntimeException("Invalid JSON data in {$this->dataPath}");
+        $data = json_decode($content, true);
+
+        if (!is_array($data)) {
+            throw new \RuntimeException('Invalid JSON format in articles data');
+        }
+
+        if (!isset($data['articles']) || !is_array($data['articles'])) {
+            throw new \RuntimeException('Missing or invalid articles array in data');
         }
 
         return array_map(

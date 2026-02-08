@@ -46,6 +46,10 @@ final class PortfolioService
         return [
             'email' => $portfolio->contactInfo()->email(),
             'phone' => $portfolio->contactInfo()->phone(),
+            'github' => $portfolio->contactInfo()->github(),
+            'linkedin' => $portfolio->contactInfo()->linkedin(),
+            'instagram' => $portfolio->contactInfo()->instagram(),
+            'website' => $portfolio->contactInfo()->website(),
         ];
     }
 }

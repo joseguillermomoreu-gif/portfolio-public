@@ -29,15 +29,16 @@ final class PortfolioController extends AbstractController
     public function cv(): Response
     {
         // Cargar datos CV desde JSON
-        $cvJsonPath = __DIR__ . '/../../data/cv.json';
-        $cvJsonContent = file_get_contents($cvJsonPath);
-        if ($cvJsonContent === false) {
-            throw new \RuntimeException("Failed to read CV data from {$cvJsonPath}");
+        $content = file_get_contents(__DIR__ . '/../../data/cv.json');
+
+        if ($content === false) {
+            throw new \RuntimeException('Failed to read CV data');
         }
 
-        $cvData = json_decode($cvJsonContent, true);
+        $cvData = json_decode($content, true);
+
         if (!is_array($cvData)) {
-            throw new \RuntimeException("Invalid JSON data in {$cvJsonPath}");
+            throw new \RuntimeException('Invalid CV JSON format');
         }
 
         $portfolio = $this->portfolioRepository->find();

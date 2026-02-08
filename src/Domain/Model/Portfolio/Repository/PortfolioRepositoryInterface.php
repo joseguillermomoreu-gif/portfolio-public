@@ -7,20 +7,22 @@ namespace App\Domain\Model\Portfolio\Repository;
 use App\Domain\Model\Portfolio\Entity\Portfolio;
 
 /**
- * Portfolio Repository Interface
+ * Portfolio Repository Interface (Port)
  *
- * Defines the contract for retrieving Portfolio aggregate.
- * Implementations are located in Infrastructure layer.
+ * This is a port in hexagonal architecture.
+ * Implementation (adapter) lives in Infrastructure layer.
  *
- * @package App\Domain\Model\Portfolio\Repository
+ * Responsibilities:
+ * - Retrieve portfolio data
+ * - Abstract data source (JSON, DB, API, etc.)
  */
 interface PortfolioRepositoryInterface
 {
     /**
-     * Retrieves the portfolio data
+     * Find and return the portfolio.
      *
-     * @return Portfolio The portfolio aggregate with all associated data
-     * @throws \RuntimeException If portfolio data cannot be retrieved
+     * @return Portfolio
+     * @throws \RuntimeException If portfolio cannot be loaded
      */
     public function find(): Portfolio;
 }

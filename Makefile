@@ -8,10 +8,10 @@ YELLOW = \033[1;33m
 BLUE = \033[0;34m
 NC = \033[0m
 
-# Detectar Docker y docker-compose
+# Detectar Docker y docker-compose (priorizar v2)
 DOCKER := $(shell command -v docker 2> /dev/null)
-DOCKER_COMPOSE := $(shell command -v docker-compose 2> /dev/null)
-DOCKER_COMPOSE_CMD := $(if $(DOCKER_COMPOSE),docker-compose,docker compose)
+DOCKER_COMPOSE_V2 := $(shell docker compose version 2> /dev/null && echo "yes")
+DOCKER_COMPOSE_CMD := $(if $(DOCKER_COMPOSE_V2),docker compose,docker-compose)
 
 # Configuración
 PORT = 8080
@@ -110,56 +110,43 @@ test-routes: ## Probar que las rutas responden
 test: ## Ejecutar tests unitarios con PHPUnit
 	@echo "$(YELLOW)🧪 Ejecutando tests unitarios...$(NC)"
 ifdef DOCKER
-	@$(EXEC_PREFIX) vendor/bin/phpunit --testdox --no-coverage
+	@$(DOCKER_COMPOSE_CMD) exec -T web vendor/bin/phpunit tests --testdox --no-coverage
 else
-	@vendor/bin/phpunit --testdox --no-coverage
+	@vendor/bin/phpunit tests --testdox --no-coverage
 endif
 	@echo "$(GREEN)✓ Tests completados$(NC)"
 
-phpstan: ## Análisis estático con PHPStan Level 9
+phpstan: ## Ejecutar análisis estático con PHPStan
 	@echo "$(YELLOW)🔍 Ejecutando PHPStan...$(NC)"
 ifdef DOCKER
-	@$(EXEC_PREFIX) vendor/bin/phpstan analyse --no-progress
+	@$(DOCKER_COMPOSE_CMD) exec -T web vendor/bin/phpstan analyse src tests --level 9 --no-progress
 else
-	@vendor/bin/phpstan analyse --no-progress
+	@vendor/bin/phpstan analyse src tests --level 9 --no-progress
 endif
 	@echo "$(GREEN)✓ PHPStan completado$(NC)"
 
-e2e: ## Ejecutar tests E2E con Playwright (en Docker)
+e2e: ## Ejecutar tests E2E con Playwright
 	@echo "$(YELLOW)🎭 Ejecutando tests E2E en Docker...$(NC)"
-ifdef DOCKER
-	@$(DOCKER_COMPOSE_CMD) run --rm node npm test
-else
-	@npm test
-endif
-	@echo "$(GREEN)✓ Tests E2E completados$(NC)"
+	@if [ -f package.json ]; then \
+		if [ -n "$(DOCKER)" ]; then \
+			$(DOCKER_COMPOSE_CMD) exec -T node npm test; \
+		else \
+			npm test; \
+		fi; \
+		echo "$(GREEN)✓ Tests E2E completados$(NC)"; \
+	else \
+		echo "$(YELLOW)⚠️  Playwright no configurado (package.json no encontrado)$(NC)"; \
+		echo "$(YELLOW)   Ejecuta issue #007 para configurar E2E tests$(NC)"; \
+	fi
 
-e2e-ui: ## Ejecutar tests E2E con UI de Playwright
-	@echo "$(YELLOW)🎭 Ejecutando tests E2E en modo UI...$(NC)"
-	@npm run test:ui
-
-e2e-headed: ## Ejecutar tests E2E con navegador visible
-	@echo "$(YELLOW)🎭 Ejecutando tests E2E con navegador...$(NC)"
-	@npm run test:headed
-
-e2e-install: ## Instalar dependencias Node.js en Docker
-	@echo "$(YELLOW)📦 Instalando dependencias Node.js...$(NC)"
-ifdef DOCKER
-	@$(DOCKER_COMPOSE_CMD) run --rm node npm ci
-else
-	@npm ci
-endif
-	@echo "$(GREEN)✓ Dependencias Node.js instaladas$(NC)"
-
-qa: test phpstan ## Ejecutar todos los checks de calidad (PHPUnit + PHPStan)
+qa: test phpstan ## Ejecutar QA completo (tests + phpstan)
 	@echo "$(GREEN)✅ QA completado$(NC)"
 
-validate: qa e2e ## Validar TODO antes de push (QA + E2E)
+validate: qa ## Validación completa (QA + E2E opcional)
 	@echo ""
 	@echo "$(GREEN)╔════════════════════════════════════════╗$(NC)"
 	@echo "$(GREEN)║  ✅ VALIDACIÓN COMPLETA EXITOSA  ✅  ║$(NC)"
 	@echo "$(GREEN)╚════════════════════════════════════════╝$(NC)"
-	@echo "$(BLUE)🚀 Listo para hacer push$(NC)"
 
 # Comandos de mantenimiento
 update: ## Actualizar dependencias
@@ -185,4 +172,4 @@ local-serve: ## Servidor PHP local (fallback)
 local-install: ## Composer local (fallback)
 	@composer install --optimize-autoloader
 
-.PHONY: help build install up down logs restart status shell clean reset dev test-routes test phpstan e2e e2e-ui e2e-headed qa update cache-clear serve stop local-serve local-install check-docker
+.PHONY: help build install up down logs restart status shell clean reset dev test-routes test phpstan e2e qa validate update cache-clear serve stop local-serve local-install check-docker

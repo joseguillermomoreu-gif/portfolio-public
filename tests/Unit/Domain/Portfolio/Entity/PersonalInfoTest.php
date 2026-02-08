@@ -342,6 +342,8 @@ final class PersonalInfoTest extends TestCase
 
     /**
      * Data provider for empty string values
+     *
+     * @return array<string, array<string>>
      */
     public static function emptyStringProvider(): array
     {

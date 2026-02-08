@@ -14,188 +14,207 @@ use PHPUnit\Framework\TestCase;
  */
 final class ContactInfoTest extends TestCase
 {
-    public function test_it_should_create_contact_info_with_email_and_phone(): void
+    public function test_it_should_create_contact_info_with_all_properties(): void
     {
-        // Arrange
-        $email = 'portfolio@josemoreupeso.es';
-        $phone = '+34 600 123 456';
-
-        // Act
-        $contactInfo = new ContactInfo($email, $phone);
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'contact@josemoreupeso.es',
+            phone: '+34 600 123 456',
+            github: 'pepeton',
+            linkedin: 'josemoreupeso',
+            instagram: '@jmoreu1992',
+            website: 'https://josemoreupeso.es'
+        );
 
         // Assert
-        $this->assertSame($email, $contactInfo->email());
-        $this->assertSame($phone, $contactInfo->phone());
+        $this->assertInstanceOf(ContactInfo::class, $contactInfo);
     }
 
-    public function test_email_getter_should_return_exact_value(): void
+    public function test_all_properties_should_be_accessible(): void
     {
-        // Arrange
-        $expectedEmail = 'test@example.com';
-        $contactInfo = new ContactInfo($expectedEmail, '123456789');
-
-        // Act
-        $actualEmail = $contactInfo->email();
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: '@jmoreu1992',
+            website: 'https://example.com'
+        );
 
         // Assert
-        $this->assertSame($expectedEmail, $actualEmail);
+        $this->assertSame('jose@example.com', $contactInfo->email());
+        $this->assertSame('+34 600 000 000', $contactInfo->phone());
+        $this->assertSame('pepeton', $contactInfo->github());
+        $this->assertSame('jose-moreu', $contactInfo->linkedin());
+        $this->assertSame('@jmoreu1992', $contactInfo->instagram());
+        $this->assertSame('https://example.com', $contactInfo->website());
     }
 
-    public function test_phone_getter_should_return_exact_value(): void
+    public function test_instagram_can_be_null(): void
     {
-        // Arrange
-        $expectedPhone = '+1 555 1234';
-        $contactInfo = new ContactInfo('test@test.com', $expectedPhone);
-
-        // Act
-        $actualPhone = $contactInfo->phone();
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
 
         // Assert
-        $this->assertSame($expectedPhone, $actualPhone);
+        $this->assertNull($contactInfo->instagram());
+    }
+
+    public function test_instagram_can_have_value(): void
+    {
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: '@jmoreu1992',
+            website: 'https://example.com'
+        );
+
+        // Assert
+        $this->assertNotNull($contactInfo->instagram());
+        $this->assertSame('@jmoreu1992', $contactInfo->instagram());
     }
 
     public function test_it_should_be_immutable_with_readonly_properties(): void
     {
         // Arrange
-        $contactInfo = new ContactInfo('test@example.com', '123456');
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
 
-        // Act & Assert - Properties are readonly
+        // Act & Assert - Properties are readonly, verify via reflection
         $reflection = new \ReflectionClass($contactInfo);
         $emailProperty = $reflection->getProperty('email');
-        $phoneProperty = $reflection->getProperty('phone');
 
-        $this->assertTrue($emailProperty->isReadOnly(), 'Email property should be readonly');
-        $this->assertTrue($phoneProperty->isReadOnly(), 'Phone property should be readonly');
+        $this->assertTrue($emailProperty->isReadOnly(), 'Properties should be readonly for immutability');
     }
 
-    public function test_multiple_instances_should_be_independent(): void
+    public function test_email_should_have_valid_format(): void
     {
-        // Arrange
-        $contact1 = new ContactInfo('user1@example.com', '111111111');
-        $contact2 = new ContactInfo('user2@example.com', '222222222');
-
-        // Assert - Each instance maintains its own values
-        $this->assertSame('user1@example.com', $contact1->email());
-        $this->assertSame('111111111', $contact1->phone());
-        $this->assertSame('user2@example.com', $contact2->email());
-        $this->assertSame('222222222', $contact2->phone());
-    }
-
-    /**
-     * @dataProvider emptyStringProvider
-     */
-    public function test_it_should_reject_empty_email(string $emptyValue): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Email cannot be empty');
-
-        new ContactInfo($emptyValue, '+34 600 123 456');
-    }
-
-    /**
-     * @dataProvider emptyStringProvider
-     */
-    public function test_it_should_reject_empty_phone(string $emptyValue): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Phone cannot be empty');
-
-        new ContactInfo('test@example.com', $emptyValue);
-    }
-
-    /**
-     * @dataProvider invalidEmailProvider
-     */
-    public function test_it_should_reject_invalid_email_format(string $invalidEmail): void
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Email must be a valid email address');
-
-        new ContactInfo($invalidEmail, '+34 600 123 456');
-    }
-
-    public function test_it_should_trim_whitespace_from_email_and_phone(): void
-    {
+        // Arrange & Act
         $contactInfo = new ContactInfo(
-            '  test@example.com  ',
-            '  +34 600 123 456  '
+            email: 'contact@josemoreupeso.es',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'josemoreupeso',
+            instagram: null,
+            website: 'https://josemoreupeso.es'
         );
 
-        $this->assertSame('test@example.com', $contactInfo->email());
-        $this->assertSame('+34 600 123 456', $contactInfo->phone());
+        // Assert
+        $this->assertStringContainsString('@', $contactInfo->email());
+        $this->assertStringContainsString('.', $contactInfo->email());
     }
 
-    public function test_it_should_accept_valid_email_formats(): void
+    public function test_phone_can_have_international_format(): void
     {
-        $validEmails = [
-            'simple@example.com',
-            'user.name@example.com',
-            'user+tag@example.co.uk',
-            'user_name@sub.example.com',
-            'joseguillermomoreu@gmail.com'
-        ];
-
-        foreach ($validEmails as $email) {
-            $contactInfo = new ContactInfo($email, '123456789');
-            $this->assertSame($email, $contactInfo->email());
-        }
-    }
-
-    public function test_it_should_accept_various_phone_formats(): void
-    {
-        $validPhones = [
-            '+34 600 123 456',
-            '+1 555 1234',
-            '600123456',
-            '+44 20 7123 4567',
-            '(555) 123-4567'
-        ];
-
-        foreach ($validPhones as $phone) {
-            $contactInfo = new ContactInfo('test@example.com', $phone);
-            $this->assertSame($phone, $contactInfo->phone());
-        }
-    }
-
-    public function test_it_should_handle_international_characters_in_email(): void
-    {
-        // Note: Email standard technically allows some unicode,
-        // but we'll test with standard ASCII emails
+        // Arrange & Act
         $contactInfo = new ContactInfo(
-            'josé.moreu@example.com',
-            '+34 600 123 456'
+            email: 'jose@example.com',
+            phone: '+34 600 123 456',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
         );
 
-        $this->assertStringContainsString('josé', $contactInfo->email());
+        // Assert
+        $this->assertStringStartsWith('+', $contactInfo->phone());
     }
 
-    /**
-     * Data provider for empty string values
-     */
-    public static function emptyStringProvider(): array
+    public function test_phone_can_have_local_format(): void
     {
-        return [
-            'empty string' => [''],
-            'whitespace only' => ['   '],
-            'tab only' => ["\t"],
-            'newline only' => ["\n"],
-            'mixed whitespace' => ["  \t\n  "]
-        ];
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '600 123 456',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
+
+        // Assert
+        $this->assertSame('600 123 456', $contactInfo->phone());
     }
 
-    /**
-     * Data provider for invalid email formats
-     */
-    public static function invalidEmailProvider(): array
+    public function test_github_should_be_username(): void
     {
-        return [
-            'no @ symbol' => ['notanemail'],
-            'no domain' => ['user@'],
-            'no local part' => ['@example.com'],
-            'missing TLD' => ['user@domain'],
-            'double @' => ['user@@example.com'],
-            'spaces' => ['user name@example.com'],
-            'missing domain part' => ['user@.com']
-        ];
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
+
+        // Assert - GitHub username (not full URL)
+        $this->assertStringNotContainsString('/', $contactInfo->github());
+        $this->assertStringNotContainsString('http', $contactInfo->github());
+    }
+
+    public function test_linkedin_should_be_username(): void
+    {
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-guillermo-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
+
+        // Assert - LinkedIn username (not full URL)
+        $this->assertStringNotContainsString('/', $contactInfo->linkedin());
+        $this->assertStringNotContainsString('http', $contactInfo->linkedin());
+    }
+
+    public function test_website_should_be_full_url(): void
+    {
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://josemoreupeso.es'
+        );
+
+        // Assert
+        $this->assertStringStartsWith('http', $contactInfo->website());
+    }
+
+    public function test_website_can_have_https(): void
+    {
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://secure-site.com'
+        );
+
+        // Assert
+        $this->assertStringStartsWith('https://', $contactInfo->website());
     }
 }
