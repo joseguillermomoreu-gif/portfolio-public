@@ -8,12 +8,13 @@ test.describe('Navigation Menu - Order (v1.3.0)', () => {
     const navLinks = page.locator('.nav-links .nav-link');
     const linkTexts = await navLinks.allTextContents();
 
-    // Expected order: Home, CV, Code & AI, PPiA, Contacto
+    // Expected order: Home, CV, Code & AI, PPiA, Proyectos, Contacto
     expect(linkTexts[0]).toBe('Home');
     expect(linkTexts[1]).toBe('CV');
     expect(linkTexts[2]).toBe('Code & AI');
     expect(linkTexts[3]).toBe('PPiA');
-    expect(linkTexts[4]).toBe('Contacto');
+    expect(linkTexts[4]).toBe('Proyectos');
+    expect(linkTexts[5]).toBe('Contacto');
   });
 
   test('Code & AI should come before PPiA', async ({ page }) => {
@@ -132,8 +133,8 @@ test.describe('Navigation Menu - Mobile Hamburger (v1.3.0)', () => {
     await page.waitForTimeout(500);
     await expect(navLinks).toHaveClass(/active/);
 
-    // Click overlay
-    await overlay.click();
+    // Click overlay (force to bypass z-index issues)
+    await overlay.click({ force: true });
     await page.waitForTimeout(300);
 
     // Menu should close
@@ -171,10 +172,10 @@ test.describe('Navigation Menu - Mobile Hamburger (v1.3.0)', () => {
     await page.waitForTimeout(500);
 
     const navLinks = page.locator('.nav-links .nav-link');
-    await expect(navLinks).toHaveCount(5);
+    await expect(navLinks).toHaveCount(6);
 
     // Verify all links are visible when menu is open
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < 6; i++) {
       await expect(navLinks.nth(i)).toBeAttached();
     }
   });

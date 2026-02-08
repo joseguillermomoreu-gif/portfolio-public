@@ -60,12 +60,24 @@
 
 /* v1.4.1: Highlight for "Con IA como copiloto" */
 .hero .tagline .highlight {
-    color: var(--accent-primary);
+    color: var(--accent-primary); /* Fallback color */
     font-weight: 600;
     background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    /* Ensure gradient works on all mobile browsers */
+    display: inline;
+}
+
+/* v1.4.7: Ensure gradient displays on mobile */
+@media (max-width: 768px) {
+    .hero .tagline .highlight {
+        background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
 }
 
 /* v1.4.0: Force one line on desktop */

@@ -23,10 +23,10 @@ test.describe('Base Template - Header & Navigation', () => {
     await page.goto(`/`);
 
     const navLinks = page.locator('.nav-links a');
-    await expect(navLinks).toHaveCount(5);
+    await expect(navLinks).toHaveCount(6);
 
-    // Verify all navigation links (v1.3.0 order)
-    const expectedLinks = ['Home', 'CV', 'Code & AI', 'PPiA', 'Contacto'];
+    // Verify all navigation links (v1.3.0 order + Proyectos)
+    const expectedLinks = ['Home', 'CV', 'Code & AI', 'PPiA', 'Proyectos', 'Contacto'];
     for (let i = 0; i < expectedLinks.length; i++) {
       await expect(navLinks.nth(i)).toHaveText(expectedLinks[i]);
     }
