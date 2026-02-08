@@ -52,16 +52,27 @@
     font-family: var(--font-mono);
 }
 
-/* Responsive */
+/* Responsive - v2.3.0: Always 2 columns on mobile for better UX */
 @media (max-width: 768px) {
     .stack-visual {
         grid-template-columns: repeat(2, 1fr);
         gap: var(--spacing-sm);
     }
-}
 
-@media (max-width: 480px) {
-    .stack-visual {
-        grid-template-columns: 1fr;
+    .stack-item {
+        padding: 1.25rem 1rem;
+    }
+
+    .stack-icon {
+        width: 36px;
+        height: 36px;
+    }
+
+    .stack-name {
+        font-size: 0.85rem;
+    }
+
+    .stack-years {
+        font-size: 0.75rem;
     }
 }
