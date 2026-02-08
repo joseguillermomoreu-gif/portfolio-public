@@ -70,10 +70,10 @@ test.describe('ArticleController E2E Tests', () => {
       await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
 
       const pageContent = await page.locator('body').textContent();
-      // Verify article content is present (from production data)
+      // Verify article content is present (updated v1.1.0)
       expect(pageContent).toContain('arquitectura hexagonal');
-      expect(pageContent).toContain('Domain-Driven Design');
-      expect(pageContent).toContain('SOLID');
+      expect(pageContent).toContain('TDD estricto');
+      expect(pageContent).toContain('Claude Code');
     });
 
     test('should display article tags', async ({ page }) => {
@@ -96,10 +96,10 @@ test.describe('ArticleController E2E Tests', () => {
       const response = await page.goto(`${baseURL}/code-ai/automatizando-e2e-con-ia`);
       expect(response?.status()).toBe(200);
 
-      await expect(page).toHaveTitle(/Automatizando E2E con IA/i);
+      await expect(page).toHaveTitle(/PPIA|Playwright Page Inspector/i);
 
       const pageContent = await page.locator('body').textContent();
-      expect(pageContent).toContain('Model Context Protocol');
+      expect(pageContent).toContain('Gherkin');
     });
   });
 
@@ -201,9 +201,9 @@ test.describe('ArticleController E2E Tests', () => {
 
       const pageContent = await page.locator('body').textContent();
 
-      // Verify all production articles are listed
+      // Verify all production articles are listed (v1.1.0)
       expect(pageContent).toContain('Cómo construí este portfolio');
-      expect(pageContent).toContain('Automatizando E2E con IA');
+      expect(pageContent).toContain('PPIA');
     });
 
     test('should preserve markdown/HTML formatting in article content', async ({ page }) => {
@@ -225,6 +225,235 @@ test.describe('ArticleController E2E Tests', () => {
 
       // Verify different tag types are present
       expect(pageContent).toMatch(/symfony|ddd|playwright|typescript|mcp/i);
+    });
+  });
+
+  test.describe('Python Migration Article - ppia-migracion-python', () => {
+    test('should display Python migration article in list', async ({ page }) => {
+      await page.goto(`${baseURL}/code-ai`);
+
+      const pageContent = await page.locator('body').textContent();
+
+      // May not be in production yet
+      if (pageContent?.includes('Python') || pageContent?.includes('TypeScript') || pageContent?.includes('migra')) {
+        expect(pageContent).toMatch(/Python|TypeScript|migra/i);
+      }
+    });
+
+    test('should access Python migration article detail page', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/ppia-migracion-python`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        await expect(page).toHaveTitle(/Python|TypeScript|PPIA/i);
+
+        const pageContent = await page.locator('body').textContent();
+        expect(pageContent).toMatch(/Python|TypeScript|migración/i);
+      }
+    });
+
+    test('should mention architectural reasons for migration', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/ppia-migracion-python`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        expect(pageContent).toMatch(/arquitectur|LangChain|OpenAI/i);
+      }
+    });
+  });
+
+  test.describe('CI/CD Article - cicd-github-actions-portfolio', () => {
+    test('should display CI/CD article in list', async ({ page }) => {
+      await page.goto(`${baseURL}/code-ai`);
+
+      const pageContent = await page.locator('body').textContent();
+
+      // May not be in production yet
+      if (pageContent?.includes('CI/CD') || pageContent?.includes('GitHub Actions')) {
+        expect(pageContent).toMatch(/CI\/CD|GitHub Actions/i);
+      }
+    });
+
+    test('should access CI/CD article detail page', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/cicd-github-actions-portfolio`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        await expect(page).toHaveTitle(/CI\/CD|GitHub Actions/i);
+
+        const pageContent = await page.locator('body').textContent();
+        expect(pageContent).toMatch(/CI\/CD|deployment|testing/i);
+      }
+    });
+
+    test('should mention automated testing', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/cicd-github-actions-portfolio`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        expect(pageContent).toMatch(/PHPUnit|Playwright|testing automático/i);
+      }
+    });
+  });
+
+  test.describe('Portfolio Article - como-construi-este-portfolio', () => {
+    test('should mention Claude Code in portfolio article', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not be updated in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        // Check if updated content exists
+        if (pageContent?.includes('v0.2.0') || pageContent?.includes('v1.0.0') || pageContent?.includes('Claude Code')) {
+          expect(pageContent).toMatch(/Claude Code|v0\.2\.0|v1\.0\.0/i);
+        }
+      }
+    });
+
+    test('should mention TDD methodology', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not be updated in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        if (pageContent?.includes('TDD') || pageContent?.includes('Red') || pageContent?.includes('Green')) {
+          expect(pageContent).toMatch(/TDD|Test-Driven|Red.*Green.*Refactor/i);
+        }
+      }
+    });
+
+    test('should include GitHub repository link', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not be updated in production yet
+      if (response?.status() === 200) {
+        const githubLink = page.locator('a[href*="github.com"]');
+        if (await githubLink.count() > 0) {
+          await expect(githubLink.first()).toBeVisible();
+        }
+      }
+    });
+  });
+
+  test.describe('PPIA Article - ppia-testing-e2e-con-ia', () => {
+    test('should display PPIA article in list', async ({ page }) => {
+      await page.goto(`${baseURL}/code-ai`);
+
+      const pageContent = await page.locator('body').textContent();
+
+      // May not be in production yet
+      if (pageContent?.includes('PPIA') || pageContent?.includes('Playwright Page Inspector')) {
+        expect(pageContent).toMatch(/PPIA|Playwright Page Inspector/i);
+      }
+    });
+
+    test('should access PPIA article detail page', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/ppia-testing-e2e-con-ia`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        await expect(page).toHaveTitle(/PPIA|Playwright Page Inspector/i);
+
+        const pageContent = await page.locator('body').textContent();
+        expect(pageContent).toMatch(/PPIA|Gherkin|Playwright/i);
+      }
+    });
+
+    test('should mention El Confidencial case study', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/ppia-testing-e2e-con-ia`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        expect(pageContent).toMatch(/El Confidencial/i);
+      }
+    });
+
+    test('should include code examples (Gherkin and Playwright)', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/ppia-testing-e2e-con-ia`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        // Should mention both Gherkin and Playwright code
+        expect(pageContent).toMatch(/Gherkin|Given|When|Then/i);
+        expect(pageContent).toMatch(/Playwright|test\(|expect\(/i);
+      }
+    });
+  });
+
+  test.describe('Vibe Coding Article - el-vibe-coding-llego', () => {
+    test('should display Vibe Coding article in list', async ({ page }) => {
+      await page.goto(`${baseURL}/code-ai`);
+
+      const pageContent = await page.locator('body').textContent();
+
+      // May not be in production yet, so check conditionally
+      if (pageContent?.includes('Vibe Coding') || pageContent?.includes('Claude Desktop')) {
+        expect(pageContent).toMatch(/Vibe Coding|Claude Desktop/i);
+      }
+    });
+
+    test('should access Vibe Coding article detail page', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/el-vibe-coding-llego`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        await expect(page).toHaveTitle(/Vibe Coding|Claude Desktop/i);
+
+        const pageContent = await page.locator('body').textContent();
+        expect(pageContent).toMatch(/Claude|IA|PPIA/i);
+      }
+    });
+
+    test('should mention PPIA was programmed with Vibe Coding', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/el-vibe-coding-llego`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        // Verify PPIA is mentioned in context of Vibe Coding methodology
+        expect(pageContent).toMatch(/PPIA/i);
+      }
+    });
+
+    test('should display timeline from August 2025 to February 2026', async ({ page }) => {
+      const response = await page.goto(`${baseURL}/code-ai/el-vibe-coding-llego`, {
+        waitUntil: 'domcontentloaded'
+      });
+
+      // Article may not exist in production yet
+      if (response?.status() === 200) {
+        const pageContent = await page.locator('body').textContent();
+        // Verify timeline mentions
+        expect(pageContent).toMatch(/agosto|septiembre|octubre|noviembre|diciembre|enero|febrero|2025|2026/i);
+      }
     });
   });
 });

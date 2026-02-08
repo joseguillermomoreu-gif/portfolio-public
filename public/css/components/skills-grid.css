@@ -3,6 +3,12 @@
    Stack visual with hover effects
    ==================================== */
 
+.skills-section {
+    padding: 4rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
 .stack-visual {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

@@ -93,4 +93,16 @@ test.describe('Lighthouse Performance & Best Practices', () => {
       expect(response?.status()).toBe(200);
     }
   });
+
+  test('footer should display version number', async ({ page }) => {
+    await page.goto(`${baseURL}/`);
+
+    // Verify footer version is visible and has valid format
+    const footerVersion = page.locator('.version, .footer-info .version, footer .version');
+    await expect(footerVersion).toBeVisible();
+
+    const versionText = await footerVersion.textContent();
+    // Verify format: vX.X.X or X.X.X
+    expect(versionText).toMatch(/v?\d+\.\d+\.\d+/);
+  });
 });
