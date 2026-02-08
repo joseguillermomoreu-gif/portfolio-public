@@ -126,16 +126,22 @@
     transform: translateX(-50%) translateY(2px);
 }
 
-/* v1.4.6: Dark mode for scroll indicator in mobile (mobile is always dark) */
+/* v2.2.0: Scroll button always visible in mobile (mobile is always dark mode) */
 @media (max-width: 768px) {
-    [data-theme="light"] .scroll-indicator,
-    [data-theme="dark"] .scroll-indicator {
-        color: rgba(255, 255, 255, 0.7);
+    .scroll-indicator {
+        color: rgba(255, 255, 255, 0.8);
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 50%;
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    [data-theme="light"] .scroll-indicator:hover,
-    [data-theme="dark"] .scroll-indicator:hover {
+    .scroll-indicator:hover {
         color: var(--accent-primary);
+        background: rgba(0, 0, 0, 0.3);
     }
 }
 
