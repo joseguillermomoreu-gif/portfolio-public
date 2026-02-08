@@ -18,6 +18,11 @@ ppia:
     path: /ppia
     controller: App\Controllers\PortfolioController::ppia
 
+# Proyectos
+projects:
+    path: /proyectos
+    controller: App\Controllers\PortfolioController::projects
+
 # Code & AI - Lista
 code_ai:
     path: /code-ai

@@ -68,4 +68,70 @@ final class PortfolioController extends AbstractController
     {
         return $this->render('pages/portfolio/ppia.html.twig');
     }
+
+    #[Route('/proyectos', name: 'projects')]
+    public function projects(): Response
+    {
+        $projects = [
+            [
+                'name' => 'POM-PPIA',
+                'description' => 'Generador de POM y tests Cucumber/Playwright desde tests declarativos usando Python + OpenAI',
+                'status' => 'production',
+                'stack' => ['Python 3.12+', 'OpenAI GPT-4', 'Poetry', 'Arquitectura Hexagonal'],
+                'tags' => ['Python', 'OpenAI', 'Playwright', 'POM', 'Testing', 'E2E', 'IA'],
+                'github' => 'https://github.com/joseguillermomoreu-gif/pom-ppia',
+                'url' => null,
+                'featured' => true,
+                'highlights' => 'Arquitectura Hexagonal + SOLID, CLI interactiva con Rich UI, Type-safe con mypy'
+            ],
+            [
+                'name' => 'Claude Code Auto-Skills',
+                'description' => 'Sistema inteligente de skills auto-cargables para Claude Code que detecta tu stack tecnológico y carga automáticamente el contexto relevante',
+                'status' => 'production',
+                'stack' => ['Shell scripts', 'Context7 MCP', 'Bash'],
+                'tags' => ['Claude Code', 'IA', 'Automation', 'Skills', 'Developer Tools', 'Bash'],
+                'github' => 'https://github.com/joseguillermomoreu-gif/claude-code-auto-skills',
+                'url' => null,
+                'featured' => true,
+                'highlights' => 'Auto-detección de stack, Zero-config, Auto-actualizable con Context7'
+            ],
+            [
+                'name' => 'Portfolio',
+                'description' => 'Portfolio web profesional con Symfony 6.4, Arquitectura Hexagonal, DDD y TDD estricto',
+                'status' => 'production',
+                'stack' => ['PHP 8.1+', 'Symfony 6.4', 'TypeScript', 'Playwright', 'CSS'],
+                'tags' => ['PHP', 'Symfony', 'Hexagonal', 'DDD', 'TDD', 'Portfolio', 'Open Source'],
+                'github' => 'https://github.com/joseguillermomoreu-gif/portfolio-public',
+                'url' => 'https://josemoreupeso.es',
+                'featured' => true,
+                'highlights' => '100% cobertura tests, PHPStan level 9, CI/CD automático, Markdown rendering'
+            ],
+            [
+                'name' => 'End2EndGuru99',
+                'description' => 'Proyecto showcase donde se demuestran las capacidades de PPIA y POM-PPIA. Tests E2E sobre Guru99 generados automáticamente con las herramientas del ecosistema PPIA',
+                'status' => 'showcase',
+                'stack' => ['TypeScript', 'Playwright', 'Gherkin', 'JavaScript', 'Docker'],
+                'tags' => ['Playground', 'PPIA', 'POM-PPIA', 'Playwright', 'E2E', 'Testing', 'Showcase', 'Demo'],
+                'github' => 'https://github.com/joseguillermomoreu-gif/end2endGuru99',
+                'url' => null,
+                'featured' => true,
+                'highlights' => 'Testing ground donde se publica la efectividad real de PPIA y sus herramientas. Casos de uso reales generados automáticamente'
+            ],
+            [
+                'name' => 'PPIA',
+                'description' => 'Playwright Page Inspector with AI - Herramienta que traduce especificaciones Gherkin en tests Playwright ejecutables usando Claude MCP y GPT-4',
+                'status' => 'private',
+                'stack' => ['Python', 'TypeScript', 'Playwright', 'OpenAI', 'Claude MCP'],
+                'tags' => ['PPIA', 'Playwright', 'IA', 'Testing', 'E2E', 'OpenAI', 'Claude MCP'],
+                'github' => null,
+                'url' => null,
+                'featured' => false,
+                'highlights' => 'En producción en El Confidencial. +50 tests E2E generados, 95% cobertura. Open-source planeado para Q2 2026'
+            ],
+        ];
+
+        return $this->render('pages/portfolio/projects.html.twig', [
+            'projects' => $projects,
+        ]);
+    }
 }
