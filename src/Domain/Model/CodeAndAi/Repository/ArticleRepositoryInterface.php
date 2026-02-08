@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\VibeCoding\Repository;
+namespace App\Domain\Model\CodeAndAi\Repository;
 
-use App\Domain\Model\VibeCoding\Entity\Article;
+use App\Domain\Model\CodeAndAi\Entity\Article;
 
 interface ArticleRepositoryInterface
 {

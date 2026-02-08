@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\VibeCoding\Entity;
+namespace App\Domain\Model\CodeAndAi\Entity;
 
 final class Tag
 {

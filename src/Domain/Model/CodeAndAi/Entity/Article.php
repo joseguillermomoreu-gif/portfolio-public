@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\VibeCoding\Entity;
+namespace App\Domain\Model\CodeAndAi\Entity;
 
 use DateTimeImmutable;
 
 final class Article
 {
     /**
-     * @param array<Tag> $tags
+     * @param array<string> $tags
      */
     public function __construct(
         private readonly string $id,
@@ -58,7 +58,7 @@ final class Article
     }
 
     /**
-     * @return array<Tag>
+     * @return array<string>
      */
     public function tags(): array
     {

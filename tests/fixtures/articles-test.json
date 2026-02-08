@@ -1,0 +1,34 @@
+{
+  "articles": [
+    {
+      "id": "test-article-1",
+      "title": "Introducción a TDD con PHP",
+      "slug": "introduccion-tdd-php",
+      "excerpt": "Aprende Test-Driven Development con PHP y PHPUnit",
+      "content": "Test-Driven Development (TDD) es una metodología de desarrollo que coloca los tests en el centro del proceso.\n\nEn lugar de escribir código y después testear, escribimos primero el test que falla (RED), luego el código mínimo para que pase (GREEN), y finalmente refactorizamos (REFACTOR).",
+      "published_at": "2024-02-01T10:00:00+00:00",
+      "updated_at": "2024-02-01T10:00:00+00:00",
+      "tags": ["PHP", "TDD", "Testing", "PHPUnit"]
+    },
+    {
+      "id": "test-article-2",
+      "title": "Arquitectura Hexagonal en Symfony",
+      "slug": "arquitectura-hexagonal-symfony",
+      "excerpt": "Implementa arquitectura hexagonal con Symfony",
+      "content": "La arquitectura hexagonal (también conocida como Ports & Adapters) permite separar la lógica de negocio de los detalles de infraestructura.\n\nEn Symfony, esto significa organizar el código en capas bien definidas: Domain (lógica pura), Application (casos de uso) e Infrastructure (adaptadores).",
+      "published_at": "2024-01-15T10:00:00+00:00",
+      "updated_at": "2024-01-16T12:30:00+00:00",
+      "tags": ["Symfony", "Architecture", "DDD", "Hexagonal"]
+    },
+    {
+      "id": "test-article-3",
+      "title": "Playwright con TypeScript",
+      "slug": "playwright-typescript",
+      "excerpt": "Testing E2E moderno con Playwright",
+      "content": "Playwright es una herramienta moderna para testing E2E que soporta múltiples navegadores.\n\nCon TypeScript obtenemos type safety en nuestros tests, haciendo el código más mantenible y menos propenso a errores.",
+      "published_at": "2024-01-01T08:00:00+00:00",
+      "updated_at": "2024-01-01T08:00:00+00:00",
+      "tags": ["Playwright", "TypeScript", "E2E", "Testing"]
+    }
+  ]
+}

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Json;
 
-use App\Domain\Model\VibeCoding\Entity\Article;
-use App\Domain\Model\VibeCoding\Repository\ArticleRepositoryInterface;
+use App\Domain\Model\CodeAndAi\Entity\Article;
+use App\Domain\Model\CodeAndAi\Repository\ArticleRepositoryInterface;
 
 final class JsonArticleRepository implements ArticleRepositoryInterface
 {
@@ -18,7 +18,7 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
      */
     public function findAll(): array
     {
-        $content = file_get_contents($this->dataPath);
+        $content = @file_get_contents($this->dataPath);
 
         if ($content === false) {
             throw new \RuntimeException("Failed to read articles data from {$this->dataPath}");
