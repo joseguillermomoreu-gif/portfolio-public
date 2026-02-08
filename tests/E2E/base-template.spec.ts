@@ -105,18 +105,18 @@ test.describe('Base Template - Footer', () => {
     await page.goto(`/`);
 
     // Verify version is displayed (any version format like v0.X.X)
-    const version = page.locator('.version');
+    // v1.4.3: Updated selector to .footer-version
+    const version = page.locator('.footer-version');
     await expect(version).toBeVisible();
     await expect(version).toContainText(/v\d+\.\d+\.\d+/);
 
     // Verify "Powered by" text exists
-    const poweredBy = page.locator('.powered-by');
+    // v1.4.3: Updated selector to .footer-powered
+    const poweredBy = page.locator('.footer-powered');
     await expect(poweredBy).toContainText('José Guillermo Moreu');
 
-    // Verify current year is displayed
-    const currentYear = new Date().getFullYear();
-    const copyright = page.locator('.copyright');
-    await expect(copyright).toContainText(currentYear.toString());
+    // v1.4.3: Copyright removed in footer redesign
+    // Footer now shows: "Hecho con ♥ y PHP+Symfony" + "Powered by José Guillermo Moreu"
   });
 });
 

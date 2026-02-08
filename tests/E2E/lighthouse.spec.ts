@@ -104,7 +104,8 @@ test.describe('Lighthouse Performance & Best Practices', () => {
     await page.goto(`/`);
 
     // Verify footer version is visible and has valid format
-    const footerVersion = page.locator('.version, .footer-info .version, footer .version');
+    // v1.4.3: Updated selector to .footer-version
+    const footerVersion = page.locator('.footer-version');
     await expect(footerVersion).toBeVisible();
 
     const versionText = await footerVersion.textContent();

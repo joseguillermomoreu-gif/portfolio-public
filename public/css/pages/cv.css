@@ -27,6 +27,15 @@
     margin-bottom: 3rem;
 }
 
+/* v1.4.0: CV tagline specific styles */
+.cv-tagline {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto 3rem;
+}
+
 /* Quick Info Grid */
 .quick-info {
     display: grid;
@@ -46,6 +55,26 @@
     text-align: center;
 }
 
+/* Programming Counter - v1.4.0 */
+.programming-counter {
+    text-align: center;
+    padding: 3rem 0 2rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    border-top: 1px solid var(--border-color);
+    margin-top: 4rem;
+}
+
+.programming-counter p {
+    margin: 0;
+}
+
+.programming-counter span {
+    color: var(--accent-primary);
+    font-weight: 600;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .cv-page {
@@ -54,6 +83,11 @@
 
     .cv-header h1 {
         font-size: 2rem;
+    }
+
+    .cv-tagline {
+        font-size: 1rem;
+        line-height: 1.6;
     }
 
     .quick-info {

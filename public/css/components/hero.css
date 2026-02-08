@@ -4,7 +4,7 @@
    ==================================== */
 
 .hero {
-    height: 100vh;
+    height: 90vh; /* v1.4.0: Reduced from 100vh */
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -58,6 +58,35 @@
     animation: fadeInUp 1s ease-out 0.4s both;
 }
 
+/* v1.4.1: Highlight for "Con IA como copiloto" */
+.hero .tagline .highlight {
+    color: var(--accent-primary);
+    font-weight: 600;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* v1.4.0: Force one line on desktop */
+@media (min-width: 769px) {
+    .hero .tagline {
+        white-space: nowrap;
+    }
+
+    .hero .tagline .mobile-break {
+        display: none;
+    }
+}
+
+/* v1.4.0: Two lines on mobile */
+@media (max-width: 768px) {
+    .hero .tagline .mobile-break::before {
+        content: '\A';
+        white-space: pre;
+    }
+}
+
 .hero-ctas {
     display: flex;
     gap: 1.5rem;
@@ -88,6 +117,7 @@
 /* Responsive */
 @media (max-width: 768px) {
     .hero {
+        height: 100vh; /* Keep fullscreen on mobile */
         padding: 0 var(--spacing-sm);
     }
 

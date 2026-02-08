@@ -20,7 +20,8 @@ test.describe('Contact Page - Smoke Tests', () => {
     await page.goto(`/contacto`);
 
     // Verify email link (mailto:)
-    const emailLink = page.locator('a[href^="mailto:"]');
+    // v1.4.3: Scoped to contact-card to avoid footer email
+    const emailLink = page.locator('.contact-card a[href^="mailto:"], .contact-item a[href^="mailto:"]').first();
     await expect(emailLink).toBeVisible();
 
     const href = await emailLink.getAttribute('href');
@@ -85,7 +86,8 @@ test.describe('Contact Page - Smoke Tests', () => {
     await page.goto(`/contacto`);
 
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page.locator('a[href^="mailto:"]')).toBeVisible();
+    // v1.4.3: Scoped to avoid footer email
+    await expect(page.locator('.contact-card a[href^="mailto:"], .contact-item a[href^="mailto:"]').first()).toBeVisible();
 
     // Test desktop viewport
     await page.setViewportSize({ width: 1920, height: 1080 });

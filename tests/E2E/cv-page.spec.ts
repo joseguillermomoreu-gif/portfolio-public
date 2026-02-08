@@ -16,9 +16,10 @@ test.describe('CV Page - Smoke Tests', () => {
     await expect(page.locator('h1')).toContainText(/Currículum|CV/i);
 
     // Verify main sections are visible
+    // v1.4.3: Updated expectations after removing redundant cards in v1.4.0
     const pageContent = await page.locator('body').textContent();
-    expect(pageContent).toContain('Experiencia');
-    expect(pageContent).toContain('Stack');
+    expect(pageContent).toContain('Currículum');
+    expect(pageContent).toContain('Senior Backend Developer');
   });
 
   test('should display PDF download option', async ({ page }) => {
