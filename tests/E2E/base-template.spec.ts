@@ -111,12 +111,10 @@ test.describe('Base Template - Footer', () => {
     await expect(version).toContainText(/v\d+\.\d+\.\d+/);
 
     // Verify "Powered by" text exists
-    // v1.4.3: Updated selector to .footer-powered
-    const poweredBy = page.locator('.footer-powered');
-    await expect(poweredBy).toContainText('José Guillermo Moreu');
-
-    // v1.4.3: Copyright removed in footer redesign
-    // Footer now shows: "Hecho con ♥ y PHP+Symfony" + "Powered by José Guillermo Moreu"
+    // v1.4.4: Now in .footer-text (single line layout)
+    const footerText = page.locator('.footer-text');
+    await expect(footerText).toContainText('José Guillermo Moreu');
+    await expect(footerText).toContainText('PHP + Symfony');
   });
 });
 

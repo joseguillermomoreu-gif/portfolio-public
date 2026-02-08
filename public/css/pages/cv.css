@@ -90,6 +90,12 @@
         line-height: 1.6;
     }
 
+    /* v1.4.4: cv-note mobile styles */
+    .cv-note {
+        padding: 1.5rem;
+        font-size: 0.95rem;
+    }
+
     .quick-info {
         grid-template-columns: 1fr;
         gap: 1.5rem;
