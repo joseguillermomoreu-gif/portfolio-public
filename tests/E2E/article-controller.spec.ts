@@ -1,21 +1,20 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('ArticleController E2E Tests', () => {
-  const baseURL = 'https://josemoreupeso.es';
 
   test.describe('Article List Page - Route: /code-ai', () => {
     test('should respond with 200 OK', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai`);
+      const response = await page.goto(`/code-ai`);
       expect(response?.status()).toBe(200);
     });
 
     test('should display Code & AI page title', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
       await expect(page).toHaveTitle(/Code & AI.*José Moreu Peso/i);
     });
 
     test('should display list of articles', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       // Verify page contains article titles from production data
       const pageContent = await page.locator('body').textContent();
@@ -23,7 +22,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should display article excerpts', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       // Verify excerpts are displayed
       const pageContent = await page.locator('body').textContent();
@@ -31,7 +30,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should have links to individual articles', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       // Verify article link exists (use .first() as there are 2 links per article: title and button)
       const articleLink = page.locator('a[href*="/code-ai/como-construi-este-portfolio"]').first();
@@ -39,7 +38,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should display article tags', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       // Verify tags from production data are present
       const pageContent = await page.locator('body').textContent();
@@ -47,7 +46,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should display published dates', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       // Verify dates are displayed (looking for date-like patterns)
       const pageContent = await page.locator('body').textContent();
@@ -57,17 +56,17 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('Article Detail Page - Route: /code-ai/{slug}', () => {
     test('should respond with 200 OK for valid article', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
+      const response = await page.goto(`/code-ai/como-construi-este-portfolio`);
       expect(response?.status()).toBe(200);
     });
 
     test('should display article title in page', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
+      await page.goto(`/code-ai/como-construi-este-portfolio`);
       await expect(page).toHaveTitle(/Cómo construí este portfolio/i);
     });
 
     test('should display full article content', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
+      await page.goto(`/code-ai/como-construi-este-portfolio`);
 
       const pageContent = await page.locator('body').textContent();
       // Verify article content is present (updated v1.1.0)
@@ -77,7 +76,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should display article tags', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
+      await page.goto(`/code-ai/como-construi-este-portfolio`);
 
       const pageContent = await page.locator('body').textContent();
       // Verify tags from production data
@@ -85,7 +84,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should display published and updated dates', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
+      await page.goto(`/code-ai/como-construi-este-portfolio`);
 
       // Verify dates are displayed
       const pageContent = await page.locator('body').textContent();
@@ -93,7 +92,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should handle second article correctly', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/automatizando-e2e-con-ia`);
+      const response = await page.goto(`/code-ai/automatizando-e2e-con-ia`);
       expect(response?.status()).toBe(200);
 
       await expect(page).toHaveTitle(/PPIA|Playwright Page Inspector/i);
@@ -105,7 +104,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('404 Error Handling', () => {
     test('should return 404 for non-existent article', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/non-existent-article`, {
+      const response = await page.goto(`/code-ai/non-existent-article`, {
         // Don't fail the test on non-200 status
         waitUntil: 'domcontentloaded'
       });
@@ -115,7 +114,7 @@ test.describe('ArticleController E2E Tests', () => {
 
     test('should display error message for non-existent article', async ({ page }) => {
       try {
-        await page.goto(`${baseURL}/code-ai/non-existent-article`, {
+        await page.goto(`/code-ai/non-existent-article`, {
           waitUntil: 'domcontentloaded'
         });
 
@@ -129,7 +128,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should return 404 for empty slug', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/`, {
+      const response = await page.goto(`/code-ai/`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -141,7 +140,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('Navigation and Integration', () => {
     test('should navigate from article list to article detail', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       // Click on first article link
       const articleLink = page.locator('a[href*="/code-ai/como-construi-este-portfolio"]').first();
@@ -153,30 +152,30 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should navigate back to article list from article detail', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
+      await page.goto(`/code-ai/como-construi-este-portfolio`);
 
       // Look for "back" or "volver" link to article list
       const backLink = page.locator('a[href="/code-ai"]').first();
 
       if (await backLink.isVisible()) {
         await backLink.click();
-        await expect(page).toHaveURL(`${baseURL}/code-ai`);
+        await expect(page).toHaveURL(`/code-ai`);
       } else {
         // If no back link, use browser navigation
         await page.goBack();
-        await expect(page).toHaveURL(`${baseURL}/code-ai`);
+        await expect(page).toHaveURL(`/code-ai`);
       }
     });
 
     test('should navigate from homepage to Code & AI section', async ({ page }) => {
-      await page.goto(`${baseURL}/`);
+      await page.goto(`/`);
 
       // Click on Code & AI link in navigation
       const codeAiLink = page.locator('a[href="/code-ai"]').first();
       await codeAiLink.click();
 
       // Verify we're on Code & AI page
-      await expect(page).toHaveURL(`${baseURL}/code-ai`);
+      await expect(page).toHaveURL(`/code-ai`);
       await expect(page).toHaveTitle(/Code & AI/i);
     });
 
@@ -188,7 +187,7 @@ test.describe('ArticleController E2E Tests', () => {
       ];
 
       for (const path of pages) {
-        await page.goto(`${baseURL}${path}`);
+        await page.goto(`${path}`);
         // Verify header contains owner name
         await expect(page.locator('body')).toContainText('José Moreu Peso');
       }
@@ -197,7 +196,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('Content Validation', () => {
     test('should display all articles from repository', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       const pageContent = await page.locator('body').textContent();
 
@@ -207,7 +206,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should preserve markdown/HTML formatting in article content', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`);
+      await page.goto(`/code-ai/como-construi-este-portfolio`);
 
       // Check if content has proper HTML structure (paragraphs, headings, etc.)
       const paragraphs = page.locator('p');
@@ -218,7 +217,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should handle articles with different tag counts', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       // Production articles have different tag counts (5 and 8 tags), verify tags are displayed
       const pageContent = await page.locator('body').textContent();
@@ -230,7 +229,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('Python Migration Article - ppia-migracion-python', () => {
     test('should display Python migration article in list', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       const pageContent = await page.locator('body').textContent();
 
@@ -241,7 +240,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should access Python migration article detail page', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/ppia-migracion-python`, {
+      const response = await page.goto(`/code-ai/ppia-migracion-python`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -255,7 +254,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should mention architectural reasons for migration', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/ppia-migracion-python`, {
+      const response = await page.goto(`/code-ai/ppia-migracion-python`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -269,7 +268,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('CI/CD Article - cicd-github-actions-portfolio', () => {
     test('should display CI/CD article in list', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       const pageContent = await page.locator('body').textContent();
 
@@ -280,7 +279,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should access CI/CD article detail page', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/cicd-github-actions-portfolio`, {
+      const response = await page.goto(`/code-ai/cicd-github-actions-portfolio`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -294,7 +293,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should mention automated testing', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/cicd-github-actions-portfolio`, {
+      const response = await page.goto(`/code-ai/cicd-github-actions-portfolio`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -308,7 +307,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('Portfolio Article - como-construi-este-portfolio', () => {
     test('should mention Claude Code in portfolio article', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`, {
+      const response = await page.goto(`/code-ai/como-construi-este-portfolio`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -323,7 +322,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should mention TDD methodology', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`, {
+      const response = await page.goto(`/code-ai/como-construi-este-portfolio`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -337,7 +336,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should include GitHub repository link', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/como-construi-este-portfolio`, {
+      const response = await page.goto(`/code-ai/como-construi-este-portfolio`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -353,7 +352,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('PPIA Article - ppia-testing-e2e-con-ia', () => {
     test('should display PPIA article in list', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       const pageContent = await page.locator('body').textContent();
 
@@ -364,7 +363,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should access PPIA article detail page', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/ppia-testing-e2e-con-ia`, {
+      const response = await page.goto(`/code-ai/ppia-testing-e2e-con-ia`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -378,7 +377,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should mention El Confidencial case study', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/ppia-testing-e2e-con-ia`, {
+      const response = await page.goto(`/code-ai/ppia-testing-e2e-con-ia`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -390,7 +389,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should include code examples (Gherkin and Playwright)', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/ppia-testing-e2e-con-ia`, {
+      const response = await page.goto(`/code-ai/ppia-testing-e2e-con-ia`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -406,7 +405,7 @@ test.describe('ArticleController E2E Tests', () => {
 
   test.describe('Vibe Coding Article - el-vibe-coding-llego', () => {
     test('should display Vibe Coding article in list', async ({ page }) => {
-      await page.goto(`${baseURL}/code-ai`);
+      await page.goto(`/code-ai`);
 
       const pageContent = await page.locator('body').textContent();
 
@@ -417,7 +416,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should access Vibe Coding article detail page', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/el-vibe-coding-llego`, {
+      const response = await page.goto(`/code-ai/el-vibe-coding-llego`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -431,7 +430,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should mention PPIA was programmed with Vibe Coding', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/el-vibe-coding-llego`, {
+      const response = await page.goto(`/code-ai/el-vibe-coding-llego`, {
         waitUntil: 'domcontentloaded'
       });
 
@@ -444,7 +443,7 @@ test.describe('ArticleController E2E Tests', () => {
     });
 
     test('should display timeline from August 2025 to February 2026', async ({ page }) => {
-      const response = await page.goto(`${baseURL}/code-ai/el-vibe-coding-llego`, {
+      const response = await page.goto(`/code-ai/el-vibe-coding-llego`, {
         waitUntil: 'domcontentloaded'
       });
 

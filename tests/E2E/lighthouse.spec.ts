@@ -1,11 +1,10 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Lighthouse Performance & Best Practices', () => {
-  const baseURL = 'https://josemoreupeso.es';
 
   test('homepage should load quickly', async ({ page }) => {
     const startTime = Date.now();
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
     await page.waitForLoadState('networkidle');
     const loadTime = Date.now() - startTime;
 
@@ -14,7 +13,7 @@ test.describe('Lighthouse Performance & Best Practices', () => {
   });
 
   test('critical CSS should be loaded', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     // Verify main.css is loaded
     const cssLoaded = await page.locator('link[href*="main.css"]').count();
@@ -22,7 +21,7 @@ test.describe('Lighthouse Performance & Best Practices', () => {
   });
 
   test('page should have single h1 for accessibility', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     // Accessibility: exactly one h1 per page
     const h1Count = await page.locator('h1').count();
@@ -30,7 +29,7 @@ test.describe('Lighthouse Performance & Best Practices', () => {
   });
 
   test('all images should have alt text', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     const images = page.locator('img');
     const count = await images.count();
@@ -43,7 +42,7 @@ test.describe('Lighthouse Performance & Best Practices', () => {
   });
 
   test('external links should have security attributes', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     // Check external links have target="_blank" and rel="noopener"
     const externalLinks = page.locator('a[target="_blank"]');
@@ -58,7 +57,7 @@ test.describe('Lighthouse Performance & Best Practices', () => {
   });
 
   test('page should have meta description for SEO', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     const metaDescription = page.locator('meta[name="description"]');
     await expect(metaDescription).toHaveCount(1);
@@ -69,19 +68,26 @@ test.describe('Lighthouse Performance & Best Practices', () => {
   });
 
   test('page should have canonical URL', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     const canonical = page.locator('link[rel="canonical"]');
     await expect(canonical).toHaveCount(1);
   });
 
   test('static assets should be cacheable', async ({ page }) => {
-    const response = await page.goto(`${baseURL}/css/main.css`);
+    const response = await page.goto(`/css/main.css`);
 
     if (response) {
       const cacheControl = response.headers()['cache-control'];
-      // Should have some caching strategy
-      expect(cacheControl).toBeTruthy();
+
+      // In production (CI=true), cache headers should be present
+      // In local dev (CI=false or undefined), PHP built-in server doesn't send cache headers
+      if (process.env.CI === 'true') {
+        expect(cacheControl).toBeTruthy();
+      } else {
+        // Local dev: just verify response was successful
+        expect(response.status()).toBeLessThan(400);
+      }
     }
   });
 
@@ -89,13 +95,13 @@ test.describe('Lighthouse Performance & Best Practices', () => {
     const pages = ['/', '/cv', '/contacto', '/code-ai'];
 
     for (const path of pages) {
-      const response = await page.goto(`${baseURL}${path}`);
+      const response = await page.goto(`${path}`);
       expect(response?.status()).toBe(200);
     }
   });
 
   test('footer should display version number', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     // Verify footer version is visible and has valid format
     const footerVersion = page.locator('.version, .footer-info .version, footer .version');

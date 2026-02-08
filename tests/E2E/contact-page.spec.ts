@@ -1,24 +1,23 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Contact Page - Smoke Tests', () => {
-  const baseURL = 'https://josemoreupeso.es';
 
   test('should display contact page with correct title', async ({ page }) => {
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     // Verify page loads
     await expect(page).toHaveTitle(/Contacto.*José Moreu/i);
   });
 
   test('should display main heading', async ({ page }) => {
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     // Verify main heading
     await expect(page.locator('h1')).toBeVisible();
   });
 
   test('should display email link', async ({ page }) => {
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     // Verify email link (mailto:)
     const emailLink = page.locator('a[href^="mailto:"]');
@@ -29,7 +28,7 @@ test.describe('Contact Page - Smoke Tests', () => {
   });
 
   test('should display social network links', async ({ page }) => {
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     // Verify GitHub link
     const githubLink = page.locator('a[href*="github.com"]');
@@ -45,7 +44,7 @@ test.describe('Contact Page - Smoke Tests', () => {
   });
 
   test('social links should have security attributes', async ({ page }) => {
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     // Check external links have target="_blank" and rel="noopener"
     const externalLinks = page.locator('a[target="_blank"]');
@@ -60,7 +59,7 @@ test.describe('Contact Page - Smoke Tests', () => {
   });
 
   test('should display contact methods', async ({ page }) => {
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     const pageContent = await page.locator('body').textContent();
 
@@ -69,7 +68,7 @@ test.describe('Contact Page - Smoke Tests', () => {
   });
 
   test('should have proper spacing in social section', async ({ page }) => {
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     // Verify social section heading exists
     const socialHeading = page.locator('h3').filter({ hasText: /encuéntrame|redes/i });
@@ -83,7 +82,7 @@ test.describe('Contact Page - Smoke Tests', () => {
   test('should be responsive', async ({ page }) => {
     // Test mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(`${baseURL}/contacto`);
+    await page.goto(`/contacto`);
 
     await expect(page.locator('h1')).toBeVisible();
     await expect(page.locator('a[href^="mailto:"]')).toBeVisible();

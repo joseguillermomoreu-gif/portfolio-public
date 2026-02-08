@@ -6,7 +6,6 @@ import { test, expect } from '@playwright/test';
  * Desktop (>= 850px) allows theme switching
  */
 
-const baseURL = process.env.BASE_URL || 'http://localhost:8080';
 
 // Mobile viewport size (iPhone 13)
 const mobileViewport = { width: 390, height: 844 };
@@ -20,14 +19,14 @@ test.describe('Dark Mode - Mobile (Forced Dark)', () => {
     await page.setViewportSize(mobileViewport);
 
     // Clear localStorage and cache before each test
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
     await page.evaluate(() => localStorage.clear());
     // Hard reload to bypass cache
     await page.reload({ waitUntil: 'networkidle' });
   });
 
   test('should hide theme toggle button on mobile', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     const themeToggle = page.locator('#theme-toggle');
 
@@ -36,7 +35,7 @@ test.describe('Dark Mode - Mobile (Forced Dark)', () => {
   });
 
   test('should force dark mode on mobile', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     const html = page.locator('html');
 
@@ -45,7 +44,7 @@ test.describe('Dark Mode - Mobile (Forced Dark)', () => {
   });
 
   test('should maintain dark mode on reload (mobile)', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     // Verify initial dark theme
     const html = page.locator('html');
@@ -59,7 +58,7 @@ test.describe('Dark Mode - Mobile (Forced Dark)', () => {
   });
 
   test('should ignore localStorage theme on mobile', async ({ page }) => {
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     // Try to set light theme in localStorage
     await page.evaluate(() => localStorage.setItem('theme', 'light'));
@@ -76,7 +75,7 @@ test.describe('Dark Mode - Mobile (Forced Dark)', () => {
     // Rotate to landscape (still < 768px width, so still mobile)
     await page.setViewportSize({ width: 844, height: 390 }); // iPhone 13 landscape
 
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
 
     const html = page.locator('html');
 
@@ -94,7 +93,7 @@ test.describe('Dark Mode - Tablet (Forced Dark)', () => {
     // Set tablet viewport (landscape mobile, < 850px width)
     await page.setViewportSize({ width: 844, height: 390 });
 
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
     await page.evaluate(() => localStorage.clear());
 
     const html = page.locator('html');
@@ -111,7 +110,7 @@ test.describe('Dark Mode - Tablet (Forced Dark)', () => {
     // Set large tablet viewport (iPad, >= 850px width)
     await page.setViewportSize({ width: 1024, height: 768 });
 
-    await page.goto(`${baseURL}/`);
+    await page.goto(`/`);
     await page.evaluate(() => localStorage.clear());
 
     const html = page.locator('html');

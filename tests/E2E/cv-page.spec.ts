@@ -1,17 +1,16 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('CV Page - Smoke Tests', () => {
-  const baseURL = 'https://josemoreupeso.es';
 
   test('should display CV page with correct title', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     // Verify page loads
     await expect(page).toHaveTitle(/CV.*José Moreu/i);
   });
 
   test('should display main CV sections', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     // Verify main heading
     await expect(page.locator('h1')).toContainText(/Currículum|CV/i);
@@ -23,7 +22,7 @@ test.describe('CV Page - Smoke Tests', () => {
   });
 
   test('should display PDF download option', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     // Verify PDF download link/button exists
     const pdfLink = page.locator('a[href*=".pdf"]').first();
@@ -31,7 +30,7 @@ test.describe('CV Page - Smoke Tests', () => {
   });
 
   test('should display contact information', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     // Verify email is present
     const pageContent = await page.locator('body').textContent();
@@ -39,7 +38,7 @@ test.describe('CV Page - Smoke Tests', () => {
   });
 
   test('should display personal info', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     const pageContent = await page.locator('body').textContent();
 
@@ -49,7 +48,7 @@ test.describe('CV Page - Smoke Tests', () => {
   });
 
   test('should display tech info section', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     // Verify "Cómo está hecho este CV" section
     const pageContent = await page.locator('body').textContent();
@@ -57,7 +56,7 @@ test.describe('CV Page - Smoke Tests', () => {
   });
 
   test('should display WIP generator button', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     // Verify WIP button exists and has WIP badge (more resilient than checking disabled)
     const wipButton = page.locator('.cv-generator-btn');
@@ -71,7 +70,7 @@ test.describe('CV Page - Smoke Tests', () => {
   });
 
   test('should display benefits of HTML CV', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     const pageContent = await page.locator('body').textContent();
 
@@ -88,7 +87,7 @@ test.describe('CV Page - Smoke Tests', () => {
   test('should be responsive', async ({ page }) => {
     // Test mobile viewport
     await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     await expect(page.locator('h1')).toBeVisible();
 
@@ -98,7 +97,7 @@ test.describe('CV Page - Smoke Tests', () => {
   });
 
   test('should display days coding counter', async ({ page }) => {
-    await page.goto(`${baseURL}/cv`);
+    await page.goto(`/cv`);
 
     // Verify counter exists (may not be in production yet)
     const counter = page.locator('.days-coding-counter, [class*="days-coding"]');
