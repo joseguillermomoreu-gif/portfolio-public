@@ -27,7 +27,10 @@
             "symfony/runtime": true,
             "phpstan/extension-installer": true
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "classmap-authoritative": true,
+        "apcu-autoloader": true
     },
     "autoload": {
         "psr-4": {

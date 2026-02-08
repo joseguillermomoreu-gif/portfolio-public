@@ -173,3 +173,45 @@ local-install: ## Composer local (fallback)
 	@composer install --optimize-autoloader
 
 .PHONY: help build install up down logs restart status shell clean reset dev test-routes test phpstan e2e qa validate update cache-clear serve stop local-serve local-install check-docker
+
+##@ Performance
+
+optimize: ## Optimize for production
+	@echo "$(YELLOW)⚡ Optimizing Composer autoloader...$(NC)"
+	composer install --no-dev --optimize-autoloader --classmap-authoritative --no-interaction
+	composer dump-autoload --optimize --classmap-authoritative
+	@echo "$(GREEN)✓ Composer optimized$(NC)"
+
+optimize-dev: ## Optimize for development
+	@echo "$(YELLOW)⚡ Optimizing Composer autoloader (dev)...$(NC)"
+	composer install --optimize-autoloader
+	composer dump-autoload --optimize
+	@echo "$(GREEN)✓ Composer optimized (dev)$(NC)"
+
+generate-asset-version: ## Generate asset version for cache busting
+	@echo "$(YELLOW)🔄 Generating asset version...$(NC)"
+	@php -r "require 'src/Infrastructure/Http/AssetVersioning.php'; App\Infrastructure\Http\AssetVersioning::generateVersion();"
+	@if [ -f var/asset-version.txt ]; then \
+		echo "$(GREEN)✓ Asset version: $$(cat var/asset-version.txt)$(NC)"; \
+	fi
+
+lighthouse: ## Run Lighthouse audit (requires Chrome)
+	@echo "$(YELLOW)🔍 Running Lighthouse audit...$(NC)"
+	@if command -v lighthouse >/dev/null 2>&1; then \
+		lighthouse http://localhost:8000 --output html --output-path=./var/lighthouse-report.html --quiet; \
+		echo "$(GREEN)✓ Lighthouse report: var/lighthouse-report.html$(NC)"; \
+	else \
+		echo "$(RED)❌ Lighthouse not installed. Install with: npm install -g lighthouse$(NC)"; \
+	fi
+
+prod-ready: optimize generate-asset-version ## Prepare for production deployment
+	@echo ""
+	@echo "$(GREEN)╔════════════════════════════════════════════╗$(NC)"
+	@echo "$(GREEN)║  ✅ PRODUCTION READY! ✅                  ║$(NC)"
+	@echo "$(GREEN)╚════════════════════════════════════════════╝$(NC)"
+	@echo ""
+	@echo "Next steps:"
+	@echo "  1. Run 'make validate' to ensure all tests pass"
+	@echo "  2. Push to master branch to trigger deployment"
+	@echo "  3. Monitor GitHub Actions for deploy status"
+	@echo ""
