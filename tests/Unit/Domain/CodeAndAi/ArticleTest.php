@@ -5,17 +5,16 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Domain\CodeAndAi;
 
 use App\Domain\Model\CodeAndAi\Entity\Article;
-use DateTimeImmutable;
 use PHPUnit\Framework\TestCase;
 
 /**
- * Article Entity Unit Tests
+ * Article Entity Unit Tests.
  *
  * Tests domain entity Article for Code & AI blog context.
  */
 final class ArticleTest extends TestCase
 {
-    public function test_it_can_be_created_with_all_properties(): void
+    public function testItCanBeCreatedWithAllProperties(): void
     {
         // Arrange
         $id = '1';
@@ -23,8 +22,8 @@ final class ArticleTest extends TestCase
         $slug = 'mi-primer-articulo';
         $excerpt = 'Un breve resumen del artículo';
         $content = 'Contenido completo del artículo';
-        $publishedAt = new DateTimeImmutable('2024-01-01 10:00:00');
-        $updatedAt = new DateTimeImmutable('2024-01-02 15:30:00');
+        $publishedAt = new \DateTimeImmutable('2024-01-01 10:00:00');
+        $updatedAt = new \DateTimeImmutable('2024-01-02 15:30:00');
         $tags = ['PHP', 'Symfony', 'TDD'];
 
         // Act
@@ -43,7 +42,7 @@ final class ArticleTest extends TestCase
         $this->assertInstanceOf(Article::class, $article);
     }
 
-    public function test_all_properties_are_accessible_via_getters(): void
+    public function testAllPropertiesAreAccessibleViaGetters(): void
     {
         // Arrange
         $id = '123';
@@ -51,8 +50,8 @@ final class ArticleTest extends TestCase
         $slug = 'test-article';
         $excerpt = 'Test excerpt';
         $content = 'Test content here';
-        $publishedAt = new DateTimeImmutable('2024-01-01');
-        $updatedAt = new DateTimeImmutable('2024-01-02');
+        $publishedAt = new \DateTimeImmutable('2024-01-01');
+        $updatedAt = new \DateTimeImmutable('2024-01-02');
         $tags = ['PHP', 'Testing'];
 
         // Act
@@ -78,7 +77,7 @@ final class ArticleTest extends TestCase
         $this->assertSame($tags, $article->tags());
     }
 
-    public function test_it_can_have_multiple_tags(): void
+    public function testItCanHaveMultipleTags(): void
     {
         // Arrange
         $tags = ['PHP', 'Symfony', 'TDD', 'Architecture', 'DDD'];
@@ -90,8 +89,8 @@ final class ArticleTest extends TestCase
             'article',
             'Excerpt',
             'Content',
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
+            new \DateTimeImmutable(),
             $tags
         );
 
@@ -100,7 +99,7 @@ final class ArticleTest extends TestCase
         $this->assertSame($tags, $article->tags());
     }
 
-    public function test_it_can_have_no_tags(): void
+    public function testItCanHaveNoTags(): void
     {
         // Arrange
         $tags = [];
@@ -112,8 +111,8 @@ final class ArticleTest extends TestCase
             'article',
             'Excerpt',
             'Content',
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
+            new \DateTimeImmutable(),
             $tags
         );
 
@@ -122,7 +121,7 @@ final class ArticleTest extends TestCase
         $this->assertIsArray($article->tags());
     }
 
-    public function test_content_can_be_multiline(): void
+    public function testContentCanBeMultiline(): void
     {
         // Arrange
         $content = "First paragraph.\n\nSecond paragraph with more text.\n\nThird paragraph.";
@@ -134,8 +133,8 @@ final class ArticleTest extends TestCase
             'article',
             'Excerpt',
             $content,
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
+            new \DateTimeImmutable(),
             []
         );
 
@@ -144,7 +143,7 @@ final class ArticleTest extends TestCase
         $this->assertSame($content, $article->content());
     }
 
-    public function test_properties_are_readonly(): void
+    public function testPropertiesAreReadonly(): void
     {
         // Arrange & Act
         $article = new Article(
@@ -153,8 +152,8 @@ final class ArticleTest extends TestCase
             'article',
             'Excerpt',
             'Content',
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
+            new \DateTimeImmutable(),
             []
         );
 
@@ -170,7 +169,7 @@ final class ArticleTest extends TestCase
         }
     }
 
-    public function test_from_array_creates_article_from_data(): void
+    public function testFromArrayCreatesArticleFromData(): void
     {
         // Arrange
         $data = [
@@ -193,16 +192,16 @@ final class ArticleTest extends TestCase
         $this->assertSame('article-from-array', $article->slug());
         $this->assertSame('Test excerpt from array', $article->excerpt());
         $this->assertSame('Full content from array', $article->content());
-        $this->assertEquals(new DateTimeImmutable('2024-01-15T10:30:00+00:00'), $article->publishedAt());
-        $this->assertEquals(new DateTimeImmutable('2024-01-16T12:45:00+00:00'), $article->updatedAt());
+        $this->assertEquals(new \DateTimeImmutable('2024-01-15T10:30:00+00:00'), $article->publishedAt());
+        $this->assertEquals(new \DateTimeImmutable('2024-01-16T12:45:00+00:00'), $article->updatedAt());
         $this->assertSame(['PHP', 'Symfony'], $article->tags());
     }
 
-    public function test_to_array_returns_article_as_array(): void
+    public function testToArrayReturnsArticleAsArray(): void
     {
         // Arrange
-        $publishedAt = new DateTimeImmutable('2024-01-15T10:30:00+00:00');
-        $updatedAt = new DateTimeImmutable('2024-01-16T12:45:00+00:00');
+        $publishedAt = new \DateTimeImmutable('2024-01-15T10:30:00+00:00');
+        $updatedAt = new \DateTimeImmutable('2024-01-16T12:45:00+00:00');
 
         $article = new Article(
             '99',
@@ -239,10 +238,10 @@ final class ArticleTest extends TestCase
         $this->assertSame(['PHP', 'Testing'], $array['tags']);
     }
 
-    public function test_published_at_is_immutable(): void
+    public function testPublishedAtIsImmutable(): void
     {
         // Arrange
-        $originalDate = new DateTimeImmutable('2024-01-01');
+        $originalDate = new \DateTimeImmutable('2024-01-01');
 
         $article = new Article(
             '1',
@@ -251,7 +250,7 @@ final class ArticleTest extends TestCase
             'Excerpt',
             'Content',
             $originalDate,
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
             []
         );
 
@@ -264,10 +263,10 @@ final class ArticleTest extends TestCase
         $this->assertNotSame($modifiedDate, $article->publishedAt());
     }
 
-    public function test_updated_at_is_immutable(): void
+    public function testUpdatedAtIsImmutable(): void
     {
         // Arrange
-        $originalDate = new DateTimeImmutable('2024-01-02');
+        $originalDate = new \DateTimeImmutable('2024-01-02');
 
         $article = new Article(
             '1',
@@ -275,7 +274,7 @@ final class ArticleTest extends TestCase
             'article',
             'Excerpt',
             'Content',
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
             $originalDate,
             []
         );
@@ -289,7 +288,7 @@ final class ArticleTest extends TestCase
         $this->assertNotSame($modifiedDate, $article->updatedAt());
     }
 
-    public function test_slug_follows_url_friendly_format(): void
+    public function testSlugFollowsUrlFriendlyFormat(): void
     {
         // Arrange & Act
         $article = new Article(
@@ -298,8 +297,8 @@ final class ArticleTest extends TestCase
             'my-article-title',
             'Excerpt',
             'Content',
-            new DateTimeImmutable(),
-            new DateTimeImmutable(),
+            new \DateTimeImmutable(),
+            new \DateTimeImmutable(),
             []
         );
 

@@ -15,7 +15,8 @@ final class Portfolio
         private readonly ContactInfo $contactInfo,
         private readonly array $socialNetworks,
         private readonly array $skills
-    ) {}
+    ) {
+    }
 
     public function personalInfo(): PersonalInfo
     {

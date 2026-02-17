@@ -8,7 +8,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 /**
- * Twig Extension to expose app version
+ * Twig Extension to expose app version.
  *
  * Provides app_version() function in Twig templates
  * to display current version from VERSION file
@@ -17,7 +17,8 @@ final class VersionExtension extends AbstractExtension
 {
     public function __construct(
         private readonly string $projectDir
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<TwigFunction>
@@ -39,7 +40,7 @@ final class VersionExtension extends AbstractExtension
 
         $content = file_get_contents($versionFile);
 
-        if ($content === false) {
+        if (false === $content) {
             return 'unknown';
         }
 

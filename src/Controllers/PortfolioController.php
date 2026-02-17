@@ -13,7 +13,8 @@ final class PortfolioController extends AbstractController
 {
     public function __construct(
         private readonly JsonPortfolioRepository $portfolioRepository
-    ) {}
+    ) {
+    }
 
     #[Route('/', name: 'home')]
     public function index(): Response
@@ -31,7 +32,7 @@ final class PortfolioController extends AbstractController
         // Cargar datos CV desde JSON
         $content = file_get_contents(__DIR__ . '/../../data/cv.json');
 
-        if ($content === false) {
+        if (false === $content) {
             throw new \RuntimeException('Failed to read CV data');
         }
 
@@ -82,7 +83,7 @@ final class PortfolioController extends AbstractController
                 'github' => 'https://github.com/joseguillermomoreu-gif/pom-ppia',
                 'url' => null,
                 'featured' => true,
-                'highlights' => 'Arquitectura Hexagonal + SOLID, CLI interactiva con Rich UI, Type-safe con mypy'
+                'highlights' => 'Arquitectura Hexagonal + SOLID, CLI interactiva con Rich UI, Type-safe con mypy',
             ],
             [
                 'name' => 'Claude Code Auto-Skills',
@@ -93,7 +94,7 @@ final class PortfolioController extends AbstractController
                 'github' => 'https://github.com/joseguillermomoreu-gif/claude-code-auto-skills',
                 'url' => null,
                 'featured' => true,
-                'highlights' => 'Auto-detección de stack, Zero-config, Auto-actualizable con Context7'
+                'highlights' => 'Auto-detección de stack, Zero-config, Auto-actualizable con Context7',
             ],
             [
                 'name' => 'Portfolio',
@@ -104,7 +105,7 @@ final class PortfolioController extends AbstractController
                 'github' => 'https://github.com/joseguillermomoreu-gif/portfolio-public',
                 'url' => 'https://josemoreupeso.es',
                 'featured' => true,
-                'highlights' => '100% cobertura tests, PHPStan level 9, CI/CD automático, Markdown rendering'
+                'highlights' => '100% cobertura tests, PHPStan level 9, CI/CD automático, Markdown rendering',
             ],
             [
                 'name' => 'End2EndGuru99',
@@ -115,7 +116,7 @@ final class PortfolioController extends AbstractController
                 'github' => 'https://github.com/joseguillermomoreu-gif/end2endGuru99',
                 'url' => null,
                 'featured' => true,
-                'highlights' => 'Testing ground donde se publica la efectividad real de PPIA y sus herramientas. Casos de uso reales generados automáticamente'
+                'highlights' => 'Testing ground donde se publica la efectividad real de PPIA y sus herramientas. Casos de uso reales generados automáticamente',
             ],
             [
                 'name' => 'PPIA',
@@ -126,7 +127,7 @@ final class PortfolioController extends AbstractController
                 'github' => null,
                 'url' => null,
                 'featured' => false,
-                'highlights' => 'En producción en El Confidencial. +50 tests E2E generados, 95% cobertura. Open-source planeado para Q2 2026'
+                'highlights' => 'En producción en El Confidencial. +50 tests E2E generados, 95% cobertura. Open-source planeado para Q2 2026',
             ],
         ];
 

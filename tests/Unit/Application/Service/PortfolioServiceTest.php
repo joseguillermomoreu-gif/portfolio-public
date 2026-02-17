@@ -13,7 +13,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 /**
- * PortfolioService Unit Tests
+ * PortfolioService Unit Tests.
  *
  * Tests application service that orchestrates portfolio use cases
  */
@@ -21,6 +21,7 @@ final class PortfolioServiceTest extends TestCase
 {
     /**
      * @var MockObject&PortfolioRepositoryInterface
+     *
      * @phpstan-ignore-next-line - Initialized in setUp()
      */
     private PortfolioRepositoryInterface $repositoryMock;
@@ -55,12 +56,12 @@ final class PortfolioServiceTest extends TestCase
 
         /** @var array<array<string, string>> $socialNetworks */
         $socialNetworks = [
-            ['name' => 'GitHub', 'url' => 'https://github.com/test']
+            ['name' => 'GitHub', 'url' => 'https://github.com/test'],
         ];
 
         /** @var array<array<string, mixed>> $skills */
         $skills = [
-            ['name' => 'PHP', 'level' => 'expert']
+            ['name' => 'PHP', 'level' => 'expert'],
         ];
 
         $this->portfolioStub = new Portfolio(
@@ -77,7 +78,7 @@ final class PortfolioServiceTest extends TestCase
         $this->service = new PortfolioService($this->repositoryMock);
     }
 
-    public function test_get_portfolio_delegates_to_repository(): void
+    public function testGetPortfolioDelegatesToRepository(): void
     {
         // Arrange: configure mock to return stub
         $this->repositoryMock
@@ -92,7 +93,7 @@ final class PortfolioServiceTest extends TestCase
         $this->assertSame($this->portfolioStub, $portfolio);
     }
 
-    public function test_get_portfolio_returns_portfolio_entity(): void
+    public function testGetPortfolioReturnsPortfolioEntity(): void
     {
         // Arrange
         $this->repositoryMock
@@ -106,7 +107,7 @@ final class PortfolioServiceTest extends TestCase
         $this->assertInstanceOf(Portfolio::class, $portfolio);
     }
 
-    public function test_get_portfolio_calls_repository_exactly_once(): void
+    public function testGetPortfolioCallsRepositoryExactlyOnce(): void
     {
         // Arrange
         $this->repositoryMock
@@ -120,7 +121,7 @@ final class PortfolioServiceTest extends TestCase
         // Assert: expectation verified automatically by PHPUnit
     }
 
-    public function test_service_does_not_cache_portfolio(): void
+    public function testServiceDoesNotCachePortfolio(): void
     {
         // Arrange: Service should delegate every time (no caching)
         $this->repositoryMock
@@ -135,7 +136,7 @@ final class PortfolioServiceTest extends TestCase
         // Assert: called twice (verified by expects)
     }
 
-    public function test_get_personal_info_returns_array_with_all_fields(): void
+    public function testGetPersonalInfoReturnsArrayWithAllFields(): void
     {
         // Arrange
         $this->repositoryMock
@@ -156,7 +157,7 @@ final class PortfolioServiceTest extends TestCase
         $this->assertArrayHasKey('website', $personalInfo);
     }
 
-    public function test_get_personal_info_returns_correct_values(): void
+    public function testGetPersonalInfoReturnsCorrectValues(): void
     {
         // Arrange
         $this->repositoryMock
@@ -176,7 +177,7 @@ final class PortfolioServiceTest extends TestCase
         $this->assertSame('test.example.com', $personalInfo['website']);
     }
 
-    public function test_get_contact_info_returns_array_with_all_fields(): void
+    public function testGetContactInfoReturnsArrayWithAllFields(): void
     {
         // Arrange
         $this->repositoryMock
@@ -196,7 +197,7 @@ final class PortfolioServiceTest extends TestCase
         $this->assertArrayHasKey('website', $contactInfo);
     }
 
-    public function test_get_contact_info_returns_correct_values(): void
+    public function testGetContactInfoReturnsCorrectValues(): void
     {
         // Arrange
         $this->repositoryMock

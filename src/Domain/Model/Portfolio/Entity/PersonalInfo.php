@@ -33,7 +33,7 @@ final class PersonalInfo
     }
 
     /**
-     * Validate and trim required string field
+     * Validate and trim required string field.
      *
      * @throws \InvalidArgumentException if value is empty after trimming
      */
@@ -41,7 +41,7 @@ final class PersonalInfo
     {
         $trimmed = trim($value);
 
-        if ($trimmed === '') {
+        if ('' === $trimmed) {
             throw new \InvalidArgumentException("{$fieldName} cannot be empty");
         }
 
@@ -49,13 +49,13 @@ final class PersonalInfo
     }
 
     /**
-     * Validate optional string field
+     * Validate optional string field.
      *
      * @throws \InvalidArgumentException if value is empty string (should be null instead)
      */
     private static function validateOptional(?string $value, string $fieldName): ?string
     {
-        if ($value === '') {
+        if ('' === $value) {
             throw new \InvalidArgumentException("{$fieldName} must be null or non-empty string");
         }
 

@@ -13,7 +13,8 @@ final class ArticleController extends AbstractController
 {
     public function __construct(
         private readonly JsonArticleRepository $articleRepository
-    ) {}
+    ) {
+    }
 
     #[Route('/code-ai', name: 'code_ai')]
     public function index(): Response
@@ -21,7 +22,7 @@ final class ArticleController extends AbstractController
         $articles = $this->articleRepository->findAll();
 
         return $this->render('pages/code-ai/index.html.twig', [
-            'articles' => array_map(fn($article) => $article->toArray(), $articles),
+            'articles' => array_map(fn ($article) => $article->toArray(), $articles),
         ]);
     }
 

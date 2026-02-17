@@ -9,7 +9,8 @@ final class Tag
     public function __construct(
         private readonly string $name,
         private readonly string $slug
-    ) {}
+    ) {
+    }
 
     public function name(): string
     {
@@ -38,7 +39,7 @@ final class Tag
     {
         $replaced = preg_replace('/[^A-Za-z0-9-]+/', '-', $text);
 
-        if ($replaced === null) {
+        if (null === $replaced) {
             throw new \RuntimeException('Failed to slugify tag name');
         }
 

@@ -1,13 +1,13 @@
-name: QA Pipeline
+name: Quality Assurance
 
 on:
   push:
-    branches: [master, develop]
+    branches: ['**']
   pull_request:
-    branches: [master, develop]
+    branches: [master]
 
 jobs:
-  quality-assurance:
+  qa:
     name: Quality Assurance
     runs-on: ubuntu-latest
 
@@ -23,47 +23,31 @@ jobs:
           tools: composer:v2
           coverage: xdebug
 
+      - name: 📦 Cache Composer dependencies
+        uses: actions/cache@v3
+        with:
+          path: vendor
+          key: ${{ runner.os }}-php-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-composer-
+
       - name: 📦 Install dependencies
-        run: composer install --prefer-dist --no-progress
+        run: composer install --prefer-dist --no-progress --no-interaction
 
       - name: ✅ Validate composer.json
         run: composer validate --strict
 
       - name: 🧪 Run PHPUnit Tests
-        run: |
-          if [ -f vendor/bin/phpunit ]; then
-            vendor/bin/phpunit --testdox
-          else
-            echo "⚠️  PHPUnit not installed yet (will be configured in issue #006)"
-          fi
+        run: vendor/bin/phpunit --testdox --colors=always
 
-      - name: 🔍 Run PHPStan Analysis
-        run: |
-          if [ -f vendor/bin/phpstan ]; then
-            vendor/bin/phpstan analyse --no-progress
-          else
-            echo "⚠️  PHPStan not installed yet (will be configured in issue #006)"
-          fi
+      - name: 🔍 Run PHPStan Analysis (level 9)
+        run: vendor/bin/phpstan analyse --no-progress --error-format=github
 
-      - name: 🎭 Run Playwright E2E Tests
-        run: |
-          if [ -f package.json ] && grep -q "@playwright/test" package.json; then
-            npm ci
-            npx playwright install --with-deps
-            npx playwright test
-          else
-            echo "⚠️  Playwright not installed yet (will be configured in issue #007)"
-          fi
+      - name: 🎨 Check Code Style (PHP CS Fixer)
+        run: vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.php
 
-      - name: ✅ QA Pipeline Success
-        if: success()
+      - name: ✅ QA Passed
         run: |
-          echo "✅ All quality checks passed!"
-          echo "📊 Code quality verified"
-
-      - name: ❌ QA Pipeline Failed
-        if: failure()
-        run: |
-          echo "❌ Quality checks failed!"
-          echo "Please review the logs above."
-          exit 1
+          echo "✅ Quality Assurance checks passed!"
+          echo "Branch: ${{ github.head_ref || github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"

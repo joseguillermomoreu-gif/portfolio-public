@@ -10,7 +10,7 @@ use App\Infrastructure\Persistence\Json\JsonPortfolioRepository;
 use PHPUnit\Framework\TestCase;
 
 /**
- * JsonPortfolioRepository Integration Tests
+ * JsonPortfolioRepository Integration Tests.
  *
  * Tests the adapter that loads portfolio from JSON file
  */
@@ -18,7 +18,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
 {
     private const FIXTURE_PATH = __DIR__ . '/../../../Fixtures/portfolio.json';
 
-    public function test_implements_interface(): void
+    public function testImplementsInterface(): void
     {
         // Arrange
         $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
@@ -27,7 +27,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertInstanceOf(PortfolioRepositoryInterface::class, $repository);
     }
 
-    public function test_can_load_portfolio_from_json(): void
+    public function testCanLoadPortfolioFromJson(): void
     {
         // Arrange
         $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
@@ -39,7 +39,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertInstanceOf(Portfolio::class, $portfolio);
     }
 
-    public function test_loads_personal_info_correctly(): void
+    public function testLoadsPersonalInfoCorrectly(): void
     {
         // Arrange
         $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
@@ -58,7 +58,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertSame('test.example.com', $personalInfo->website());
     }
 
-    public function test_loads_contact_info_correctly(): void
+    public function testLoadsContactInfoCorrectly(): void
     {
         // Arrange
         $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
@@ -76,7 +76,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertSame('https://test.example.com', $contactInfo->website());
     }
 
-    public function test_loads_social_networks(): void
+    public function testLoadsSocialNetworks(): void
     {
         // Arrange
         $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
@@ -93,7 +93,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertSame('GitHub', $socialNetworks[0]['name']);
     }
 
-    public function test_loads_skills(): void
+    public function testLoadsSkills(): void
     {
         // Arrange
         $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
@@ -113,7 +113,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertSame('Testing', $skills[1]['name']);
     }
 
-    public function test_throws_exception_if_file_does_not_exist(): void
+    public function testThrowsExceptionIfFileDoesNotExist(): void
     {
         // Arrange
         $this->expectException(\RuntimeException::class);
@@ -124,7 +124,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $repository->find();
     }
 
-    public function test_throws_exception_if_json_is_invalid(): void
+    public function testThrowsExceptionIfJsonIsInvalid(): void
     {
         // Arrange
         $invalidJsonPath = sys_get_temp_dir() . '/invalid-portfolio-' . uniqid() . '.json';
@@ -145,7 +145,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         }
     }
 
-    public function test_throws_exception_if_required_fields_missing(): void
+    public function testThrowsExceptionIfRequiredFieldsMissing(): void
     {
         // Arrange
         $incompleteJsonPath = sys_get_temp_dir() . '/incomplete-portfolio-' . uniqid() . '.json';
@@ -165,7 +165,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         }
     }
 
-    public function test_repository_can_be_instantiated_with_custom_path(): void
+    public function testRepositoryCanBeInstantiatedWithCustomPath(): void
     {
         // Arrange & Act
         $repository = new JsonPortfolioRepository('/custom/path/portfolio.json');
@@ -174,7 +174,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertInstanceOf(JsonPortfolioRepository::class, $repository);
     }
 
-    public function test_repository_uses_default_path_if_none_provided(): void
+    public function testRepositoryUsesDefaultPathIfNoneProvided(): void
     {
         // Arrange & Act
         $repository = new JsonPortfolioRepository();

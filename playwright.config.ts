@@ -1,62 +1,50 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright E2E Test Configuration
+ * Playwright E2E Test Configuration - josemoreupeso.es
  * @see https://playwright.dev/docs/test-configuration
  */
 export default defineConfig({
-  testDir: './tests/E2E',
+  testDir: './playwright/tests',
 
-  // Run tests in files in parallel
-  fullyParallel: true,
+  timeout: 30 * 1000,
 
-  // Fail the build on CI if you accidentally left test.only in the source code
-  forbidOnly: !!process.env.CI,
-
-  // Retry on CI only
-  retries: process.env.CI ? 2 : 0,
-
-  // Opt out of parallel tests on CI
-  workers: process.env.CI ? 1 : undefined,
-
-  // Reporter to use
-  reporter: process.env.CI ? 'github' : 'html',
-
-  // Shared settings for all the projects below
-  use: {
-    // Base URL to use in actions like `await page.goto('/')`
-    // In CI, tests run against production after deployment
-    baseURL: process.env.BASE_URL || 'https://josemoreupeso.es',
-
-    // Collect trace when retrying the failed test
-    trace: 'on-first-retry',
-
-    // Screenshot on failure
-    screenshot: 'only-on-failure',
+  expect: {
+    timeout: 5000,
   },
 
-  // Configure projects for major browsers
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 1 : 0,
+  workers: process.env.CI ? 2 : undefined,
+
+  reporter: [
+    ['html', { outputFolder: 'playwright-report' }],
+    ['list'],
+    ['json', { outputFile: 'test-results/results.json' }],
+  ],
+
+  use: {
+    baseURL: process.env.BASE_URL || 'http://localhost:8080',
+    trace: 'on-first-retry',
+    screenshot: 'only-on-failure',
+    video: 'retain-on-failure',
+  },
+
   projects: [
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
-
-    // Uncomment to test on Firefox and WebKit
-    // {
-    //   name: 'firefox',
-    //   use: { ...devices['Desktop Firefox'] },
-    // },
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
   ],
 
-  // Run your local dev server before starting the tests
-  // webServer: {
-  //   command: 'make up',
-  //   url: 'http://localhost:8080',
-  //   reuseExistingServer: !process.env.CI,
-  // },
+  // Local dev server via PHP built-in (only when not pointing to external BASE_URL)
+  webServer: process.env.BASE_URL
+    ? undefined
+    : {
+        command: 'php -S localhost:8080 -t public public/index.php',
+        url: 'http://localhost:8080',
+        reuseExistingServer: true,
+        timeout: 30 * 1000,
+      },
 });

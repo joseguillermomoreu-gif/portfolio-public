@@ -8,13 +8,13 @@ use App\Domain\Model\Portfolio\Entity\ContactInfo;
 use PHPUnit\Framework\TestCase;
 
 /**
- * ContactInfo Value Object Tests
+ * ContactInfo Value Object Tests.
  *
  * Tests immutable value object for contact information
  */
 final class ContactInfoTest extends TestCase
 {
-    public function test_it_should_create_contact_info_with_all_properties(): void
+    public function testItShouldCreateContactInfoWithAllProperties(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -30,7 +30,7 @@ final class ContactInfoTest extends TestCase
         $this->assertInstanceOf(ContactInfo::class, $contactInfo);
     }
 
-    public function test_all_properties_should_be_accessible(): void
+    public function testAllPropertiesShouldBeAccessible(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -51,7 +51,7 @@ final class ContactInfoTest extends TestCase
         $this->assertSame('https://example.com', $contactInfo->website());
     }
 
-    public function test_instagram_can_be_null(): void
+    public function testInstagramCanBeNull(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -67,7 +67,7 @@ final class ContactInfoTest extends TestCase
         $this->assertNull($contactInfo->instagram());
     }
 
-    public function test_instagram_can_have_value(): void
+    public function testInstagramCanHaveValue(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -84,7 +84,7 @@ final class ContactInfoTest extends TestCase
         $this->assertSame('@jmoreu1992', $contactInfo->instagram());
     }
 
-    public function test_it_should_be_immutable_with_readonly_properties(): void
+    public function testItShouldBeImmutableWithReadonlyProperties(): void
     {
         // Arrange
         $contactInfo = new ContactInfo(
@@ -103,7 +103,7 @@ final class ContactInfoTest extends TestCase
         $this->assertTrue($emailProperty->isReadOnly(), 'Properties should be readonly for immutability');
     }
 
-    public function test_email_should_have_valid_format(): void
+    public function testEmailShouldHaveValidFormat(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -120,7 +120,7 @@ final class ContactInfoTest extends TestCase
         $this->assertStringContainsString('.', $contactInfo->email());
     }
 
-    public function test_phone_can_have_international_format(): void
+    public function testPhoneCanHaveInternationalFormat(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -136,7 +136,7 @@ final class ContactInfoTest extends TestCase
         $this->assertStringStartsWith('+', $contactInfo->phone());
     }
 
-    public function test_phone_can_have_local_format(): void
+    public function testPhoneCanHaveLocalFormat(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -152,7 +152,7 @@ final class ContactInfoTest extends TestCase
         $this->assertSame('600 123 456', $contactInfo->phone());
     }
 
-    public function test_github_should_be_username(): void
+    public function testGithubShouldBeUsername(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -169,7 +169,7 @@ final class ContactInfoTest extends TestCase
         $this->assertStringNotContainsString('http', $contactInfo->github());
     }
 
-    public function test_linkedin_should_be_username(): void
+    public function testLinkedinShouldBeUsername(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -186,7 +186,7 @@ final class ContactInfoTest extends TestCase
         $this->assertStringNotContainsString('http', $contactInfo->linkedin());
     }
 
-    public function test_website_should_be_full_url(): void
+    public function testWebsiteShouldBeFullUrl(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(
@@ -202,7 +202,7 @@ final class ContactInfoTest extends TestCase
         $this->assertStringStartsWith('http', $contactInfo->website());
     }
 
-    public function test_website_can_have_https(): void
+    public function testWebsiteCanHaveHttps(): void
     {
         // Arrange & Act
         $contactInfo = new ContactInfo(

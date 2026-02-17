@@ -7,12 +7,13 @@ namespace App\Application\Service\Portfolio;
 use App\Domain\Model\Portfolio\Entity\Portfolio;
 use App\Domain\Model\Portfolio\Repository\PortfolioRepositoryInterface;
 
-final class PortfolioService 
+final class PortfolioService
 {
     public function __construct(
         private readonly PortfolioRepositoryInterface $portfolioRepository
-    ) {}
-    
+    ) {
+    }
+
     public function getPortfolio(): Portfolio
     {
         return $this->portfolioRepository->find();

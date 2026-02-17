@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Domain\Model\Portfolio\Entity;
 
 /**
- * Contact Information Value Object
+ * Contact Information Value Object.
  *
  * Immutable value object containing contact details.
  *
@@ -26,7 +26,8 @@ final class ContactInfo
         private readonly string $linkedin,
         private readonly ?string $instagram,
         private readonly string $website
-    ) {}
+    ) {
+    }
 
     public function email(): string
     {

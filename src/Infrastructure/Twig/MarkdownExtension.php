@@ -9,7 +9,7 @@ use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 /**
- * Markdown Extension for Twig
+ * Markdown Extension for Twig.
  *
  * Provides |markdown filter to parse Markdown content using Parsedown.
  *
@@ -20,11 +20,11 @@ use Twig\TwigFilter;
  */
 final class MarkdownExtension extends AbstractExtension
 {
-    private readonly Parsedown $parsedown;
+    private readonly \Parsedown $parsedown;
 
     public function __construct()
     {
-        $this->parsedown = new Parsedown();
+        $this->parsedown = new \Parsedown();
         $this->parsedown->setSafeMode(true); // XSS protection
     }
 

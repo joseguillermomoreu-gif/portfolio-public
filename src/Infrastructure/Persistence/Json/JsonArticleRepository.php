@@ -11,7 +11,8 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
 {
     public function __construct(
         private readonly string $dataPath = __DIR__ . '/../../../../data/articles.json'
-    ) {}
+    ) {
+    }
 
     /**
      * @return array<Article>
@@ -20,7 +21,7 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
     {
         $content = @file_get_contents($this->dataPath);
 
-        if ($content === false) {
+        if (false === $content) {
             throw new \RuntimeException("Failed to read articles data from {$this->dataPath}");
         }
 
@@ -35,7 +36,7 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
         }
 
         return array_map(
-            fn(array $articleData) => Article::fromArray($articleData),
+            fn (array $articleData) => Article::fromArray($articleData),
             $data['articles']
         );
     }
@@ -43,31 +44,32 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
     public function findBySlug(string $slug): ?Article
     {
         $articles = $this->findAll();
-        
+
         foreach ($articles as $article) {
             if ($article->slug() === $slug) {
                 return $article;
             }
         }
-        
+
         return null;
     }
 
     public function findById(string $id): ?Article
     {
         $articles = $this->findAll();
-        
+
         foreach ($articles as $article) {
             if ($article->id() === $id) {
                 return $article;
             }
         }
-        
+
         return null;
     }
 
     /**
      * @param array<int, string> $tags
+     *
      * @return array<int, Article>
      */
     public function findByTags(array $tags): array
@@ -76,6 +78,7 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
 
         return array_filter($articles, function (Article $article) use ($tags) {
             $articleTags = $article->tags();
+
             return !empty(array_intersect($tags, $articleTags));
         });
     }

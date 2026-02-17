@@ -9,7 +9,7 @@ use App\Infrastructure\Persistence\Json\JsonArticleRepository;
 use PHPUnit\Framework\TestCase;
 
 /**
- * JsonArticleRepository Integration Tests
+ * JsonArticleRepository Integration Tests.
  *
  * Tests repository integration with JSON file storage.
  */
@@ -25,7 +25,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->repository = new JsonArticleRepository(self::FIXTURE_PATH);
     }
 
-    public function test_it_implements_repository_interface(): void
+    public function testItImplementsRepositoryInterface(): void
     {
         // Assert
         $this->assertInstanceOf(
@@ -34,7 +34,7 @@ final class JsonArticleRepositoryTest extends TestCase
         );
     }
 
-    public function test_find_all_returns_array_of_articles(): void
+    public function testFindAllReturnsArrayOfArticles(): void
     {
         // Act
         $articles = $this->repository->findAll();
@@ -48,7 +48,7 @@ final class JsonArticleRepositoryTest extends TestCase
         }
     }
 
-    public function test_find_all_loads_article_properties_correctly(): void
+    public function testFindAllLoadsArticlePropertiesCorrectly(): void
     {
         // Act
         $articles = $this->repository->findAll();
@@ -61,7 +61,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertStringContainsString('Test-Driven Development', $firstArticle->content());
     }
 
-    public function test_find_by_slug_returns_article_when_found(): void
+    public function testFindBySlugReturnsArticleWhenFound(): void
     {
         // Act
         $article = $this->repository->findBySlug('arquitectura-hexagonal-symfony');
@@ -72,7 +72,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertSame('Arquitectura Hexagonal en Symfony', $article->title());
     }
 
-    public function test_find_by_slug_returns_null_when_not_found(): void
+    public function testFindBySlugReturnsNullWhenNotFound(): void
     {
         // Act
         $article = $this->repository->findBySlug('non-existent-slug');
@@ -81,7 +81,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertNull($article);
     }
 
-    public function test_find_by_id_returns_article_when_found(): void
+    public function testFindByIdReturnsArticleWhenFound(): void
     {
         // Act
         $article = $this->repository->findById('test-article-2');
@@ -93,7 +93,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertSame('Arquitectura Hexagonal en Symfony', $article->title());
     }
 
-    public function test_find_by_id_returns_null_when_not_found(): void
+    public function testFindByIdReturnsNullWhenNotFound(): void
     {
         // Act
         $article = $this->repository->findById('non-existent-id');
@@ -102,7 +102,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertNull($article);
     }
 
-    public function test_articles_have_tags(): void
+    public function testArticlesHaveTags(): void
     {
         // Act
         $articles = $this->repository->findAll();
@@ -115,7 +115,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertContains('TDD', $firstArticle->tags());
     }
 
-    public function test_articles_can_have_different_number_of_tags(): void
+    public function testArticlesCanHaveDifferentNumberOfTags(): void
     {
         // Act
         $articles = $this->repository->findAll();
@@ -126,7 +126,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertCount(4, $articles[2]->tags()); // Playwright article
     }
 
-    public function test_find_by_tags_returns_articles_with_matching_tag(): void
+    public function testFindByTagsReturnsArticlesWithMatchingTag(): void
     {
         // Act
         $articles = $this->repository->findByTags(['PHP']);
@@ -139,7 +139,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertSame('Introducción a TDD con PHP', $articlesList[0]->title());
     }
 
-    public function test_find_by_tags_returns_multiple_articles(): void
+    public function testFindByTagsReturnsMultipleArticles(): void
     {
         // Act
         $articles = $this->repository->findByTags(['Testing']);
@@ -148,7 +148,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertGreaterThanOrEqual(2, count($articles));
     }
 
-    public function test_find_by_tags_returns_empty_array_when_no_matches(): void
+    public function testFindByTagsReturnsEmptyArrayWhenNoMatches(): void
     {
         // Act
         $articles = $this->repository->findByTags(['NonExistentTag']);
@@ -158,7 +158,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertEmpty($articles);
     }
 
-    public function test_find_by_tags_with_multiple_tags(): void
+    public function testFindByTagsWithMultipleTags(): void
     {
         // Act
         $articles = $this->repository->findByTags(['PHP', 'TDD']);
@@ -167,7 +167,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertNotEmpty($articles);
     }
 
-    public function test_articles_have_published_date(): void
+    public function testArticlesHavePublishedDate(): void
     {
         // Act
         $articles = $this->repository->findAll();
@@ -177,7 +177,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertInstanceOf(\DateTimeImmutable::class, $firstArticle->publishedAt());
     }
 
-    public function test_articles_have_updated_date(): void
+    public function testArticlesHaveUpdatedDate(): void
     {
         // Act
         $articles = $this->repository->findAll();
@@ -187,7 +187,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $this->assertInstanceOf(\DateTimeImmutable::class, $firstArticle->updatedAt());
     }
 
-    public function test_repository_throws_exception_if_file_not_found(): void
+    public function testRepositoryThrowsExceptionIfFileNotFound(): void
     {
         // Arrange
         $invalidRepository = new JsonArticleRepository('/non/existent/path.json');
@@ -200,7 +200,7 @@ final class JsonArticleRepositoryTest extends TestCase
         $invalidRepository->findAll();
     }
 
-    public function test_repository_throws_exception_on_invalid_json(): void
+    public function testRepositoryThrowsExceptionOnInvalidJson(): void
     {
         // Arrange - Create a temporary invalid JSON file
         $invalidJsonPath = sys_get_temp_dir() . '/invalid-articles.json';
@@ -223,7 +223,7 @@ final class JsonArticleRepositoryTest extends TestCase
         }
     }
 
-    public function test_repository_throws_exception_when_articles_key_missing(): void
+    public function testRepositoryThrowsExceptionWhenArticlesKeyMissing(): void
     {
         // Arrange - Create a temporary JSON file without "articles" key
         $noArticlesPath = sys_get_temp_dir() . '/no-articles.json';

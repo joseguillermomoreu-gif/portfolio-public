@@ -19,6 +19,7 @@ interface ArticleRepositoryInterface
 
     /**
      * @param string[] $tags
+     *
      * @return Article[]
      */
     public function findByTags(array $tags): array;

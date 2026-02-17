@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Infrastructure\Http;
 
 /**
- * Asset Versioning Helper
+ * Asset Versioning Helper.
  *
  * Adds version hash to static assets for cache busting.
  */
@@ -29,6 +29,7 @@ final class AssetVersioning
         // Fallback to git commit hash
         if (file_exists(__DIR__ . '/../../../.git/HEAD')) {
             $head = (string) @file_get_contents(__DIR__ . '/../../../.git/HEAD');
+
             return substr(md5($head), 0, 8);
         }
 

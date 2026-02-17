@@ -8,13 +8,13 @@ use App\Domain\Model\Portfolio\Entity\PersonalInfo;
 use PHPUnit\Framework\TestCase;
 
 /**
- * PersonalInfo Value Object Tests
+ * PersonalInfo Value Object Tests.
  *
  * Tests immutable value object for personal information
  */
 final class PersonalInfoTest extends TestCase
 {
-    public function test_it_should_create_personal_info_with_all_required_fields(): void
+    public function testItShouldCreatePersonalInfoWithAllRequiredFields(): void
     {
         // Arrange
         $name = 'José Moreu Peso';
@@ -46,7 +46,7 @@ final class PersonalInfoTest extends TestCase
         $this->assertSame($website, $personalInfo->website());
     }
 
-    public function test_it_should_accept_null_for_optional_photo(): void
+    public function testItShouldAcceptNullForOptionalPhoto(): void
     {
         // Arrange & Act
         $personalInfo = new PersonalInfo(
@@ -63,7 +63,7 @@ final class PersonalInfoTest extends TestCase
         $this->assertNull($personalInfo->photo());
     }
 
-    public function test_it_should_accept_null_for_optional_website(): void
+    public function testItShouldAcceptNullForOptionalWebsite(): void
     {
         // Arrange & Act
         $personalInfo = new PersonalInfo(
@@ -80,7 +80,7 @@ final class PersonalInfoTest extends TestCase
         $this->assertNull($personalInfo->website());
     }
 
-    public function test_it_should_accept_null_for_both_optional_fields(): void
+    public function testItShouldAcceptNullForBothOptionalFields(): void
     {
         // Arrange & Act
         $personalInfo = new PersonalInfo(
@@ -98,7 +98,7 @@ final class PersonalInfoTest extends TestCase
         $this->assertNull($personalInfo->website());
     }
 
-    public function test_it_should_be_immutable_with_readonly_properties(): void
+    public function testItShouldBeImmutableWithReadonlyProperties(): void
     {
         // Arrange
         $personalInfo = new PersonalInfo(
@@ -118,7 +118,7 @@ final class PersonalInfoTest extends TestCase
         $this->assertTrue($nameProperty->isReadOnly(), 'Properties should be readonly for immutability');
     }
 
-    public function test_getters_should_return_exact_constructor_values(): void
+    public function testGettersShouldReturnExactConstructorValues(): void
     {
         // Arrange
         $expectedData = [
@@ -128,7 +128,7 @@ final class PersonalInfoTest extends TestCase
             'bio' => 'With 8+ years building scalable systems',
             'location' => 'Madrid, España',
             'photo' => '/assets/jose-moreu.jpg',
-            'website' => 'https://josemoreupeso.es'
+            'website' => 'https://josemoreupeso.es',
         ];
 
         // Act
@@ -155,7 +155,7 @@ final class PersonalInfoTest extends TestCase
     /**
      * @dataProvider emptyStringProvider
      */
-    public function test_it_should_reject_empty_name(string $emptyValue): void
+    public function testItShouldRejectEmptyName(string $emptyValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Name cannot be empty');
@@ -174,7 +174,7 @@ final class PersonalInfoTest extends TestCase
     /**
      * @dataProvider emptyStringProvider
      */
-    public function test_it_should_reject_empty_title(string $emptyValue): void
+    public function testItShouldRejectEmptyTitle(string $emptyValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Title cannot be empty');
@@ -193,7 +193,7 @@ final class PersonalInfoTest extends TestCase
     /**
      * @dataProvider emptyStringProvider
      */
-    public function test_it_should_reject_empty_tagline(string $emptyValue): void
+    public function testItShouldRejectEmptyTagline(string $emptyValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Tagline cannot be empty');
@@ -212,7 +212,7 @@ final class PersonalInfoTest extends TestCase
     /**
      * @dataProvider emptyStringProvider
      */
-    public function test_it_should_reject_empty_bio(string $emptyValue): void
+    public function testItShouldRejectEmptyBio(string $emptyValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Bio cannot be empty');
@@ -231,7 +231,7 @@ final class PersonalInfoTest extends TestCase
     /**
      * @dataProvider emptyStringProvider
      */
-    public function test_it_should_reject_empty_location(string $emptyValue): void
+    public function testItShouldRejectEmptyLocation(string $emptyValue): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Location cannot be empty');
@@ -247,7 +247,7 @@ final class PersonalInfoTest extends TestCase
         );
     }
 
-    public function test_it_should_reject_empty_photo_string(): void
+    public function testItShouldRejectEmptyPhotoString(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Photo must be null or non-empty string');
@@ -263,7 +263,7 @@ final class PersonalInfoTest extends TestCase
         );
     }
 
-    public function test_it_should_reject_empty_website_string(): void
+    public function testItShouldRejectEmptyWebsiteString(): void
     {
         $this->expectException(\InvalidArgumentException::class);
         $this->expectExceptionMessage('Website must be null or non-empty string');
@@ -279,13 +279,13 @@ final class PersonalInfoTest extends TestCase
         );
     }
 
-    public function test_it_should_accept_valid_website_url(): void
+    public function testItShouldAcceptValidWebsiteUrl(): void
     {
         $validUrls = [
             'https://josemoreupeso.es',
             'http://example.com',
             'https://subdomain.example.com',
-            'https://example.com/path/to/page'
+            'https://example.com/path/to/page',
         ];
 
         foreach ($validUrls as $url) {
@@ -303,7 +303,7 @@ final class PersonalInfoTest extends TestCase
         }
     }
 
-    public function test_it_should_trim_whitespace_from_required_fields(): void
+    public function testItShouldTrimWhitespaceFromRequiredFields(): void
     {
         $personalInfo = new PersonalInfo(
             '  José Moreu Peso  ',
@@ -322,7 +322,7 @@ final class PersonalInfoTest extends TestCase
         $this->assertSame('Madrid', $personalInfo->location());
     }
 
-    public function test_it_should_handle_special_characters_in_strings(): void
+    public function testItShouldHandleSpecialCharactersInStrings(): void
     {
         $personalInfo = new PersonalInfo(
             'José Moréu-Péso',
@@ -341,7 +341,7 @@ final class PersonalInfoTest extends TestCase
     }
 
     /**
-     * Data provider for empty string values
+     * Data provider for empty string values.
      *
      * @return array<string, array<string>>
      */
@@ -352,7 +352,7 @@ final class PersonalInfoTest extends TestCase
             'whitespace only' => ['   '],
             'tab only' => ["\t"],
             'newline only' => ["\n"],
-            'mixed whitespace' => ["  \t\n  "]
+            'mixed whitespace' => ["  \t\n  "],
         ];
     }
 }

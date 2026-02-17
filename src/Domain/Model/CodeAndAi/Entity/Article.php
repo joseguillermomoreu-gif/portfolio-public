@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domain\Model\CodeAndAi\Entity;
 
-use DateTimeImmutable;
-
 final class Article
 {
     /**
@@ -17,10 +15,11 @@ final class Article
         private readonly string $slug,
         private readonly string $excerpt,
         private readonly string $content,
-        private readonly DateTimeImmutable $publishedAt,
-        private readonly DateTimeImmutable $updatedAt,
+        private readonly \DateTimeImmutable $publishedAt,
+        private readonly \DateTimeImmutable $updatedAt,
         private readonly array $tags
-    ) {}
+    ) {
+    }
 
     public function id(): string
     {
@@ -47,12 +46,12 @@ final class Article
         return $this->content;
     }
 
-    public function publishedAt(): DateTimeImmutable
+    public function publishedAt(): \DateTimeImmutable
     {
         return $this->publishedAt;
     }
 
-    public function updatedAt(): DateTimeImmutable
+    public function updatedAt(): \DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -94,8 +93,8 @@ final class Article
             $slug,
             $excerpt,
             $content,
-            new DateTimeImmutable($publishedAt),
-            new DateTimeImmutable($updatedAt),
+            new \DateTimeImmutable($publishedAt),
+            new \DateTimeImmutable($updatedAt),
             $tags
         );
     }
