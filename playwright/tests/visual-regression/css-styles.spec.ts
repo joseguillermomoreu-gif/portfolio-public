@@ -31,6 +31,7 @@ const VIEWPORTS = {
 
 async function navigateAndWait(page: Page, url: string): Promise<void> {
   await page.goto(url);
+  // eslint-disable-next-line playwright/no-networkidle
   await page.waitForLoadState('networkidle');
 }
 

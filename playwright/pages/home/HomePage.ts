@@ -11,6 +11,9 @@ export class HomePage extends BasePage {
   readonly statCards: Locator;
   readonly portfolioContext: Locator;
   readonly skillsSection: Locator;
+  readonly akkodisLink: Locator;
+  readonly elConfidencialLink: Locator;
+  readonly githubProfileLink: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -22,6 +25,9 @@ export class HomePage extends BasePage {
     this.statCards = page.locator(HomeSelectors.statCards);
     this.portfolioContext = page.locator(HomeSelectors.portfolioContext);
     this.skillsSection = page.locator(HomeSelectors.skillsSection);
+    this.akkodisLink = page.locator(HomeSelectors.akkodisLink);
+    this.elConfidencialLink = page.locator(HomeSelectors.elConfidencialLink);
+    this.githubProfileLink = page.locator(HomeSelectors.githubProfileLink);
   }
 
   async navigate(): Promise<void> {

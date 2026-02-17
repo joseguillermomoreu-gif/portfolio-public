@@ -1,5 +1,13 @@
 export const ProjectsSelectors = {
   heading: 'h1',
-  projectCards: '.project-card, [class*="project"]',
+  projectCards: '[data-testid="project-card"]',
+  projectName: '[data-testid="project-name"]',
+  projectStatus: '[data-testid="project-status"]',
+  projectDescription: '[data-testid="project-description"]',
+  projectStack: '[data-testid="project-stack"]',
+  projectTags: '[data-testid="project-tags"]',
+  projectHighlights: '[data-testid="project-highlights"]',
+  projectGithubLink: '[data-testid="project-github-link"]',
+  projectWebsiteLink: '[data-testid="project-website-link"]',
   mainContent: 'main',
 } as const;
