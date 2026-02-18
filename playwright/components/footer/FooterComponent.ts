@@ -9,12 +9,14 @@ export class FooterComponent {
   readonly container: Locator;
   readonly socialLinks: Locator;
   readonly version: Locator;
+  readonly year: Locator;
   readonly footerText: Locator;
 
   constructor(page: Page) {
     this.container = page.locator(FooterSelectors.container);
     this.socialLinks = page.locator(FooterSelectors.socialLinks);
     this.version = page.locator(FooterSelectors.version);
+    this.year = page.locator(FooterSelectors.year);
     this.footerText = page.locator(FooterSelectors.footerText);
   }
 
@@ -30,14 +32,19 @@ export class FooterComponent {
     return this.container;
   }
 
-  /** Masks para contenido dinámico (versión + año) — usado en visual regression */
+  /**
+   * Locators de contenido dinámico (versión + año) para usar como masks
+   * en visual regression — tanto en capturas del footer como fullPage.
+   */
+  getDynamicMasks(): Locator[] {
+    return [this.version, this.year];
+  }
+
+  /** Footer completo con masks aplicadas — usado en visual regression del footer */
   getLocatorWithMasks(): { locator: Locator; masks: Locator[] } {
     return {
       locator: this.container,
-      masks: [
-        this.container.getByText(/v\d+\.\d+\.\d+/),
-        this.container.getByText(/202\d/),
-      ],
+      masks: this.getDynamicMasks(),
     };
   }
 }

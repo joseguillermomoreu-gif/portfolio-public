@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\CodeAndAi\Entity;
+namespace App\Domain\Article;
 
 final class Article
 {
@@ -87,14 +87,26 @@ final class Article
         assert(is_string($updatedAt));
         assert(is_array($tags));
 
+        try {
+            $publishedAtDate = new \DateTimeImmutable($publishedAt);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException("Invalid published_at date: {$publishedAt}", 0, $e);
+        }
+
+        try {
+            $updatedAtDate = new \DateTimeImmutable($updatedAt);
+        } catch (\Exception $e) {
+            throw new \InvalidArgumentException("Invalid updated_at date: {$updatedAt}", 0, $e);
+        }
+
         return new self(
             $id,
             $title,
             $slug,
             $excerpt,
             $content,
-            new \DateTimeImmutable($publishedAt),
-            new \DateTimeImmutable($updatedAt),
+            $publishedAtDate,
+            $updatedAtDate,
             $tags
         );
     }

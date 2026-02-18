@@ -4,23 +4,10 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Json;
 
-use App\Domain\Model\Portfolio\Entity\Portfolio;
-use App\Domain\Model\Portfolio\Repository\PortfolioRepositoryInterface;
+use App\Domain\Portfolio\Portfolio;
+use App\Domain\Portfolio\PortfolioRepository;
 
-/**
- * JSON Portfolio Repository (Adapter).
- *
- * Infrastructure implementation that loads portfolio from JSON file.
- * This is an adapter in hexagonal architecture that implements the port
- * defined in the domain layer.
- *
- * Responsibilities:
- * - Load portfolio data from JSON file
- * - Validate file existence and JSON format
- * - Map JSON data to Portfolio entity using fromArray()
- * - Throw exceptions for invalid data
- */
-final class JsonPortfolioRepository implements PortfolioRepositoryInterface
+final class JsonPortfolioRepository implements PortfolioRepository
 {
     public function __construct(
         private readonly string $dataPath = __DIR__ . '/../../../../data/portfolio.json'

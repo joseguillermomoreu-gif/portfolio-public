@@ -2,11 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\CodeAndAi\Repository;
+namespace App\Domain\Article;
 
-use App\Domain\Model\CodeAndAi\Entity\Article;
-
-interface ArticleRepositoryInterface
+interface ArticleRepository
 {
     /**
      * @return Article[]

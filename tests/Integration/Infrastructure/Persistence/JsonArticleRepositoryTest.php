@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Infrastructure\Persistence;
 
-use App\Domain\Model\CodeAndAi\Entity\Article;
+use App\Domain\Article\Article;
 use App\Infrastructure\Persistence\Json\JsonArticleRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -29,7 +29,7 @@ final class JsonArticleRepositoryTest extends TestCase
     {
         // Assert
         $this->assertInstanceOf(
-            \App\Domain\Model\CodeAndAi\Repository\ArticleRepositoryInterface::class,
+            \App\Domain\Article\ArticleRepository::class,
             $this->repository
         );
     }
@@ -244,5 +244,21 @@ final class JsonArticleRepositoryTest extends TestCase
                 unlink($noArticlesPath);
             }
         }
+    }
+
+    public function testFindAllReturnsSameResultsOnMultipleCalls(): void
+    {
+        // Arrange
+        $repository = new JsonArticleRepository(self::FIXTURE_PATH);
+
+        // Act: call multiple methods that internally call findAll()
+        $firstCall = $repository->findAll();
+        $secondCall = $repository->findAll();
+        $bySlug = $repository->findBySlug($firstCall[0]->slug());
+
+        // Assert: results are consistent (cache returns same data)
+        $this->assertCount(count($firstCall), $secondCall);
+        $this->assertNotNull($bySlug);
+        $this->assertSame($firstCall[0]->id(), $secondCall[0]->id());
     }
 }

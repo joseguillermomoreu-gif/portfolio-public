@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Portfolio\Entity;
+namespace App\Tests\Unit\Domain\Portfolio;
 
-use App\Domain\Model\Portfolio\Entity\ContactInfo;
+use App\Domain\Portfolio\ContactInfo;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -216,5 +216,49 @@ final class ContactInfoTest extends TestCase
 
         // Assert
         $this->assertStringStartsWith('https://', $contactInfo->website());
+    }
+
+    public function testInvalidEmailThrowsInvalidArgumentException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/email/i');
+
+        new ContactInfo(
+            email: 'not-a-valid-email',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
+    }
+
+    public function testEmptyEmailThrowsInvalidArgumentException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        new ContactInfo(
+            email: '',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
+    }
+
+    public function testInvalidWebsiteUrlThrowsInvalidArgumentException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/website/i');
+
+        new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'not-a-url'
+        );
     }
 }

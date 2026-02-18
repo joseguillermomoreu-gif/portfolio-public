@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\CodeAndAi;
+namespace App\Tests\Unit\Domain\Article;
 
-use App\Domain\Model\CodeAndAi\Entity\Tag;
+use App\Domain\Article\Tag;
 use PHPUnit\Framework\TestCase;
 
 /**

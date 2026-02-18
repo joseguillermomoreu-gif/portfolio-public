@@ -2,21 +2,8 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\Portfolio\Entity;
+namespace App\Domain\Portfolio;
 
-/**
- * Contact Information Value Object.
- *
- * Immutable value object containing contact details.
- *
- * Properties:
- * - email: Email address
- * - phone: Phone number (international or local format)
- * - github: GitHub username (not full URL)
- * - linkedin: LinkedIn username (not full URL)
- * - instagram: Instagram handle (nullable, can be null)
- * - website: Full website URL (with https://)
- */
 final class ContactInfo
 {
     public function __construct(
@@ -27,6 +14,13 @@ final class ContactInfo
         private readonly ?string $instagram,
         private readonly string $website
     ) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException("Invalid email: '{$email}'");
+        }
+
+        if (!filter_var($website, FILTER_VALIDATE_URL)) {
+            throw new \InvalidArgumentException("Invalid website URL: '{$website}'");
+        }
     }
 
     public function email(): string

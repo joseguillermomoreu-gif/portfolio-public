@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Infrastructure\Persistence;
 
-use App\Domain\Model\Portfolio\Entity\Portfolio;
-use App\Domain\Model\Portfolio\Repository\PortfolioRepositoryInterface;
+use App\Domain\Portfolio\Portfolio;
+use App\Domain\Portfolio\PortfolioRepository;
+use App\Domain\Portfolio\Skill;
+use App\Domain\Portfolio\SkillLevel;
 use App\Infrastructure\Persistence\Json\JsonPortfolioRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -24,7 +26,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
 
         // Assert
-        $this->assertInstanceOf(PortfolioRepositoryInterface::class, $repository);
+        $this->assertInstanceOf(PortfolioRepository::class, $repository);
     }
 
     public function testCanLoadPortfolioFromJson(): void
@@ -105,12 +107,10 @@ final class JsonPortfolioRepositoryTest extends TestCase
         // Assert
         $this->assertIsArray($skills);
         $this->assertCount(2, $skills);
-        $this->assertIsArray($skills[0]);
-        $this->assertIsArray($skills[1]);
-        $this->assertArrayHasKey('name', $skills[0]);
-        $this->assertArrayHasKey('name', $skills[1]);
-        $this->assertSame('PHP', $skills[0]['name']);
-        $this->assertSame('Testing', $skills[1]['name']);
+        $this->assertContainsOnlyInstancesOf(Skill::class, $skills);
+        $this->assertSame('PHP', $skills[0]->name());
+        $this->assertSame(SkillLevel::Expert, $skills[0]->level());
+        $this->assertSame('Testing', $skills[1]->name());
     }
 
     public function testThrowsExceptionIfFileDoesNotExist(): void

@@ -1,4 +1,24 @@
 import { defineConfig, devices } from '@playwright/test';
+import * as fs from 'fs';
+import * as path from 'path';
+
+/**
+ * Carga variables del .env en process.env si no están ya definidas.
+ * Playwright no auto-carga .env cuando corre dentro de un contenedor Docker.
+ */
+function loadDotEnv(): void {
+  const envPath = path.resolve(__dirname, '.env');
+  if (!fs.existsSync(envPath)) return;
+  const lines = fs.readFileSync(envPath, 'utf-8').split('\n');
+  for (const line of lines) {
+    const match = line.match(/^([A-Z_][A-Z0-9_]*)=(.+)$/);
+    if (match && !process.env[match[1]]) {
+      process.env[match[1]] = match[2].trim();
+    }
+  }
+}
+
+loadDotEnv();
 
 /**
  * Playwright E2E Test Configuration - josemoreupeso.es

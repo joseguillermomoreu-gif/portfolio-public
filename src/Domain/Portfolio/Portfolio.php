@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\Portfolio\Entity;
+namespace App\Domain\Portfolio;
 
 final class Portfolio
 {
     /**
      * @param array<array<string, mixed>> $socialNetworks
-     * @param array<array<string, mixed>> $skills
+     * @param Skill[]                     $skills
      */
     public function __construct(
         private readonly PersonalInfo $personalInfo,
@@ -37,7 +37,7 @@ final class Portfolio
     }
 
     /**
-     * @return array<array<string, mixed>>
+     * @return Skill[]
      */
     public function skills(): array
     {
@@ -97,11 +97,18 @@ final class Portfolio
         $website = isset($personalInfo['website']) && is_string($personalInfo['website']) ? $personalInfo['website'] : null;
         $instagram = isset($contact['instagram']) && is_string($contact['instagram']) ? $contact['instagram'] : null;
 
+        /** @var array<array<string, mixed>> $rawSkills */
+        $rawSkills = $data['skills'];
+        $skills = array_map(
+            static fn (array $skillData): Skill => Skill::fromArray($skillData),
+            $rawSkills
+        );
+
         return new self(
             new PersonalInfo($name, $title, $tagline, $bio, $location, $photo, $website),
             new ContactInfo($email, $phone, $github, $linkedin, $instagram, $contactWebsite),
             $data['social_networks'],
-            $data['skills']
+            $skills
         );
     }
 }

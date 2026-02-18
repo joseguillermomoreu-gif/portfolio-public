@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Tests\Unit\Application\Service;
 
 use App\Application\Service\Portfolio\PortfolioService;
-use App\Domain\Model\Portfolio\Entity\ContactInfo;
-use App\Domain\Model\Portfolio\Entity\PersonalInfo;
-use App\Domain\Model\Portfolio\Entity\Portfolio;
-use App\Domain\Model\Portfolio\Repository\PortfolioRepositoryInterface;
+use App\Domain\Portfolio\ContactInfo;
+use App\Domain\Portfolio\PersonalInfo;
+use App\Domain\Portfolio\Portfolio;
+use App\Domain\Portfolio\PortfolioRepository;
+use App\Domain\Portfolio\Skill;
+use App\Domain\Portfolio\SkillLevel;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
@@ -20,11 +22,11 @@ use PHPUnit\Framework\TestCase;
 final class PortfolioServiceTest extends TestCase
 {
     /**
-     * @var MockObject&PortfolioRepositoryInterface
+     * @var MockObject&PortfolioRepository
      *
      * @phpstan-ignore-next-line - Initialized in setUp()
      */
-    private PortfolioRepositoryInterface $repositoryMock;
+    private PortfolioRepository $repositoryMock;
 
     /** @phpstan-ignore-next-line - Initialized in setUp() */
     private PortfolioService $service;
@@ -59,9 +61,8 @@ final class PortfolioServiceTest extends TestCase
             ['name' => 'GitHub', 'url' => 'https://github.com/test'],
         ];
 
-        /** @var array<array<string, mixed>> $skills */
         $skills = [
-            ['name' => 'PHP', 'level' => 'expert'],
+            new Skill('PHP', SkillLevel::Expert, 9),
         ];
 
         $this->portfolioStub = new Portfolio(
@@ -72,7 +73,7 @@ final class PortfolioServiceTest extends TestCase
         );
 
         // Create mock repository
-        $this->repositoryMock = $this->createMock(PortfolioRepositoryInterface::class);
+        $this->repositoryMock = $this->createMock(PortfolioRepository::class);
 
         // Create service with mocked repository
         $this->service = new PortfolioService($this->repositoryMock);

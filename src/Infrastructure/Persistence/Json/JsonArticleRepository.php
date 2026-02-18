@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Persistence\Json;
 
-use App\Domain\Model\CodeAndAi\Entity\Article;
-use App\Domain\Model\CodeAndAi\Repository\ArticleRepositoryInterface;
+use App\Domain\Article\Article;
+use App\Domain\Article\ArticleRepository;
 
-final class JsonArticleRepository implements ArticleRepositoryInterface
+final class JsonArticleRepository implements ArticleRepository
 {
+    /** @var Article[]|null */
+    private ?array $cache = null;
+
     public function __construct(
         private readonly string $dataPath = __DIR__ . '/../../../../data/articles.json'
     ) {
@@ -19,6 +22,10 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
      */
     public function findAll(): array
     {
+        if (null !== $this->cache) {
+            return $this->cache;
+        }
+
         $content = @file_get_contents($this->dataPath);
 
         if (false === $content) {
@@ -35,10 +42,12 @@ final class JsonArticleRepository implements ArticleRepositoryInterface
             throw new \RuntimeException('Missing or invalid articles array in data');
         }
 
-        return array_map(
+        $this->cache = array_map(
             fn (array $articleData) => Article::fromArray($articleData),
             $data['articles']
         );
+
+        return $this->cache;
     }
 
     public function findBySlug(string $slug): ?Article

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Portfolio\Entity;
+namespace App\Tests\Unit\Domain\Portfolio;
 
-use App\Domain\Model\Portfolio\Entity\PersonalInfo;
+use App\Domain\Portfolio\PersonalInfo;
 use PHPUnit\Framework\TestCase;
 
 /**

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\CodeAndAi;
+namespace App\Tests\Unit\Domain\Article;
 
-use App\Domain\Model\CodeAndAi\Entity\Article;
+use App\Domain\Article\Article;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -306,5 +306,45 @@ final class ArticleTest extends TestCase
         $slug = $article->slug();
         $this->assertSame('my-article-title', $slug);
         $this->assertMatchesRegularExpression('/^[a-z0-9\-]+$/', $slug);
+    }
+
+    public function testFromArrayThrowsInvalidArgumentExceptionForInvalidPublishedAt(): void
+    {
+        // Arrange
+        $data = [
+            'id' => '1',
+            'title' => 'Test',
+            'slug' => 'test',
+            'excerpt' => 'Excerpt',
+            'content' => 'Content',
+            'published_at' => 'not-a-valid-date',
+            'updated_at' => '2024-01-01T00:00:00+00:00',
+            'tags' => [],
+        ];
+
+        // Assert & Act
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/published_at/');
+        Article::fromArray($data);
+    }
+
+    public function testFromArrayThrowsInvalidArgumentExceptionForInvalidUpdatedAt(): void
+    {
+        // Arrange
+        $data = [
+            'id' => '1',
+            'title' => 'Test',
+            'slug' => 'test',
+            'excerpt' => 'Excerpt',
+            'content' => 'Content',
+            'published_at' => '2024-01-01T00:00:00+00:00',
+            'updated_at' => 'not-a-valid-date',
+            'tags' => [],
+        ];
+
+        // Assert & Act
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/updated_at/');
+        Article::fromArray($data);
     }
 }

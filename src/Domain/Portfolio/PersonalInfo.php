@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\Model\Portfolio\Entity;
+namespace App\Domain\Portfolio;
 
 final class PersonalInfo
 {
@@ -32,11 +32,6 @@ final class PersonalInfo
         $this->website = self::validateOptional($website, 'Website');
     }
 
-    /**
-     * Validate and trim required string field.
-     *
-     * @throws \InvalidArgumentException if value is empty after trimming
-     */
     private static function validateAndTrimRequired(string $value, string $fieldName): string
     {
         $trimmed = trim($value);
@@ -48,11 +43,6 @@ final class PersonalInfo
         return $trimmed;
     }
 
-    /**
-     * Validate optional string field.
-     *
-     * @throws \InvalidArgumentException if value is empty string (should be null instead)
-     */
     private static function validateOptional(?string $value, string $fieldName): ?string
     {
         if ('' === $value) {

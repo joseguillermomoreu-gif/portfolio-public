@@ -1,4 +1,4 @@
-import { test, expect, Page } from '@playwright/test';
+import { test, expect, Page, Locator } from '@playwright/test';
 import { HeaderComponent } from '@components';
 import { FooterComponent } from '@components';
 import { HomePage } from '@pages';
@@ -33,6 +33,11 @@ async function navigateAndWait(page: Page, url: string): Promise<void> {
   await page.goto(url);
   // eslint-disable-next-line playwright/no-networkidle
   await page.waitForLoadState('networkidle');
+}
+
+/** Masks para contenido dinámico del footer (versión + año) en capturas fullPage */
+function footerMasks(page: Page): Locator[] {
+  return new FooterComponent(page).getDynamicMasks();
 }
 
 test.describe('CSS Styles - Visual Regression Baseline', () => {
@@ -166,13 +171,13 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/cv');
-      await expect(page).toHaveScreenshot('cv-desktop.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('cv-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/cv');
-      await expect(page).toHaveScreenshot('cv-mobile.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('cv-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
   });
 
@@ -183,13 +188,13 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/contacto');
-      await expect(page).toHaveScreenshot('contact-desktop.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('contact-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/contacto');
-      await expect(page).toHaveScreenshot('contact-mobile.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('contact-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
   });
 
@@ -200,13 +205,13 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/proyectos');
-      await expect(page).toHaveScreenshot('projects-desktop.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('projects-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/proyectos');
-      await expect(page).toHaveScreenshot('projects-mobile.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('projects-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
   });
 
@@ -217,13 +222,13 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/ppia');
-      await expect(page).toHaveScreenshot('ppia-desktop.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('ppia-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/ppia');
-      await expect(page).toHaveScreenshot('ppia-mobile.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('ppia-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
   });
 
@@ -234,13 +239,13 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/code-ai');
-      await expect(page).toHaveScreenshot('code-ai-desktop.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('code-ai-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/code-ai');
-      await expect(page).toHaveScreenshot('code-ai-mobile.png', { fullPage: true, animations: 'disabled' });
+      await expect(page).toHaveScreenshot('code-ai-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
     });
   });
 });

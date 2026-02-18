@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Application\Service\Portfolio;
 
-use App\Domain\Model\Portfolio\Entity\Portfolio;
-use App\Domain\Model\Portfolio\Repository\PortfolioRepositoryInterface;
+use App\Domain\Portfolio\Portfolio;
+use App\Domain\Portfolio\PortfolioRepository;
 
 final class PortfolioService
 {
     public function __construct(
-        private readonly PortfolioRepositoryInterface $portfolioRepository
+        private readonly PortfolioRepository $portfolioRepository
     ) {
     }
 
