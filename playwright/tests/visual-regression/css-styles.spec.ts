@@ -1,7 +1,12 @@
-import { test, expect, Page, Locator } from '@playwright/test';
+import { test, expect, Page } from '@playwright/test';
 import { HeaderComponent } from '@components';
 import { FooterComponent } from '@components';
 import { HomePage } from '@pages';
+import { CvPage } from '@pages';
+import { ContactPage } from '@pages';
+import { ProjectsPage } from '@pages';
+import { PpiaPage } from '@pages';
+import { CodeAiPage } from '@pages';
 
 /**
  * Visual Regression Tests - CSS Styles Baseline
@@ -12,13 +17,21 @@ import { HomePage } from '@pages';
  * - Ensure pixel-perfect consistency during modularization
  *
  * WORKFLOW:
- * 1. Generate baselines (first run):
- *    BASE_URL=http://localhost:8080 npx playwright test visual-regression/css-styles.spec.ts --update-snapshots
+ * 1. Generate baselines (first run or after CSS changes):
+ *    make e2e-update-snapshots
  * 2. Refactor CSS component by component
  * 3. Re-run to verify no regressions:
- *    BASE_URL=http://localhost:8080 npx playwright test visual-regression/css-styles.spec.ts
+ *    make e2e
  * 4. Review differences:
- *    npx playwright show-report
+ *    make e2e-report
+ *
+ * STRATEGY:
+ * - All page tests use page-container locators (NOT fullPage) to exclude
+ *   header and footer from per-page screenshots.
+ * - Header and Footer are tested independently with their own locators.
+ * - Dynamic content (footer version/year, CV counter) is masked.
+ * - This ensures baselines generated locally (Docker) pass when run
+ *   locally against both local server and production.
  *
  * PATTERN: Strict POM - all selectors through Page Objects
  * RELATED ISSUE: #75
@@ -33,11 +46,6 @@ async function navigateAndWait(page: Page, url: string): Promise<void> {
   await page.goto(url);
   // eslint-disable-next-line playwright/no-networkidle
   await page.waitForLoadState('networkidle');
-}
-
-/** Masks para contenido dinámico del footer (versión + año) en capturas fullPage */
-function footerMasks(page: Page): Locator[] {
-  return new FooterComponent(page).getDynamicMasks();
 }
 
 test.describe('CSS Styles - Visual Regression Baseline', () => {
@@ -142,7 +150,8 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
 
   /**
    * FOOTER COMPONENT
-   * Dynamic content (version) masked
+   * Dynamic content (version + year) masked.
+   * Footer is tested independently — not included in page-level shots.
    */
   test.describe('Footer Component', () => {
     test('Desktop', async ({ page }) => {
@@ -166,86 +175,108 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
 
   /**
    * CV PAGE
+   * Uses .cv-page container (excludes header/footer).
+   * Masks .programming-counter (dynamic: years/months/days elapsed since 2017).
    */
   test.describe('CV Page', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/cv');
-      await expect(page).toHaveScreenshot('cv-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const cv = new CvPage(page);
+      await expect(cv.cvPage).toHaveScreenshot('cv-desktop.png', {
+        animations: 'disabled',
+        mask: [cv.programmingCounter],
+      });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/cv');
-      await expect(page).toHaveScreenshot('cv-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const cv = new CvPage(page);
+      await expect(cv.cvPage).toHaveScreenshot('cv-mobile.png', {
+        animations: 'disabled',
+        mask: [cv.programmingCounter],
+      });
     });
   });
 
   /**
    * CONTACT PAGE
+   * Uses .contact-page container (excludes header/footer).
    */
   test.describe('Contact Page', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/contacto');
-      await expect(page).toHaveScreenshot('contact-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const contact = new ContactPage(page);
+      await expect(contact.contactPage).toHaveScreenshot('contact-desktop.png', { animations: 'disabled' });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/contacto');
-      await expect(page).toHaveScreenshot('contact-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const contact = new ContactPage(page);
+      await expect(contact.contactPage).toHaveScreenshot('contact-mobile.png', { animations: 'disabled' });
     });
   });
 
   /**
    * PROJECTS PAGE
+   * Uses .projects-page container (excludes header/footer).
    */
   test.describe('Projects Page', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/proyectos');
-      await expect(page).toHaveScreenshot('projects-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const projects = new ProjectsPage(page);
+      await expect(projects.projectsPage).toHaveScreenshot('projects-desktop.png', { animations: 'disabled' });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/proyectos');
-      await expect(page).toHaveScreenshot('projects-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const projects = new ProjectsPage(page);
+      await expect(projects.projectsPage).toHaveScreenshot('projects-mobile.png', { animations: 'disabled' });
     });
   });
 
   /**
    * PPIA PAGE
+   * Uses .ppia-page container (excludes header/footer).
    */
   test.describe('PPiA Page', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/ppia');
-      await expect(page).toHaveScreenshot('ppia-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const ppia = new PpiaPage(page);
+      await expect(ppia.ppiaPage).toHaveScreenshot('ppia-desktop.png', { animations: 'disabled' });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/ppia');
-      await expect(page).toHaveScreenshot('ppia-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const ppia = new PpiaPage(page);
+      await expect(ppia.ppiaPage).toHaveScreenshot('ppia-mobile.png', { animations: 'disabled' });
     });
   });
 
   /**
    * CODE & AI PAGE
+   * Uses main content container (excludes header/footer).
    */
   test.describe('Code & AI Page', () => {
     test('Desktop', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.desktop);
       await navigateAndWait(page, '/code-ai');
-      await expect(page).toHaveScreenshot('code-ai-desktop.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const codeAi = new CodeAiPage(page);
+      await expect(codeAi.mainContent).toHaveScreenshot('code-ai-desktop.png', { animations: 'disabled' });
     });
 
     test('Mobile', async ({ page }) => {
       await page.setViewportSize(VIEWPORTS.mobile);
       await navigateAndWait(page, '/code-ai');
-      await expect(page).toHaveScreenshot('code-ai-mobile.png', { fullPage: true, animations: 'disabled', mask: footerMasks(page) });
+      const codeAi = new CodeAiPage(page);
+      await expect(codeAi.mainContent).toHaveScreenshot('code-ai-mobile.png', { animations: 'disabled' });
     });
   });
 });

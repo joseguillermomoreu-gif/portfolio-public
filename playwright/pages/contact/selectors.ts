@@ -5,4 +5,5 @@ export const ContactSelectors = {
   linkedinLink: 'a[href*="linkedin.com"]',
   instagramLink: 'a[href*="instagram.com"]',
   contactCard: '.contact-card',
+  contactPage: '.contact-page',
 } as const;

@@ -10,4 +10,5 @@ export const ProjectsSelectors = {
   projectGithubLink: '[data-testid="project-github-link"]',
   projectWebsiteLink: '[data-testid="project-website-link"]',
   mainContent: 'main',
+  projectsPage: '.projects-page',
 } as const;

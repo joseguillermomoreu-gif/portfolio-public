@@ -8,6 +8,7 @@ export class ContactPage extends BasePage {
   readonly githubLink: Locator;
   readonly linkedinLink: Locator;
   readonly contactCard: Locator;
+  readonly contactPage: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -16,6 +17,7 @@ export class ContactPage extends BasePage {
     this.githubLink = page.locator(ContactSelectors.githubLink).first();
     this.linkedinLink = page.locator(ContactSelectors.linkedinLink).first();
     this.contactCard = page.locator(ContactSelectors.contactCard);
+    this.contactPage = page.locator(ContactSelectors.contactPage);
   }
 
   async navigate(): Promise<void> {
