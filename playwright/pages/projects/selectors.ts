@@ -11,4 +11,7 @@ export const ProjectsSelectors = {
   projectWebsiteLink: '[data-testid="project-website-link"]',
   mainContent: 'main',
   projectsPage: '.projects-page',
+  projectsHeader: '.projects-header',
+  projectsGrid: '.projects-grid',
+  projectsFooter: '.projects-footer',
 } as const;

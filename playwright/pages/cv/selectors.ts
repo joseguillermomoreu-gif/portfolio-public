@@ -5,4 +5,8 @@ export const CvSelectors = {
   programmingCounter: '.programming-counter',
   wipButton: '.cv-generator-btn',
   cvPage: '.cv-page',
+  cvHeader: '.cv-header',
+  pdfDownloadCard: '.pdf-download-card',
+  cvTechInfo: '.cv-tech-info',
+  cvNote: '.cv-note',
 } as const;

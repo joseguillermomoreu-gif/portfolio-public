@@ -6,12 +6,16 @@ export class CodeAiPage extends BasePage {
   readonly heading: Locator;
   readonly articleCards: Locator;
   readonly mainContent: Locator;
+  readonly codeAiHeader: Locator;
+  readonly articlesGrid: Locator;
 
   constructor(page: Page) {
     super(page);
     this.heading = page.locator(CodeAiSelectors.heading);
     this.articleCards = page.locator(CodeAiSelectors.articleCards);
     this.mainContent = page.locator(CodeAiSelectors.mainContent);
+    this.codeAiHeader = page.locator(CodeAiSelectors.codeAiHeader);
+    this.articlesGrid = page.locator(CodeAiSelectors.articlesGrid);
   }
 
   async navigate(): Promise<void> {

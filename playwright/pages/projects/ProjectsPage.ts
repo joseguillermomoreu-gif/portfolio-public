@@ -7,6 +7,9 @@ export class ProjectsPage extends BasePage {
   readonly projectCards: Locator;
   readonly mainContent: Locator;
   readonly projectsPage: Locator;
+  readonly projectsHeader: Locator;
+  readonly projectsGrid: Locator;
+  readonly projectsFooter: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -14,6 +17,9 @@ export class ProjectsPage extends BasePage {
     this.projectCards = page.locator(ProjectsSelectors.projectCards);
     this.mainContent = page.locator(ProjectsSelectors.mainContent);
     this.projectsPage = page.locator(ProjectsSelectors.projectsPage);
+    this.projectsHeader = page.locator(ProjectsSelectors.projectsHeader);
+    this.projectsGrid = page.locator(ProjectsSelectors.projectsGrid);
+    this.projectsFooter = page.locator(ProjectsSelectors.projectsFooter);
   }
 
   async navigate(): Promise<void> {

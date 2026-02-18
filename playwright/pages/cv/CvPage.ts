@@ -8,6 +8,10 @@ export class CvPage extends BasePage {
   readonly programmingCounter: Locator;
   readonly wipButton: Locator;
   readonly cvPage: Locator;
+  readonly cvHeader: Locator;
+  readonly pdfDownloadCard: Locator;
+  readonly cvTechInfo: Locator;
+  readonly cvNote: Locator;
 
   constructor(page: Page) {
     super(page);
@@ -16,6 +20,10 @@ export class CvPage extends BasePage {
     this.programmingCounter = page.locator(CvSelectors.programmingCounter);
     this.wipButton = page.locator(CvSelectors.wipButton);
     this.cvPage = page.locator(CvSelectors.cvPage);
+    this.cvHeader = page.locator(CvSelectors.cvHeader);
+    this.pdfDownloadCard = page.locator(CvSelectors.pdfDownloadCard);
+    this.cvTechInfo = page.locator(CvSelectors.cvTechInfo);
+    this.cvNote = page.locator(CvSelectors.cvNote);
   }
 
   async navigate(): Promise<void> {
