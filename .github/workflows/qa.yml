@@ -2,8 +2,6 @@ name: Quality Assurance
 
 on:
   push:
-    branches: ['**']
-  pull_request:
     branches: [master]
 
 jobs:
@@ -46,8 +44,27 @@ jobs:
       - name: 🎨 Check Code Style (PHP CS Fixer)
         run: vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.php
 
+      - name: 🎭 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: 📦 Install Node dependencies
+        run: npm ci
+
+      - name: 🔍 Run ESLint (TypeScript/Playwright)
+        run: npm run lint
+
+      - name: 🎭 Install Playwright browsers
+        run: npx playwright install chromium --with-deps
+
+      - name: 🎭 Run E2E Tests (Production)
+        env:
+          BASE_URL: https://josemoreupeso.es
+        run: npx playwright test
+
       - name: ✅ QA Passed
         run: |
           echo "✅ Quality Assurance checks passed!"
-          echo "Branch: ${{ github.head_ref || github.ref_name }}"
           echo "Commit: ${{ github.sha }}"

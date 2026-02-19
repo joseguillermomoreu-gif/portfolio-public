@@ -1,0 +1,43 @@
+{
+  "name": "josemoreupeso.es",
+  "version": "1.0.0",
+  "description": "Portfolio profesional con arquitectura hexagonal, DDD y TDD estricto",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug",
+    "test:report": "playwright show-report",
+    "lint": "eslint playwright/",
+    "lint:fix": "eslint playwright/ --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joseguillermomoreu-gif/portfolio.git"
+  },
+  "keywords": [
+    "portfolio",
+    "symfony",
+    "hexagonal-architecture",
+    "ddd",
+    "tdd",
+    "playwright"
+  ],
+  "author": "José Moreu Peso <portfolio@josemoreupeso.es>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joseguillermomoreu-gif/portfolio/issues"
+  },
+  "homepage": "https://github.com/joseguillermomoreu-gif/portfolio#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.58.2",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-playwright": "^2.0.0"
+  }
+}
