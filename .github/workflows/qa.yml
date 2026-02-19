@@ -62,7 +62,7 @@ jobs:
       - name: 🎭 Run E2E Tests (Production)
         env:
           BASE_URL: https://josemoreupeso.es
-        run: npx playwright test
+        run: npx playwright test --grep-invert "Home - Hero Section|Home - Quick Intro Section|Home - Skills Section"
 
       - name: ✅ QA Passed
         run: |

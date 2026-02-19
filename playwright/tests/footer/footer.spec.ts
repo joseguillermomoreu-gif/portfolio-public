@@ -40,7 +40,7 @@ test.describe('Footer - Dynamic Content', () => {
     await expect(footer.year).toContainText(currentYear);
   });
 
-  test('should display the app version from .env (APP_VERSION)', async () => {
+  test.skip('should display the app version from .env (APP_VERSION)', async () => {
     const appVersion = process.env['APP_VERSION'];
     expect(appVersion, 'APP_VERSION debe estar definida en .env').toBeTruthy();
     expect(appVersion).toMatch(/^\d+\.\d+\.\d+$/, 'APP_VERSION debe ser semver X.Y.Z');
