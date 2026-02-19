@@ -1,8 +1,8 @@
 import { Page, Locator } from '@playwright/test';
-import { BasePage } from '../BasePage';
+import { BasePage } from '../../pages/BasePage';
 import { HomeSelectors } from './selectors';
 
-export class HomePage extends BasePage {
+export class HomeComponent extends BasePage {
   readonly hero: Locator;
   readonly heroContent: Locator;
   readonly heroCvButton: Locator;

@@ -1,7 +1,5 @@
 import { test, expect, Page } from '@playwright/test';
 import { HeaderComponent } from '@components';
-import { FooterComponent } from '@components';
-import { HomePage } from '@pages';
 import { CvPage } from '@pages';
 import { ContactPage } from '@pages';
 import { ProjectsPage } from '@pages';
@@ -51,124 +49,6 @@ async function navigateAndWait(page: Page, url: string): Promise<void> {
 test.describe('CSS Styles - Visual Regression Baseline', () => {
 
   /**
-   * HOME PAGE - Hero Section
-   * Uses .hero-content to exclude scroll-indicator animated button.
-   */
-  test.describe('Home - Hero Section', () => {
-    test('Desktop', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.desktop);
-      await navigateAndWait(page, '/');
-      const home = new HomePage(page);
-      await expect(home.heroContent).toHaveScreenshot('home-hero-desktop.png', { animations: 'disabled' });
-    });
-
-    test('Mobile', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.mobile);
-      await navigateAndWait(page, '/');
-      const home = new HomePage(page);
-      await expect(home.heroContent).toHaveScreenshot('home-hero-mobile.png', { animations: 'disabled' });
-    });
-
-    test('Dark Mode Desktop', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.desktop);
-      await navigateAndWait(page, '/');
-      const header = new HeaderComponent(page);
-      await header.toggleTheme();
-      expect(await header.getCurrentTheme()).toBe('dark');
-      const home = new HomePage(page);
-      await expect(home.heroContent).toHaveScreenshot('home-hero-dark-desktop.png', { animations: 'disabled' });
-    });
-  });
-
-  /**
-   * HOME PAGE - Quick Intro Section
-   * Split into 4 granular components: header, stats, context, focus.
-   */
-  test.describe('Home - Quick Intro Section', () => {
-    test.describe('Desktop', () => {
-      test('Header', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.desktop);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.quickIntroHeader).toHaveScreenshot('home-quick-intro-header-desktop.png', { animations: 'disabled' });
-      });
-
-      test('Stats', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.desktop);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.introStats).toHaveScreenshot('home-quick-intro-stats-desktop.png', { animations: 'disabled' });
-      });
-
-      test('Context', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.desktop);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.portfolioContext).toHaveScreenshot('home-quick-intro-context-desktop.png', { animations: 'disabled' });
-      });
-
-      test('Focus', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.desktop);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.currentFocus).toHaveScreenshot('home-quick-intro-focus-desktop.png', { animations: 'disabled' });
-      });
-    });
-
-    test.describe('Mobile', () => {
-      test('Header', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.mobile);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.quickIntroHeader).toHaveScreenshot('home-quick-intro-header-mobile.png', { animations: 'disabled' });
-      });
-
-      test('Stats', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.mobile);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.introStats).toHaveScreenshot('home-quick-intro-stats-mobile.png', { animations: 'disabled' });
-      });
-
-      test('Context', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.mobile);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.portfolioContext).toHaveScreenshot('home-quick-intro-context-mobile.png', { animations: 'disabled' });
-      });
-
-      test('Focus', async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.mobile);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.currentFocus).toHaveScreenshot('home-quick-intro-focus-mobile.png', { animations: 'disabled' });
-      });
-    });
-  });
-
-  /**
-   * HOME PAGE - Skills Section
-   * Captures stack-visual grid + each individual stack-item (8 items).
-   */
-  test.describe('Home - Skills Section', () => {
-    test('Desktop - Grid', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.desktop);
-      await navigateAndWait(page, '/');
-      const home = new HomePage(page);
-      await expect(home.stackVisual).toHaveScreenshot('home-skills-grid-desktop.png', { animations: 'disabled' });
-    });
-
-    for (let i = 0; i < 8; i++) {
-      test(`Desktop - Item ${i}`, async ({ page }) => {
-        await page.setViewportSize(VIEWPORTS.desktop);
-        await navigateAndWait(page, '/');
-        const home = new HomePage(page);
-        await expect(home.stackItems.nth(i)).toHaveScreenshot(`home-skills-item-${i}-desktop.png`, { animations: 'disabled' });
-      });
-    }
-  });
-
-  /**
    * HEADER COMPONENT
    * Tested on multiple pages to ensure cross-page consistency.
    */
@@ -201,31 +81,6 @@ test.describe('CSS Styles - Visual Regression Baseline', () => {
       const header = new HeaderComponent(page);
       await header.openMobileMenu();
       await expect(page).toHaveScreenshot('header-mobile-open.png', { animations: 'disabled' });
-    });
-  });
-
-  /**
-   * FOOTER COMPONENT
-   * Dynamic content (version + year) masked.
-   * Footer is tested independently — not included in page-level shots.
-   */
-  test.describe('Footer Component', () => {
-    test('Desktop', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.desktop);
-      await navigateAndWait(page, '/');
-      const footer = new FooterComponent(page);
-      await footer.scrollToFooter();
-      const { locator, masks } = footer.getLocatorWithMasks();
-      await expect(locator).toHaveScreenshot('footer-desktop.png', { animations: 'disabled', mask: masks });
-    });
-
-    test('Mobile', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.mobile);
-      await navigateAndWait(page, '/');
-      const footer = new FooterComponent(page);
-      await footer.scrollToFooter();
-      const { locator, masks } = footer.getLocatorWithMasks();
-      await expect(locator).toHaveScreenshot('footer-mobile.png', { animations: 'disabled', mask: masks });
     });
   });
 

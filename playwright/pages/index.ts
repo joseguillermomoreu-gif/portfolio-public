@@ -1,4 +1,3 @@
-export { HomePage } from './home';
 export { CvPage } from './cv';
 export { ContactPage } from './contact';
 export { PpiaPage } from './ppia';

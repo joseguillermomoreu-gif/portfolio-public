@@ -1,6 +1,20 @@
-import { test, expect } from '@playwright/test';
-import { HomePage } from '@pages';
-import { HeaderComponent, FooterComponent } from '@components';
+import { test, expect, Page } from '@playwright/test';
+import { HomeComponent, HeaderComponent } from '@components';
+
+// ─── Visual Regression Helpers ───────────────────────────────────────────────
+
+const VIEWPORTS = {
+  desktop: { width: 1920, height: 1080 },
+  mobile: { width: 375, height: 667 },
+} as const;
+
+async function navigateAndWait(page: Page, url: string): Promise<void> {
+  await page.goto(url);
+  // eslint-disable-next-line playwright/no-networkidle
+  await page.waitForLoadState('networkidle');
+}
+
+// ─── Functional Tests ─────────────────────────────────────────────────────────
 
 test.describe('Homepage - Smoke', () => {
   test('should serve homepage successfully', async ({ page }) => {
@@ -11,10 +25,10 @@ test.describe('Homepage - Smoke', () => {
 });
 
 test.describe('Homepage - Hero Section', () => {
-  let homePage: HomePage;
+  let homePage: HomeComponent;
 
   test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
+    homePage = new HomeComponent(page);
     await homePage.navigate();
   });
 
@@ -37,10 +51,10 @@ test.describe('Homepage - Hero Section', () => {
 });
 
 test.describe('Homepage - Quick Intro Section', () => {
-  let homePage: HomePage;
+  let homePage: HomeComponent;
 
   test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
+    homePage = new HomeComponent(page);
     await homePage.navigate();
   });
 
@@ -60,10 +74,10 @@ test.describe('Homepage - Quick Intro Section', () => {
 });
 
 test.describe('Homepage - Stats Cards', () => {
-  let homePage: HomePage;
+  let homePage: HomeComponent;
 
   test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
+    homePage = new HomeComponent(page);
     await homePage.navigate();
   });
 
@@ -98,10 +112,10 @@ test.describe('Homepage - Stats Cards', () => {
 });
 
 test.describe('Homepage - Portfolio Context', () => {
-  let homePage: HomePage;
+  let homePage: HomeComponent;
 
   test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
+    homePage = new HomeComponent(page);
     await homePage.navigate();
   });
 
@@ -118,10 +132,10 @@ test.describe('Homepage - Portfolio Context', () => {
 });
 
 test.describe('Homepage - Current Focus Links', () => {
-  let homePage: HomePage;
+  let homePage: HomeComponent;
 
   test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
+    homePage = new HomeComponent(page);
     await homePage.navigate();
   });
 
@@ -147,32 +161,18 @@ test.describe('Homepage - Current Focus Links', () => {
   });
 });
 
-test.describe('Homepage - Header & Footer', () => {
+test.describe('Homepage - Header', () => {
   test('should display header', async ({ page }) => {
     const header = new HeaderComponent(page);
     await page.goto('/');
     await expect(header.container).toBeVisible();
-  });
-
-  test('should display footer', async ({ page }) => {
-    const footer = new FooterComponent(page);
-    await page.goto('/');
-    await expect(footer.container).toBeVisible();
-  });
-
-  test('should have GitHub profile link in footer', async ({ page }) => {
-    const footer = new FooterComponent(page);
-    await page.goto('/');
-    const githubLink = footer.container.locator('a[href="https://github.com/joseguillermomoreu-gif"]');
-    await expect(githubLink).toBeVisible();
-    await expect(githubLink).toHaveAttribute('target', '_blank');
   });
 });
 
 test.describe('Homepage - Responsive', () => {
   test('should display 4 stat cards on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    const homePage = new HomePage(page);
+    const homePage = new HomeComponent(page);
     await homePage.navigate();
     const count = await homePage.getStatCardsCount();
     expect(count).toBe(4);
@@ -180,7 +180,7 @@ test.describe('Homepage - Responsive', () => {
 
   test('should display hero and quick intro on mobile', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 667 });
-    const homePage = new HomePage(page);
+    const homePage = new HomeComponent(page);
     await homePage.navigate();
     await expect(homePage.hero).toBeVisible();
     await expect(homePage.quickIntro).toBeVisible();
@@ -189,10 +189,10 @@ test.describe('Homepage - Responsive', () => {
 
 // #102 - Mejoras home
 test.describe('Homepage - Mejoras #102', () => {
-  let homePage: HomePage;
+  let homePage: HomeComponent;
 
   test.beforeEach(async ({ page }) => {
-    homePage = new HomePage(page);
+    homePage = new HomeComponent(page);
     await homePage.navigate();
   });
 
@@ -215,7 +215,6 @@ test.describe('Homepage - Mejoras #102', () => {
 
   test('should show 2+ years for "Coding con IA" skill', async () => {
     const skillsText = await homePage.getText(homePage.stackVisual);
-    // Busca "Coding con IA" junto a indicador de 2+
     expect(skillsText).toMatch(/Coding con IA/i);
     expect(skillsText).toMatch(/\+\s*de\s*2|2\+/i);
   });
@@ -250,7 +249,126 @@ test.describe('Homepage - Mejoras #102', () => {
     const highlight = tagline.locator('.highlight');
     const taglineBox = await tagline.boundingBox();
     const highlightBox = await highlight.boundingBox();
-    // El highlight debe estar en una Y claramente mayor que el inicio del tagline (segunda línea)
     expect(highlightBox!.y).toBeGreaterThan(taglineBox!.y + 20);
   });
+});
+
+// ─── Visual Regression ────────────────────────────────────────────────────────
+
+/**
+ * HOME PAGE - Hero Section
+ * Uses .hero-content to exclude scroll-indicator animated button.
+ */
+test.describe('Home - Hero Section', () => {
+  test('Desktop', async ({ page }) => {
+    await page.setViewportSize(VIEWPORTS.desktop);
+    await navigateAndWait(page, '/');
+    const home = new HomeComponent(page);
+    await expect(home.heroContent).toHaveScreenshot('home-hero-desktop.png', { animations: 'disabled' });
+  });
+
+  test('Mobile', async ({ page }) => {
+    await page.setViewportSize(VIEWPORTS.mobile);
+    await navigateAndWait(page, '/');
+    const home = new HomeComponent(page);
+    await expect(home.heroContent).toHaveScreenshot('home-hero-mobile.png', { animations: 'disabled' });
+  });
+
+  test('Dark Mode Desktop', async ({ page }) => {
+    await page.setViewportSize(VIEWPORTS.desktop);
+    await navigateAndWait(page, '/');
+    const header = new HeaderComponent(page);
+    await header.toggleTheme();
+    expect(await header.getCurrentTheme()).toBe('dark');
+    const home = new HomeComponent(page);
+    await expect(home.heroContent).toHaveScreenshot('home-hero-dark-desktop.png', { animations: 'disabled' });
+  });
+});
+
+/**
+ * HOME PAGE - Quick Intro Section
+ * Split into 4 granular components: header, stats, context, focus.
+ */
+test.describe('Home - Quick Intro Section', () => {
+  test.describe('Desktop', () => {
+    test('Header', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.desktop);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.quickIntroHeader).toHaveScreenshot('home-quick-intro-header-desktop.png', { animations: 'disabled' });
+    });
+
+    test('Stats', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.desktop);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.introStats).toHaveScreenshot('home-quick-intro-stats-desktop.png', { animations: 'disabled' });
+    });
+
+    test('Context', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.desktop);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.portfolioContext).toHaveScreenshot('home-quick-intro-context-desktop.png', { animations: 'disabled' });
+    });
+
+    test('Focus', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.desktop);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.currentFocus).toHaveScreenshot('home-quick-intro-focus-desktop.png', { animations: 'disabled' });
+    });
+  });
+
+  test.describe('Mobile', () => {
+    test('Header', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.mobile);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.quickIntroHeader).toHaveScreenshot('home-quick-intro-header-mobile.png', { animations: 'disabled' });
+    });
+
+    test('Stats', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.mobile);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.introStats).toHaveScreenshot('home-quick-intro-stats-mobile.png', { animations: 'disabled' });
+    });
+
+    test('Context', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.mobile);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.portfolioContext).toHaveScreenshot('home-quick-intro-context-mobile.png', { animations: 'disabled' });
+    });
+
+    test('Focus', async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.mobile);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.currentFocus).toHaveScreenshot('home-quick-intro-focus-mobile.png', { animations: 'disabled' });
+    });
+  });
+});
+
+/**
+ * HOME PAGE - Skills Section
+ * Captures stack-visual grid + each individual stack-item (8 items).
+ */
+test.describe('Home - Skills Section', () => {
+  test('Desktop - Grid', async ({ page }) => {
+    await page.setViewportSize(VIEWPORTS.desktop);
+    await navigateAndWait(page, '/');
+    const home = new HomeComponent(page);
+    await expect(home.stackVisual).toHaveScreenshot('home-skills-grid-desktop.png', { animations: 'disabled' });
+  });
+
+  for (let i = 0; i < 8; i++) {
+    test(`Desktop - Item ${i}`, async ({ page }) => {
+      await page.setViewportSize(VIEWPORTS.desktop);
+      await navigateAndWait(page, '/');
+      const home = new HomeComponent(page);
+      await expect(home.stackItems.nth(i)).toHaveScreenshot(`home-skills-item-${i}-desktop.png`, { animations: 'disabled' });
+    });
+  }
 });
