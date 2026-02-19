@@ -109,10 +109,11 @@ test.describe('Homepage - Portfolio Context', () => {
     await expect(homePage.portfolioContext.first()).toBeVisible();
   });
 
-  test('should have GitHub profile link (not repo-specific)', async () => {
-    await expect(homePage.githubProfileLink.first()).toBeVisible();
-    await expect(homePage.githubProfileLink.first()).toHaveAttribute('href', 'https://github.com/joseguillermomoreu-gif');
-    await expect(homePage.githubProfileLink.first()).toHaveAttribute('target', '_blank');
+  test('should have portfolio-public repository link in context section', async () => {
+    const publicRepoLink = homePage.portfolioContext.first().locator('a[href*="portfolio-public"]');
+    await expect(publicRepoLink).toBeVisible();
+    await expect(publicRepoLink).toHaveAttribute('href', 'https://github.com/joseguillermomoreu-gif/portfolio-public');
+    await expect(publicRepoLink).toHaveAttribute('target', '_blank');
   });
 });
 
@@ -158,6 +159,14 @@ test.describe('Homepage - Header & Footer', () => {
     await page.goto('/');
     await expect(footer.container).toBeVisible();
   });
+
+  test('should have GitHub profile link in footer', async ({ page }) => {
+    const footer = new FooterComponent(page);
+    await page.goto('/');
+    const githubLink = footer.container.locator('a[href="https://github.com/joseguillermomoreu-gif"]');
+    await expect(githubLink).toBeVisible();
+    await expect(githubLink).toHaveAttribute('target', '_blank');
+  });
 });
 
 test.describe('Homepage - Responsive', () => {
@@ -175,5 +184,73 @@ test.describe('Homepage - Responsive', () => {
     await homePage.navigate();
     await expect(homePage.hero).toBeVisible();
     await expect(homePage.quickIntro).toBeVisible();
+  });
+});
+
+// #102 - Mejoras home
+test.describe('Homepage - Mejoras #102', () => {
+  let homePage: HomePage;
+
+  test.beforeEach(async ({ page }) => {
+    homePage = new HomePage(page);
+    await homePage.navigate();
+  });
+
+  test('should use "y Tech Lead" (not comma) in intro headline', async () => {
+    const introText = await homePage.getText(homePage.quickIntroHeader);
+    expect(introText).toContain('y Tech Lead Playwright');
+    expect(introText).not.toMatch(/Backend,\s*Tech Lead/);
+  });
+
+  test('should mention portfolio is in continuous growth', async () => {
+    const contextText = await homePage.getText(homePage.portfolioContext.first());
+    expect(contextText).toMatch(/continuo crecimiento|mejora continua/i);
+  });
+
+  test('should link to public portfolio repository', async ({ page }) => {
+    const publicRepoLink = page.locator('a[href*="portfolio-public"]');
+    await expect(publicRepoLink).toBeVisible();
+    await expect(publicRepoLink).toHaveAttribute('href', 'https://github.com/joseguillermomoreu-gif/portfolio-public');
+  });
+
+  test('should show 2+ years for "Coding con IA" skill', async () => {
+    const skillsText = await homePage.getText(homePage.stackVisual);
+    // Busca "Coding con IA" junto a indicador de 2+
+    expect(skillsText).toMatch(/Coding con IA/i);
+    expect(skillsText).toMatch(/\+\s*de\s*2|2\+/i);
+  });
+
+  test('hero tagline should be properly centered on desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await homePage.navigate();
+    const tagline = page.locator('.hero .tagline');
+    await expect(tagline).toBeVisible();
+    const styles = await tagline.evaluate((el) => {
+      const computed = window.getComputedStyle(el);
+      return { textAlign: computed.textAlign };
+    });
+    expect(styles.textAlign).toBe('center');
+  });
+
+  test('hero tagline should wrap naturally (not nowrap) on desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await homePage.navigate();
+    const tagline = page.locator('.hero .tagline');
+    const styles = await tagline.evaluate((el) => {
+      const computed = window.getComputedStyle(el);
+      return { whiteSpace: computed.whiteSpace };
+    });
+    expect(styles.whiteSpace).not.toBe('nowrap');
+  });
+
+  test('hero tagline "con IA como copiloto" should be on second line on desktop', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await homePage.navigate();
+    const tagline = page.locator('.hero .tagline');
+    const highlight = tagline.locator('.highlight');
+    const taglineBox = await tagline.boundingBox();
+    const highlightBox = await highlight.boundingBox();
+    // El highlight debe estar en una Y claramente mayor que el inicio del tagline (segunda línea)
+    expect(highlightBox!.y).toBeGreaterThan(taglineBox!.y + 20);
   });
 });
