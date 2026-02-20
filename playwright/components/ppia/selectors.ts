@@ -1,7 +1,5 @@
-export const PpiaSelectors = {
-  heading: 'h1',
-  mainContent: 'main',
-  ppiaPage: '.ppia-page',
-  ppiaHeader: '.ppia-header',
-  wipCard: '.wip-card',
-} as const;
+export const heading = 'h1';
+export const mainContent = 'main';
+export const ppiaPage = '.ppia-page';
+export const ppiaHeader = '.ppia-header';
+export const wipCard = '.wip-card';

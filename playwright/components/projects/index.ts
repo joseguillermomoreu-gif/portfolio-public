@@ -1,15 +1,15 @@
 import { Page, Locator } from '@playwright/test';
-import { ProjectsSelectors } from './selectors';
+import * as selectors from './selectors';
 
 export function projectsLocators(page: Page) {
   return {
-    heading: page.locator(ProjectsSelectors.heading),
-    projectCards: page.locator(ProjectsSelectors.projectCards),
-    mainContent: page.locator(ProjectsSelectors.mainContent),
-    projectsPage: page.locator(ProjectsSelectors.projectsPage),
-    projectsHeader: page.locator(ProjectsSelectors.projectsHeader),
-    projectsGrid: page.locator(ProjectsSelectors.projectsGrid),
-    projectsFooter: page.locator(ProjectsSelectors.projectsFooter),
+    heading: page.locator(selectors.heading),
+    projectCards: page.locator(selectors.projectCards),
+    mainContent: page.locator(selectors.mainContent),
+    projectsPage: page.locator(selectors.projectsPage),
+    projectsHeader: page.locator(selectors.projectsHeader),
+    projectsGrid: page.locator(selectors.projectsGrid),
+    projectsFooter: page.locator(selectors.projectsFooter),
   };
 }
 
@@ -19,35 +19,35 @@ export async function navigateToProjects(page: Page): Promise<void> {
 }
 
 export function getProjectCardByName(page: Page, name: string): Locator {
-  return page.locator(ProjectsSelectors.projectCards).filter({
-    has: page.locator(ProjectsSelectors.projectName, { hasText: name }),
+  return page.locator(selectors.projectCards).filter({
+    has: page.locator(selectors.projectName, { hasText: name }),
   }).first();
 }
 
 export function getProjectStatus(card: Locator): Locator {
-  return card.locator(ProjectsSelectors.projectStatus);
+  return card.locator(selectors.projectStatus);
 }
 
 export function getProjectDescription(card: Locator): Locator {
-  return card.locator(ProjectsSelectors.projectDescription);
+  return card.locator(selectors.projectDescription);
 }
 
 export function getProjectStack(card: Locator): Locator {
-  return card.locator(ProjectsSelectors.projectStack);
+  return card.locator(selectors.projectStack);
 }
 
 export function getProjectTags(card: Locator): Locator {
-  return card.locator(ProjectsSelectors.projectTags);
+  return card.locator(selectors.projectTags);
 }
 
 export function getProjectHighlights(card: Locator): Locator {
-  return card.locator(ProjectsSelectors.projectHighlights);
+  return card.locator(selectors.projectHighlights);
 }
 
 export function getProjectGithubLink(card: Locator): Locator {
-  return card.locator(ProjectsSelectors.projectGithubLink);
+  return card.locator(selectors.projectGithubLink);
 }
 
 export function getProjectWebsiteLink(card: Locator): Locator {
-  return card.locator(ProjectsSelectors.projectWebsiteLink);
+  return card.locator(selectors.projectWebsiteLink);
 }

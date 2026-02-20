@@ -1,13 +1,13 @@
 import { Page } from '@playwright/test';
-import { PpiaSelectors } from './selectors';
+import * as selectors from './selectors';
 
 export function ppiaLocators(page: Page) {
   return {
-    heading: page.locator(PpiaSelectors.heading),
-    mainContent: page.locator(PpiaSelectors.mainContent),
-    ppiaPage: page.locator(PpiaSelectors.ppiaPage),
-    ppiaHeader: page.locator(PpiaSelectors.ppiaHeader),
-    wipCard: page.locator(PpiaSelectors.wipCard),
+    heading: page.locator(selectors.heading),
+    mainContent: page.locator(selectors.mainContent),
+    ppiaPage: page.locator(selectors.ppiaPage),
+    ppiaHeader: page.locator(selectors.ppiaHeader),
+    wipCard: page.locator(selectors.wipCard),
   };
 }
 

@@ -1,17 +1,17 @@
 import { Page } from '@playwright/test';
-import { CvSelectors } from './selectors';
+import * as selectors from './selectors';
 
 export function cvLocators(page: Page) {
   return {
-    heading: page.locator(CvSelectors.heading),
-    pdfLink: page.locator(CvSelectors.pdfLink).first(),
-    programmingCounter: page.locator(CvSelectors.programmingCounter),
-    wipButton: page.locator(CvSelectors.wipButton),
-    cvPage: page.locator(CvSelectors.cvPage),
-    cvHeader: page.locator(CvSelectors.cvHeader),
-    pdfDownloadCard: page.locator(CvSelectors.pdfDownloadCard),
-    cvTechInfo: page.locator(CvSelectors.cvTechInfo),
-    cvNote: page.locator(CvSelectors.cvNote),
+    heading: page.locator(selectors.heading),
+    pdfLink: page.locator(selectors.pdfLink),
+    programmingCounter: page.locator(selectors.programmingCounter),
+    wipButton: page.locator(selectors.wipButton),
+    cvPage: page.locator(selectors.cvPage),
+    cvHeader: page.locator(selectors.cvHeader),
+    pdfDownloadCard: page.locator(selectors.pdfDownloadCard),
+    cvTechInfo: page.locator(selectors.cvTechInfo),
+    cvNote: page.locator(selectors.cvNote),
   };
 }
 

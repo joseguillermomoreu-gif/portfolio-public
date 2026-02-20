@@ -1,16 +1,5 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import { footerLocators, scrollToFooter, footerDynamicMasks } from '@components/footer';
-
-const VIEWPORTS = {
-  desktop: { width: 1920, height: 1080 },
-  mobile: { width: 375, height: 667 },
-} as const;
-
-async function navigateAndWait(page: Page, url: string): Promise<void> {
-  await page.goto(url);
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
-}
 
 test.describe('Footer - Structure', () => {
   test.beforeEach(async ({ page }) => {
@@ -64,20 +53,18 @@ test.describe('Footer - Dynamic Content', () => {
   });
 });
 
+// ─── Visual Regression ────────────────────────────────────────────────────────
+
 test.describe('Footer - Visual', () => {
-  test('Desktop', async ({ page }) => {
-    await page.setViewportSize(VIEWPORTS.desktop);
-    await navigateAndWait(page, '/');
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+    // eslint-disable-next-line playwright/no-networkidle
+    await page.waitForLoadState('networkidle');
     await scrollToFooter(page);
-    const { container } = footerLocators(page);
-    await expect(container).toHaveScreenshot('footer-desktop.png', { animations: 'disabled', mask: footerDynamicMasks(page) });
   });
 
-  test('Mobile', async ({ page }) => {
-    await page.setViewportSize(VIEWPORTS.mobile);
-    await navigateAndWait(page, '/');
-    await scrollToFooter(page);
+  test('Footer - Desktop', async ({ page }) => {
     const { container } = footerLocators(page);
-    await expect(container).toHaveScreenshot('footer-mobile.png', { animations: 'disabled', mask: footerDynamicMasks(page) });
+    await expect(container).toHaveScreenshot('footer-desktop.png', { animations: 'disabled', mask: footerDynamicMasks(page) });
   });
 });

@@ -1,16 +1,12 @@
-import { test, expect, type Page } from '@playwright/test';
-import { codeAiLocators, navigateToCodeAi, getArticleCount } from '@components/code-ai';
-
-const VIEWPORTS = {
-  desktop: { width: 1920, height: 1080 },
-  mobile: { width: 375, height: 667 },
-} as const;
-
-async function navigateAndWait(page: Page, url: string): Promise<void> {
-  await page.goto(url);
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
-}
+import { test, expect } from '@playwright/test';
+import {
+  navigateToCodeAi,
+  getArticleCount,
+  getPortfolioArticleLink,
+  getArticleContent,
+  getArticleParagraphs,
+  codeAiLocators,
+} from '@components/code-ai';
 
 // ─── Article List ─────────────────────────────────────────────────────────────
 
@@ -34,8 +30,7 @@ test.describe('Code & AI - Article List', () => {
 
   test('should have links to article detail pages', async ({ page }) => {
     await test.step('Then a link to the portfolio article detail page is visible', async () => {
-      const articleLink = page.locator('a[href*="/code-ai/como-construi-este-portfolio"]').first();
-      await expect(articleLink).toBeVisible();
+      await expect(getPortfolioArticleLink(page)).toBeVisible();
     });
   });
 });
@@ -47,8 +42,7 @@ test.describe('Code & AI - Navigation', () => {
     });
 
     await test.step('When I click on the portfolio article link', async () => {
-      const articleLink = page.locator('a[href*="/code-ai/como-construi-este-portfolio"]').first();
-      await articleLink.click();
+      await getPortfolioArticleLink(page).click();
     });
 
     await test.step('Then I land on the article detail page with the correct title', async () => {
@@ -83,7 +77,7 @@ test.describe('Code & AI - Article Detail', () => {
     await page.goto('/code-ai/como-construi-este-portfolio');
 
     await test.step('Then the article shows a publication or update date', async () => {
-      const bodyText = await page.locator('body').textContent() ?? '';
+      const bodyText = await getArticleContent(page).textContent() ?? '';
       expect(bodyText).toMatch(/publicado|published|actualizado|updated/i);
     });
   });
@@ -92,8 +86,7 @@ test.describe('Code & AI - Article Detail', () => {
     await page.goto('/code-ai/como-construi-este-portfolio');
 
     await test.step('Then the article body contains at least one paragraph', async () => {
-      const paragraphs = page.locator('p');
-      expect(await paragraphs.count()).toBeGreaterThan(0);
+      expect(await getArticleParagraphs(page).count()).toBeGreaterThan(0);
     });
   });
 
@@ -109,35 +102,19 @@ test.describe('Code & AI - Article Detail', () => {
 // ─── Visual Regression ────────────────────────────────────────────────────────
 
 test.describe('Code & AI - Visual', () => {
-  test.describe('Desktop', () => {
-    test('Header', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.desktop);
-      await navigateAndWait(page, '/code-ai');
-      const { codeAiHeader } = codeAiLocators(page);
-      await expect(codeAiHeader).toHaveScreenshot('code-ai-header-desktop.png', { animations: 'disabled' });
-    });
-
-    test('Articles Grid', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.desktop);
-      await navigateAndWait(page, '/code-ai');
-      const { articlesGrid } = codeAiLocators(page);
-      await expect(articlesGrid).toHaveScreenshot('code-ai-grid-desktop.png', { animations: 'disabled' });
-    });
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/code-ai');
+    // eslint-disable-next-line playwright/no-networkidle
+    await page.waitForLoadState('networkidle');
   });
 
-  test.describe('Mobile', () => {
-    test('Header', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.mobile);
-      await navigateAndWait(page, '/code-ai');
-      const { codeAiHeader } = codeAiLocators(page);
-      await expect(codeAiHeader).toHaveScreenshot('code-ai-header-mobile.png', { animations: 'disabled' });
-    });
+  test('Code & AI - Header', async ({ page }) => {
+    const { codeAiHeader } = codeAiLocators(page);
+    await expect(codeAiHeader).toHaveScreenshot('code-ai-header-desktop.png', { animations: 'disabled' });
+  });
 
-    test('Articles Grid', async ({ page }) => {
-      await page.setViewportSize(VIEWPORTS.mobile);
-      await navigateAndWait(page, '/code-ai');
-      const { articlesGrid } = codeAiLocators(page);
-      await expect(articlesGrid).toHaveScreenshot('code-ai-grid-mobile.png', { animations: 'disabled' });
-    });
+  test('Code & AI - Articles Grid', async ({ page }) => {
+    const { articlesGrid } = codeAiLocators(page);
+    await expect(articlesGrid).toHaveScreenshot('code-ai-grid-desktop.png', { animations: 'disabled' });
   });
 });

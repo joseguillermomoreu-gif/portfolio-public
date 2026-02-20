@@ -1,17 +1,15 @@
-export const ProjectsSelectors = {
-  heading: 'h1',
-  projectCards: '[data-testid="project-card"]',
-  projectName: '[data-testid="project-name"]',
-  projectStatus: '[data-testid="project-status"]',
-  projectDescription: '[data-testid="project-description"]',
-  projectStack: '[data-testid="project-stack"]',
-  projectTags: '[data-testid="project-tags"]',
-  projectHighlights: '[data-testid="project-highlights"]',
-  projectGithubLink: '[data-testid="project-github-link"]',
-  projectWebsiteLink: '[data-testid="project-website-link"]',
-  mainContent: 'main',
-  projectsPage: '.projects-page',
-  projectsHeader: '.projects-header',
-  projectsGrid: '.projects-grid',
-  projectsFooter: '.projects-footer',
-} as const;
+export const heading = 'h1';
+export const projectCards = '[data-testid="project-card"]';
+export const projectName = '[data-testid="project-name"]';
+export const projectStatus = '[data-testid="project-status"]';
+export const projectDescription = '[data-testid="project-description"]';
+export const projectStack = '[data-testid="project-stack"]';
+export const projectTags = '[data-testid="project-tags"]';
+export const projectHighlights = '[data-testid="project-highlights"]';
+export const projectGithubLink = '[data-testid="project-github-link"]';
+export const projectWebsiteLink = '[data-testid="project-website-link"]';
+export const mainContent = 'main';
+export const projectsPage = '.projects-page';
+export const projectsHeader = '.projects-header';
+export const projectsGrid = '.projects-grid';
+export const projectsFooter = '.projects-footer';

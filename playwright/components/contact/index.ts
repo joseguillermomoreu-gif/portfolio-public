@@ -1,16 +1,17 @@
 import { Page } from '@playwright/test';
-import { ContactSelectors } from './selectors';
+import * as selectors from './selectors';
 
 export function contactLocators(page: Page) {
   return {
-    heading: page.locator(ContactSelectors.heading),
-    emailLink: page.locator(ContactSelectors.emailLink).first(),
-    githubLink: page.locator(ContactSelectors.githubLink).first(),
-    linkedinLink: page.locator(ContactSelectors.linkedinLink).first(),
-    contactCard: page.locator(ContactSelectors.contactCard),
-    contactPage: page.locator(ContactSelectors.contactPage),
-    contactHeader: page.locator(ContactSelectors.contactHeader),
-    socialSection: page.locator(ContactSelectors.socialSection),
+    heading: page.locator(selectors.heading),
+    emailLink: page.locator(selectors.emailLink),
+    githubLink: page.locator(selectors.githubLink),
+    linkedinLink: page.locator(selectors.linkedinLink),
+    contactCard: page.locator(selectors.contactCard),
+    contactPage: page.locator(selectors.contactPage),
+    contactHeader: page.locator(selectors.contactHeader),
+    socialSection: page.locator(selectors.socialSection),
+    externalLinks: page.locator(selectors.externalLinks),
   };
 }
 

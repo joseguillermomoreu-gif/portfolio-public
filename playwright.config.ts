@@ -26,6 +26,7 @@ loadDotEnv();
  */
 export default defineConfig({
   testDir: './playwright/tests',
+  snapshotPathTemplate: 'playwright/tests/{testFilePath}/../snapshots/{arg}{ext}',
 
   timeout: 30 * 1000,
 
@@ -54,16 +55,6 @@ export default defineConfig({
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
-      testIgnore: [
-        '**/*.desktop.spec.ts',
-        '**/*.mobile.spec.ts',
-        '**/*.tablet-small.spec.ts',
-        '**/*.tablet-large.spec.ts',
-      ],
-    },
-    {
-      name: 'desktop',
       use: {
         ...devices['Desktop Chrome'],
         viewport: { width: 1920, height: 1080 },

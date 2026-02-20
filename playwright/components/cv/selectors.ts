@@ -1,12 +1,9 @@
-export const CvSelectors = {
-  heading: 'h1',
-  pdfLink: 'a[href*=".pdf"]',
-  techInfoSection: '.cv-tech-info, [class*="tech-info"]',
-  programmingCounter: '.programming-counter',
-  wipButton: '.cv-generator-btn',
-  cvPage: '.cv-page',
-  cvHeader: '.cv-header',
-  pdfDownloadCard: '.pdf-download-card',
-  cvTechInfo: '.cv-tech-info',
-  cvNote: '.cv-note',
-} as const;
+export const heading = 'h1';
+export const pdfLink = 'a[href*=".pdf"]';
+export const programmingCounter = '.programming-counter';
+export const wipButton = '.cv-generator-btn';
+export const cvPage = '.cv-page';
+export const cvHeader = '.cv-header';
+export const pdfDownloadCard = '.pdf-download-card';
+export const cvTechInfo = '.cv-tech-info';
+export const cvNote = '.cv-note';
