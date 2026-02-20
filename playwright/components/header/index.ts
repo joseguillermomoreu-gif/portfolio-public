@@ -17,7 +17,7 @@ export async function openMobileMenu(page: Page): Promise<void> {
 }
 
 export async function closeMobileMenu(page: Page): Promise<void> {
-  await page.locator(selectors.mobileOverlay).click();
+  await page.locator(selectors.mobileOverlay).click({ force: true });
   await page.locator(selectors.mobileOverlay).waitFor({ state: 'hidden' });
 }
 
