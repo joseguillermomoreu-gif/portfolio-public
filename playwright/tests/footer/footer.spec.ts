@@ -1,7 +1,5 @@
-import { test, expect, Page } from '@playwright/test';
-import { FooterComponent } from '@components';
-
-// ─── Visual Regression Helpers ───────────────────────────────────────────────
+import { test, expect, type Page } from '@playwright/test';
+import { footerLocators, scrollToFooter, footerDynamicMasks } from '@components/footer';
 
 const VIEWPORTS = {
   desktop: { width: 1920, height: 1080 },
@@ -14,76 +12,72 @@ async function navigateAndWait(page: Page, url: string): Promise<void> {
   await page.waitForLoadState('networkidle');
 }
 
-// ─── Functional Tests ─────────────────────────────────────────────────────────
-
-/**
- * Footer - Dynamic Content
- *
- * Verifica que el footer muestra contenido dinámico correcto:
- *   - Año actual (© YYYY)
- *   - Versión de la aplicación (vX.Y.Z) según APP_VERSION del .env
- *
- * Playwright carga automáticamente el .env del proyecto,
- * por lo que process.env.APP_VERSION está disponible en los tests.
- */
-test.describe('Footer - Dynamic Content', () => {
-  let footer: FooterComponent;
-
+test.describe('Footer - Structure', () => {
   test.beforeEach(async ({ page }) => {
-    footer = new FooterComponent(page);
     await page.goto('/');
   });
 
-  test('should display the current year', async () => {
-    const currentYear = new Date().getFullYear().toString();
-    await expect(footer.year).toBeVisible();
-    await expect(footer.year).toContainText(currentYear);
+  test('should display social links with security attributes', async ({ page }) => {
+    const { socialLinks } = footerLocators(page);
+
+    await test.step('Then social links have target="_blank" and rel="noopener"', async () => {
+      await expect(socialLinks.first()).toBeVisible();
+      await expect(socialLinks.first()).toHaveAttribute('target', '_blank');
+      await expect(socialLinks.first()).toHaveAttribute('rel', /noopener/);
+    });
   });
 
-  test.skip('should display the app version from .env (APP_VERSION)', async () => {
-    const appVersion = process.env['APP_VERSION'];
-    expect(appVersion, 'APP_VERSION debe estar definida en .env').toBeTruthy();
-    expect(appVersion).toMatch(/^\d+\.\d+\.\d+$/, 'APP_VERSION debe ser semver X.Y.Z');
+  test('should have GitHub profile link', async ({ page }) => {
+    const { container } = footerLocators(page);
 
-    await expect(footer.version).toBeVisible();
-    await expect(footer.version).toContainText(`v${appVersion}`);
-  });
-
-  test('should display version with semver format', async () => {
-    await expect(footer.version).toBeVisible();
-    const versionText = await footer.version.textContent();
-    expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/);
-  });
-
-  test('should display year with copyright symbol', async () => {
-    await expect(footer.year).toBeVisible();
-    const yearText = await footer.year.textContent();
-    expect(yearText).toMatch(/^©\s*\d{4}$/);
+    await test.step('Then the GitHub profile link is visible and opens in a new tab', async () => {
+      const githubLink = container.locator('a[href="https://github.com/joseguillermomoreu-gif"]');
+      await expect(githubLink).toBeVisible();
+      await expect(githubLink).toHaveAttribute('target', '_blank');
+    });
   });
 });
 
-// ─── Visual Regression ────────────────────────────────────────────────────────
+test.describe('Footer - Dynamic Content', () => {
+  test.beforeEach(async ({ page }) => {
+    await page.goto('/');
+  });
 
-/**
- * Footer Component
- * Dynamic content (version) masked.
- */
-test.describe('Footer Component', () => {
+  test('should display the current year', async ({ page }) => {
+    const { year } = footerLocators(page);
+    const currentYear = new Date().getFullYear().toString();
+
+    await test.step('Then the footer shows the current year', async () => {
+      await expect(year).toBeVisible();
+      await expect(year).toContainText(currentYear);
+    });
+  });
+
+  test('should display version with semver format', async ({ page }) => {
+    const { version } = footerLocators(page);
+
+    await test.step('Then the version element matches vX.Y.Z format', async () => {
+      await expect(version).toBeVisible();
+      const versionText = await version.textContent();
+      expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/);
+    });
+  });
+});
+
+test.describe('Footer - Visual', () => {
   test('Desktop', async ({ page }) => {
     await page.setViewportSize(VIEWPORTS.desktop);
     await navigateAndWait(page, '/');
-    const footer = new FooterComponent(page);
-    await footer.scrollToFooter();
-    const { locator, masks } = footer.getLocatorWithMasks();
-    await expect(locator).toHaveScreenshot('footer-desktop.png', { animations: 'disabled', mask: masks });
+    await scrollToFooter(page);
+    const { container } = footerLocators(page);
+    await expect(container).toHaveScreenshot('footer-desktop.png', { animations: 'disabled', mask: footerDynamicMasks(page) });
   });
 
   test('Mobile', async ({ page }) => {
     await page.setViewportSize(VIEWPORTS.mobile);
     await navigateAndWait(page, '/');
-    const footer = new FooterComponent(page);
-    await footer.scrollToFooter();
-    const { locator, masks } = footer.getLocatorWithMasks();
-    await expect(locator).toHaveScreenshot('footer-mobile.png', { animations: 'disabled', mask: masks });
+    await scrollToFooter(page);
+    const { container } = footerLocators(page);
+    await expect(container).toHaveScreenshot('footer-mobile.png', { animations: 'disabled', mask: footerDynamicMasks(page) });
   });
 });

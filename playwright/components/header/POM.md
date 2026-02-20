@@ -1,43 +1,55 @@
-# POM - Header Component
+# POM: Header
 
-Componente del header, presente en todas las páginas.
-
-**Archivos**: `index.ts`, `selectors.ts`
-**Extiende**: — (no extiende BasePage)
+Header presente en todas las páginas. Gestiona navegación principal, theme toggle (light/dark) y menú hamburguesa en mobile.
 
 ---
 
-## Locators
+## Acciones
 
-| Locator | Selector | Descripción |
-|---------|----------|-------------|
-| `container` | `.header` | Contenedor del header |
-| `logo` | `.logo` | Logo del sitio |
-| `navigation` | `nav[role="navigation"]` | Elemento de navegación principal |
-| `navLinksContainer` | `.nav-links` | Contenedor de los links de nav |
-| `navLinks` | `.nav-links .nav-link` | Todos los links de navegación |
-| `themeToggle` | `#theme-toggle` | Botón de cambio light/dark |
-| `mobileMenuToggle` | `.mobile-menu-toggle` | Botón hamburguesa (móvil) |
-| `mobileOverlay` | `.mobile-overlay` | Overlay del menú móvil |
+- `toggleTheme()` — Click en el theme toggle; espera transición CSS (~400ms)
+- `getCurrentTheme()` — Retorna el valor del atributo `data-theme` en `<html>`
+- `openMobileMenu()` — Click en hamburguesa; espera `navLinksContainer` visible
+- `closeMobileMenu()` — Click en overlay; espera `mobileOverlay` hidden
+- `closeWithEsc()` — Pulsa Escape; espera `mobileOverlay` hidden
+- `scrollToTriggerEffect(scrollY = 200)` — Scroll programático; espera transición CSS (~300ms)
+- `getNavLinkByHref(href)` — Retorna locator del link de nav por href exacto
+- `clearThemeFromLocalStorage()` — Limpia el theme del localStorage
+- `setLocalStorageThemeToLight()` — Establece `theme=light` en localStorage
 
-## Métodos
+## Assertions
 
-| Método | Retorno | Descripción |
-|--------|---------|-------------|
-| `isVisible()` | `Promise<boolean>` | Verifica si el header es visible |
-| `toggleTheme()` | `Promise<void>` | Cambia entre light/dark mode (click + espera 400ms) |
-| `getCurrentTheme()` | `Promise<string \| null>` | Devuelve el valor de `data-theme` del `<html>` |
-| `openMobileMenu()` | `Promise<void>` | Abre el menú hamburguesa (click + espera 400ms) |
-| `closeMobileMenu()` | `Promise<void>` | Cierra el menú via click en overlay (espera 300ms) |
-| `scrollToTriggerEffect(scrollY?)` | `Promise<void>` | Scroll para activar efecto sticky (default 200px) |
-| `getNavLinkByHref(href)` | `Locator` | Locator del nav link por su href |
-| `getLocator()` | `Locator` | Locator del container |
+- `themeIsDark()` / `themeIsLight()` — Verifica el tema activo en `data-theme`
+- `themeToggleIsVisible()` / `themeToggleIsHidden()` — Visibilidad del botón de tema
+- `themeToggleHasAriaLabel()` — El toggle tiene `aria-label` con valor que contiene "theme"
+- `logoIsVisible()` — El logo es visible
+- `logoHasText(text)` — El logo muestra el texto indicado
+- `hasNavLinksCount(count)` — Número de enlaces de nav
+- `navLinksAreInOrder(expected)` — Orden de los textos de los enlaces de nav
+- `activeNavLinkIs(text)` — El enlace activo es el indicado
+- `navigationHasAriaLabel(label)` — El elemento `<nav>` tiene el aria-label indicado
+- `headerIsPresent()` — El contenedor `.header` es visible
+- `mobileMenuToggleIsVisible()` — El hamburguesa es visible
+- `mobileMenuIsClosed()` — El menú no tiene clase `active`
+- `mobileMenuIsOpen()` — El menú, toggle y overlay tienen clase `active`
+- `mobileMenuToggleAriaExpandedIs(value)` — `aria-expanded` del toggle es el valor indicado
+- `mobileMenuToggleHasAriaLabel()` — El toggle tiene `aria-label` no vacío
 
-## Comportamiento responsive
+## Visual Regression
 
-- **Desktop (≥769px)**: Todos los nav links visibles, theme toggle visible
-- **Mobile (<769px)**: Hamburguesa visible, nav links ocultos hasta abrir menú, theme toggle oculto (dark mode forzado)
+- `headerMatchesSnapshot(snapshotName)` — Screenshot del contenedor `.header`
+- `headerFullPageMatchesSnapshot(snapshotName)` — Screenshot de página completa
+
+## Selectores
+
+- `container` → `.header`
+- `logo` → `.logo`
+- `navigation` → `nav[role="navigation"]`
+- `navLinksContainer` → `.nav-links`
+- `navLinks` → `.nav-links .nav-link`
+- `themeToggle` → `#theme-toggle`
+- `mobileMenuToggle` → `.mobile-menu-toggle`
+- `mobileOverlay` → `.mobile-overlay`
 
 ---
 
-*Última actualización: 2026-02-19*
+*Specs*: `header.nav.desktop.spec.ts`, `header.nav.mobile.spec.ts`, `header.dark-mode.spec.ts`, `header.dark-mode.desktop.spec.ts`, `header.dark-mode.tablet-small.spec.ts`, `header.dark-mode.tablet-large.spec.ts`, `header.visual.desktop.spec.ts`, `header.visual.mobile.spec.ts`

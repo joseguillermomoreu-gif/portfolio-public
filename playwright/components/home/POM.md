@@ -1,42 +1,50 @@
-# POM - Home Component
+# POM: Home
 
-Componente de la página principal (`/`).
-
-**Archivos**: `index.ts`, `selectors.ts`
-**Extiende**: `BasePage` (`pages/BasePage.ts`)
+Página principal (`/`). Cubre hero, quick intro, stats cards, portfolio context, current focus y skills section.
 
 ---
 
-## Locators
+## Acciones
 
-| Locator | Selector | Descripción |
-|---------|----------|-------------|
-| `hero` | `.hero` | Sección hero principal |
-| `heroContent` | `.hero-content` | Contenido del hero (excluye scroll-indicator) |
-| `heroCvButton` | `.hero a[href="/cv"]` | CTA botón CV |
-| `heroContactButton` | `.hero a[href="/contacto"]` | CTA botón Contacto |
-| `quickIntro` | `.quick-intro` | Sección quick intro completa |
-| `quickIntroHeader` | `.quick-intro-header` | Cabecera de la sección intro |
-| `introStats` | `.intro-stats` | Contenedor de las 4 stat cards |
-| `statCards` | `.stat-card` | Cada stat card individual |
-| `portfolioContext` | `.portfolio-context, .intro-highlights` | Sección portfolio context |
-| `currentFocus` | `.current-focus` | Sección current focus |
-| `skillsSection` | `.skills-section` | Sección de skills completa |
-| `stackVisual` | `.stack-visual` | Grid visual del stack tecnológico |
-| `stackItems` | `.stack-item` | Cada item individual del stack |
-| `akkodisLink` | `a[href*="akkodis.com"]` | Link externo a Akkodis |
-| `elConfidencialLink` | `a[href*="elconfidencial.com"]` | Link externo a El Confidencial |
-| `githubProfileLink` | `a[href="https://github.com/joseguillermomoreu-gif"]` | Link al perfil GitHub |
+- `navigateHome()` — Navega a `/` y espera `domcontentloaded`
+- `getStatCardsCount()` — Retorna el número de stat cards visibles
 
-## Métodos
+## Assertions
 
-| Método | Retorno | Descripción |
-|--------|---------|-------------|
-| `navigate()` | `Promise<void>` | Navega a `/` y espera `domcontentloaded` |
-| `getStatCardsCount()` | `Promise<number>` | Cuenta el número de stat cards visibles |
+- `titleIsCorrect()` — El título de la página contiene "José Moreu Peso"
+- `cvCtaIsVisible()` — El botón CTA del CV es visible
+- `contactCtaIsVisible()` — El botón CTA de Contacto es visible
+- `hasFourStatCards()` — Hay exactamente 4 stat cards
+- `portfolioPublicRepoLinkIsValid()` — El enlace al repo público de GitHub es visible y válido
 
-Métodos heredados de `BasePage`: `getText(locator)`, `getBodyText()`, `getTitle()`, `isVisible(locator)`.
+## Visual Regression
+
+- `heroMatchesSnapshot(snapshotName)` — Screenshot de `.hero-content`
+- `skillsGridMatchesSnapshot(snapshotName)` — Screenshot de `.stack-visual`
+- `quickIntroHeaderMatchesSnapshot(snapshotName)` — Screenshot de `.quick-intro-header`
+- `quickIntroStatsMatchesSnapshot(snapshotName)` — Screenshot de `.intro-stats`
+- `portfolioContextMatchesSnapshot(snapshotName)` — Screenshot de `.portfolio-context`
+- `currentFocusMatchesSnapshot(snapshotName)` — Screenshot de `.current-focus`
+
+## Selectores
+
+- `hero` → `.hero`
+- `heroContent` → `.hero-content`
+- `heroCvButton` → `.hero a[href="/cv"]`
+- `heroContactButton` → `.hero a[href="/contacto"]`
+- `quickIntro` → `.quick-intro`
+- `quickIntroHeader` → `.quick-intro-header`
+- `introStats` → `.intro-stats`
+- `statCards` → `.stat-card`
+- `portfolioContext` → `.portfolio-context, .intro-highlights`
+- `currentFocus` → `.current-focus`
+- `skillsSection` → `.skills-section`
+- `stackVisual` → `.stack-visual`
+- `stackItems` → `.stack-item`
+- `akkodisLink` → `a[href*="akkodis.com"]`
+- `elConfidencialLink` → `a[href*="elconfidencial.com"]`
+- `githubProfileLink` → `a[href="https://github.com/joseguillermomoreu-gif"]`
 
 ---
 
-*Última actualización: 2026-02-19*
+*Specs*: `home.desktop.spec.ts`, `home.mobile.spec.ts`

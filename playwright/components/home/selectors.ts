@@ -1,19 +1,16 @@
-export const HomeSelectors = {
-  hero: '.hero',
-  heroContent: '.hero-content',
-  heroName: '.hero h1, .hero-name',
-  heroCvButton: '.hero a[href="/cv"]',
-  heroContactButton: '.hero a[href="/contacto"]',
-  quickIntro: '.quick-intro',
-  quickIntroHeader: '.quick-intro-header',
-  introStats: '.intro-stats',
-  statCards: '.stat-card',
-  portfolioContext: '.portfolio-context, .intro-highlights',
-  currentFocus: '.current-focus',
-  skillsSection: '.skills-section',
-  stackVisual: '.stack-visual',
-  stackItems: '.stack-item',
-  akkodisLink: 'a[href*="akkodis.com"]',
-  elConfidencialLink: 'a[href*="elconfidencial.com"]',
-  githubProfileLink: 'a[href="https://github.com/joseguillermomoreu-gif"]',
-} as const;
+export const hero = '.hero';
+export const heroContent = '.hero-content';
+export const heroCvButton = '.hero a[href="/cv"]';
+export const heroContactButton = '.hero a[href="/contacto"]';
+export const quickIntro = '.quick-intro';
+export const quickIntroHeader = '.quick-intro-header';
+export const introStats = '.intro-stats';
+export const statCards = '.stat-card';
+export const portfolioContext = '.portfolio-context, .intro-highlights';
+export const currentFocus = '.current-focus';
+export const skillsSection = '.skills-section';
+export const stackVisual = '.stack-visual';
+export const stackItems = '.stack-item';
+export const akkodisLink = 'a[href*="akkodis.com"]';
+export const elConfidencialLink = 'a[href*="elconfidencial.com"]';
+export const githubProfileLink = 'a[href="https://github.com/joseguillermomoreu-gif"]';

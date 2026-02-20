@@ -16,10 +16,7 @@
     "rootDir": "./playwright",
     "baseUrl": "./",
     "paths": {
-      "@pages/*": ["playwright/pages/*"],
-      "@pages": ["playwright/pages/index"],
-      "@components/*": ["playwright/components/*"],
-      "@components": ["playwright/components/index"]
+      "@components/*": ["playwright/components/*"]
     },
     "types": ["node", "@playwright/test"]
   },

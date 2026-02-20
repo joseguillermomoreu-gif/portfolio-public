@@ -1,50 +1,61 @@
-import { Page, Locator } from '@playwright/test';
-import { BasePage } from '../../pages/BasePage';
-import { HomeSelectors } from './selectors';
+import { Page, expect } from '@playwright/test';
+import * as selectors from './selectors';
 
-export class HomeComponent extends BasePage {
-  readonly hero: Locator;
-  readonly heroContent: Locator;
-  readonly heroCvButton: Locator;
-  readonly heroContactButton: Locator;
-  readonly quickIntro: Locator;
-  readonly quickIntroHeader: Locator;
-  readonly introStats: Locator;
-  readonly statCards: Locator;
-  readonly portfolioContext: Locator;
-  readonly currentFocus: Locator;
-  readonly skillsSection: Locator;
-  readonly stackVisual: Locator;
-  readonly stackItems: Locator;
-  readonly akkodisLink: Locator;
-  readonly elConfidencialLink: Locator;
-  readonly githubProfileLink: Locator;
+export async function navigateHome(page: Page): Promise<void> {
+  await page.goto('/');
+  await page.waitForLoadState('domcontentloaded');
+}
 
-  constructor(page: Page) {
-    super(page);
-    this.hero = page.locator(HomeSelectors.hero);
-    this.heroContent = page.locator(HomeSelectors.heroContent);
-    this.heroCvButton = page.locator(HomeSelectors.heroCvButton);
-    this.heroContactButton = page.locator(HomeSelectors.heroContactButton);
-    this.quickIntro = page.locator(HomeSelectors.quickIntro);
-    this.quickIntroHeader = page.locator(HomeSelectors.quickIntroHeader);
-    this.introStats = page.locator(HomeSelectors.introStats);
-    this.statCards = page.locator(HomeSelectors.statCards);
-    this.portfolioContext = page.locator(HomeSelectors.portfolioContext);
-    this.currentFocus = page.locator(HomeSelectors.currentFocus);
-    this.skillsSection = page.locator(HomeSelectors.skillsSection);
-    this.stackVisual = page.locator(HomeSelectors.stackVisual);
-    this.stackItems = page.locator(HomeSelectors.stackItems);
-    this.akkodisLink = page.locator(HomeSelectors.akkodisLink);
-    this.elConfidencialLink = page.locator(HomeSelectors.elConfidencialLink);
-    this.githubProfileLink = page.locator(HomeSelectors.githubProfileLink);
-  }
+export async function getStatCardsCount(page: Page): Promise<number> {
+  return await page.locator(selectors.statCards).count();
+}
 
-  async navigate(): Promise<void> {
-    await super.navigate('/');
-  }
+// ─── Assertions ───────────────────────────────────────────────────────────────
 
-  async getStatCardsCount(): Promise<number> {
-    return await this.statCards.count();
-  }
+export async function titleIsCorrect(page: Page): Promise<void> {
+  await expect(page).toHaveTitle(/José Moreu Peso/);
+}
+
+export async function cvCtaIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.heroCvButton)).toBeVisible();
+}
+
+export async function contactCtaIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.heroContactButton)).toBeVisible();
+}
+
+export async function hasFourStatCards(page: Page): Promise<void> {
+  const count = await getStatCardsCount(page);
+  expect(count).toBe(4);
+}
+
+export async function portfolioPublicRepoLinkIsValid(page: Page): Promise<void> {
+  const publicRepoLink = page.locator(selectors.portfolioContext).first().locator('a[href*="portfolio-public"]');
+  await expect(publicRepoLink).toBeVisible();
+  await expect(publicRepoLink).toHaveAttribute('href', 'https://github.com/joseguillermomoreu-gif/portfolio-public');
+  await expect(publicRepoLink).toHaveAttribute('target', '_blank');
+}
+
+export async function heroMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.heroContent)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function skillsGridMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.stackVisual)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function quickIntroHeaderMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.quickIntroHeader)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function quickIntroStatsMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.introStats)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function portfolioContextMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.portfolioContext)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function currentFocusMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.currentFocus)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }

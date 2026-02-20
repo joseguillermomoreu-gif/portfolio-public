@@ -1,104 +1,175 @@
 # Tests E2E - Resultados de Ejecución
 
-**Última ejecución:** 19 de febrero de 2026
+**Última ejecución:** 20 de febrero de 2026
 
 **Leyenda de tiempos**:
-- `~Xs` → Tiempo aproximado del test
+- `~Xs` → Tiempo del test en la última ejecución limpia (sin retries)
+- `*` → Test falla permanentemente (ambos intentos)
+
+**Config global**: `retries: 1` · `workers: 4` (local) / `1` (CI) · `fullyParallel: true`
 
 ---
 
 ## Tests de Home
 
-| # | Nombre del Test | Path | Mejor Tiempo | Tipo |
-|---|----------------|------|--------------|------|
-| 1 | should serve homepage successfully | tests/home/home.spec.ts | ~1.8s | funcional |
-| 2 | should display hero section | tests/home/home.spec.ts | ~1.9s | funcional |
-| 3 | should display owner name in hero | tests/home/home.spec.ts | ~2.0s | funcional |
-| 4 | should display CV CTA button | tests/home/home.spec.ts | ~1.9s | funcional |
-| 5 | should display Contact CTA button | tests/home/home.spec.ts | ~1.9s | funcional |
-| 6 | should display Quick Intro section | tests/home/home.spec.ts | ~1.8s | funcional |
-| 7 | should mention 8+ years of experience | tests/home/home.spec.ts | ~1.9s | funcional |
-| 8 | should mention current company or focus | tests/home/home.spec.ts | ~1.9s | funcional |
-| 9 | should display 4 stat cards | tests/home/home.spec.ts | ~1.4s | funcional |
-| 10 | should display "Dev con IA" card with Claude/GPT reference | tests/home/home.spec.ts | ~1.8s | funcional |
-| 11 | should display QA card with Playwright | tests/home/home.spec.ts | ~1.5s | funcional |
-| 12 | should display Backend card with PHP/Symfony | tests/home/home.spec.ts | ~1.7s | funcional |
-| 13 | should display years of experience stat | tests/home/home.spec.ts | ~1.6s | funcional |
-| 14 | should display portfolio context section | tests/home/home.spec.ts | ~2.0s | funcional |
-| 15 | should have portfolio-public repository link in context section | tests/home/home.spec.ts | ~1.8s | funcional |
-| 16 | should have Akkodis link opening in new tab | tests/home/home.spec.ts | ~1.9s | funcional |
-| 17 | should have El Confidencial link opening in new tab | tests/home/home.spec.ts | ~1.7s | funcional |
-| 18 | should specify Senior Backend Developer role | tests/home/home.spec.ts | ~1.6s | funcional |
-| 19 | should specify Tech Lead for E2E automation | tests/home/home.spec.ts | ~1.9s | funcional |
-| 20 | should display header | tests/home/home.spec.ts | ~1.7s | funcional |
-| 21 | should display 4 stat cards on mobile | tests/home/home.spec.ts | ~1.3s | funcional |
-| 22 | should display hero and quick intro on mobile | tests/home/home.spec.ts | ~1.4s | funcional |
-| 23 | should use "y Tech Lead" (not comma) in intro headline | tests/home/home.spec.ts | ~1.6s | funcional |
-| 24 | should mention portfolio is in continuous growth | tests/home/home.spec.ts | ~2.8s | funcional |
-| 25 | should link to public portfolio repository | tests/home/home.spec.ts | ~2.7s | funcional |
-| 26 | should show 2+ years for "Coding con IA" skill | tests/home/home.spec.ts | ~2.2s | funcional |
-| 27 | hero tagline should be properly centered on desktop | tests/home/home.spec.ts | ~2.5s | funcional |
-| 28 | hero tagline should wrap naturally (not nowrap) on desktop | tests/home/home.spec.ts | ~2.5s | funcional |
-| 29 | hero tagline "con IA como copiloto" should be on second line on desktop | tests/home/home.spec.ts | ~2.6s | funcional |
-| 30 | Home - Hero Section - Desktop | tests/home/home.spec.ts | ~2.5s | visual |
-| 31 | Home - Hero Section - Mobile | tests/home/home.spec.ts | ~2.3s | visual |
-| 32 | Home - Hero Section - Dark Mode Desktop | tests/home/home.spec.ts | ~2.8s | visual |
-| 33 | Home - Quick Intro Section - Desktop - Header | tests/home/home.spec.ts | ~2.4s | visual |
-| 34 | Home - Quick Intro Section - Desktop - Stats | tests/home/home.spec.ts | ~2.3s | visual |
-| 35 | Home - Quick Intro Section - Desktop - Context | tests/home/home.spec.ts | ~2.4s | visual |
-| 36 | Home - Quick Intro Section - Desktop - Focus | tests/home/home.spec.ts | ~2.3s | visual |
-| 37 | Home - Quick Intro Section - Mobile - Header | tests/home/home.spec.ts | ~2.2s | visual |
-| 38 | Home - Quick Intro Section - Mobile - Stats | tests/home/home.spec.ts | ~2.1s | visual |
-| 39 | Home - Quick Intro Section - Mobile - Context | tests/home/home.spec.ts | ~2.2s | visual |
-| 40 | Home - Quick Intro Section - Mobile - Focus | tests/home/home.spec.ts | ~2.5s | visual |
-| 41 | Home - Skills Section - Desktop - Grid | tests/home/home.spec.ts | ~2.8s | visual |
-| 42 | Home - Skills Section - Desktop - Item 0 | tests/home/home.spec.ts | ~2.5s | visual |
-| 43 | Home - Skills Section - Desktop - Item 1 | tests/home/home.spec.ts | ~2.4s | visual |
-| 44 | Home - Skills Section - Desktop - Item 2 | tests/home/home.spec.ts | ~2.4s | visual |
-| 45 | Home - Skills Section - Desktop - Item 3 | tests/home/home.spec.ts | ~2.4s | visual |
-| 46 | Home - Skills Section - Desktop - Item 4 | tests/home/home.spec.ts | ~2.4s | visual |
-| 47 | Home - Skills Section - Desktop - Item 5 | tests/home/home.spec.ts | ~2.0s | visual |
-| 48 | Home - Skills Section - Desktop - Item 6 | tests/home/home.spec.ts | ~2.0s | visual |
-| 49 | Home - Skills Section - Desktop - Item 7 | tests/home/home.spec.ts | ~2.0s | visual |
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Home - Smoke > should serve homepage with correct title | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 2 | Home - Hero Section > should display CV CTA button | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 3 | Home - Hero Section > should display Contact CTA button | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 4 | Home - Stats Cards > should display 4 stat cards | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 5 | Home - Portfolio Context > should have portfolio-public repository link | playwright/tests/home/home.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 6 | Home - Hero Visual > Desktop | playwright/tests/home/home.spec.ts | - | ~1.5s | Sí | No | 1 |
+| 7 | Home - Hero Visual > Mobile | playwright/tests/home/home.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 8 | Home - Hero Visual > Dark Mode Desktop | playwright/tests/home/home.spec.ts | - | ~2.1s | Sí | No | 1 |
+| 9 | Home - Skills Visual > Desktop - Grid | playwright/tests/home/home.spec.ts | - | ~1.4s | Sí | No | 1 |
+| 10 | Home - Quick Intro Visual > Desktop - Header | playwright/tests/home/home.spec.ts | - | ~1.4s | Sí | No | 1 |
+| 11 | Home - Quick Intro Visual > Desktop - Stats | playwright/tests/home/home.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 12 | Home - Quick Intro Visual > Mobile - Header | playwright/tests/home/home.spec.ts | - | ~1.4s | Sí | No | 1 |
+| 13 | Home - Quick Intro Visual > Mobile - Stats | playwright/tests/home/home.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 14 | Home - Context & Focus Visual > Desktop - Context | playwright/tests/home/home.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 15 | Home - Context & Focus Visual > Desktop - Focus | playwright/tests/home/home.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 16 | Home - Context & Focus Visual > Mobile - Context | playwright/tests/home/home.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 17 | Home - Context & Focus Visual > Mobile - Focus | playwright/tests/home/home.spec.ts | - | ~1.1s | Sí | No | 1 |
 
-## Tests de Home - Footer
+## Tests de Header - Navegación
 
-| # | Nombre del Test | Path | Mejor Tiempo | Tipo |
-|---|----------------|------|--------------|------|
-| 1 | should display footer | tests/home/footer/footer.spec.ts | ~1.5s | funcional |
-| 2 | should have GitHub profile link in footer | tests/home/footer/footer.spec.ts | ~1.7s | funcional |
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Header - Structure > should display logo with owner name | playwright/tests/header/header.nav.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 2 | Header - Structure > should have 6 navigation links in correct order | playwright/tests/header/header.nav.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 3 | Header - Structure > should highlight the active Home link on homepage | playwright/tests/header/header.nav.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 4 | Header - Structure > should have accessible navigation element | playwright/tests/header/header.nav.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 5 | Header - Structure > should be present across all pages | playwright/tests/header/header.nav.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 6 | Header - Mobile Hamburger > should show hamburger and hide nav by default | playwright/tests/header/header.nav.spec.ts | - | ~0.9s | Sí | No | 1 |
+| 7 | Header - Mobile Hamburger > clicking hamburger should open mobile menu | playwright/tests/header/header.nav.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 8 | Header - Mobile Hamburger > clicking overlay should close mobile menu | playwright/tests/header/header.nav.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 9 | Header - Mobile Hamburger > pressing ESC should close mobile menu | playwright/tests/header/header.nav.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 10 | Header - Mobile Hamburger > hamburger should have proper ARIA attributes | playwright/tests/header/header.nav.spec.ts | - | ~0.9s | Sí | No | 1 |
+
+## Tests de Header - Dark Mode
+
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Header - Dark Mode Mobile (forced < 850px) > should hide theme toggle on mobile | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 2 | Header - Dark Mode Mobile (forced < 850px) > should force dark mode on mobile | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 3 | Header - Dark Mode Mobile (forced < 850px) > should maintain dark mode on reload | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 4 | Header - Dark Mode Mobile (forced < 850px) > should ignore localStorage light theme on mobile | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 5 | Header - Dark Mode Tablet Breakpoint > should force dark mode on tablets < 850px | playwright/tests/header/header.dark-mode.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 6 | Header - Dark Mode Tablet Breakpoint > should allow theme toggle on tablets >= 850px | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 7 | Header - Dark Mode Desktop > should start with light theme by default on desktop | playwright/tests/header/header.dark-mode.spec.ts | - | ~0.9s | Sí | No | 1 |
+| 8 | Header - Dark Mode Desktop > should display theme toggle with aria-label on desktop | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.0s | Sí | No | 1 |
+
+## Tests de Header - Visual
+
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Header - Visual > Desktop - Top (not scrolled) | playwright/tests/header/header.visual.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 2 | Header - Visual > Desktop - Scrolled | playwright/tests/header/header.visual.spec.ts | - | ~1.6s | Sí | No | 1 |
+| 3 | Header - Visual > Mobile - Nav Closed | playwright/tests/header/header.visual.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 4 | Header - Visual > Mobile - Nav Open | playwright/tests/header/header.visual.spec.ts | - | ~1.6s | Sí | No | 1 |
 
 ## Tests de Footer
 
-| # | Nombre del Test | Path | Mejor Tiempo | Tipo |
-|---|----------------|------|--------------|------|
-| 1 | should display the current year | tests/footer/footer.spec.ts | ~1.9s | funcional |
-| 2 | should display the app version from .env (APP_VERSION) | tests/footer/footer.spec.ts | ~1.8s | funcional |
-| 3 | should display version with semver format | tests/footer/footer.spec.ts | ~2.0s | funcional |
-| 4 | should display year with copyright symbol | tests/footer/footer.spec.ts | ~1.7s | funcional |
-| 5 | Footer Component - Desktop | tests/footer/footer.spec.ts | ~2.2s | visual |
-| 6 | Footer Component - Mobile | tests/footer/footer.spec.ts | ~1.9s | visual |
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Footer - Structure > should display social links with security attributes | playwright/tests/footer/footer.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 2 | Footer - Structure > should have GitHub profile link | playwright/tests/footer/footer.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 3 | Footer - Dynamic Content > should display the current year | playwright/tests/footer/footer.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 4 | Footer - Dynamic Content > should display version with semver format | playwright/tests/footer/footer.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 5 | Footer - Visual > Desktop | playwright/tests/footer/footer.spec.ts | - | ~1.4s | Sí | No | 1 |
+| 6 | Footer - Visual > Mobile | playwright/tests/footer/footer.spec.ts | - | ~1.2s | Sí | No | 1 |
+
+## Tests de CV
+
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | CV - Smoke & Content > should load CV page with correct title | playwright/tests/cv/cv.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 2 | CV - Smoke & Content > should display PDF download link | playwright/tests/cv/cv.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 3 | CV - Visual > Desktop > Header | playwright/tests/cv/cv.spec.ts | - | ~1.5s | Sí | No | 1 |
+| 4 | CV - Visual > Desktop > PDF Download Card | playwright/tests/cv/cv.spec.ts | - | ~1.8s | Sí | No | 1 |
+| 5 | CV - Visual > Desktop > Tech Info | playwright/tests/cv/cv.spec.ts | - | ~1.8s | Sí | No | 1 |
+| 6 | CV - Visual > Desktop > Note | playwright/tests/cv/cv.spec.ts | - | ~1.7s | Sí | No | 1 |
+| 7 | CV - Visual > Mobile > Header | playwright/tests/cv/cv.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 8 | CV - Visual > Mobile > PDF Download Card | playwright/tests/cv/cv.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 9 | CV - Visual > Mobile > Tech Info | playwright/tests/cv/cv.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 10 | CV - Visual > Mobile > Note | playwright/tests/cv/cv.spec.ts | - | ~1.1s | Sí | No | 1 |
+
+## Tests de Contacto
+
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Contact - Content & Links > should load contact page with correct title | playwright/tests/contact/contact.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 2 | Contact - Content & Links > should display email link pointing to correct address | playwright/tests/contact/contact.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 3 | Contact - Content & Links > should display GitHub link pointing to user profile | playwright/tests/contact/contact.spec.ts | - | ~0.7s | Sí | No | 1 |
+| 4 | Contact - Content & Links > external links should have security attributes | playwright/tests/contact/contact.spec.ts | - | ~0.5s | Sí | No | 1 |
+| 5 | Contact - Visual > Desktop > Header | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 6 | Contact - Visual > Desktop > Contact Card | playwright/tests/contact/contact.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 7 | Contact - Visual > Desktop > Social Section | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 8 | Contact - Visual > Mobile > Header | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 9 | Contact - Visual > Mobile > Contact Card | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 10 | Contact - Visual > Mobile > Social Section | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
+
+## Tests de Proyectos
+
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Projects - Content > should display 5 project cards | playwright/tests/projects/projects.spec.ts | - | ~0.5s | Sí | No | 1 |
+| 2 | Projects - Content > should display POM-PPIA project with correct GitHub link | playwright/tests/projects/projects.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 3 | Projects - Content > should display Portfolio project with website link | playwright/tests/projects/projects.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 4 | Projects - Content > should display PPIA as Private without GitHub link | playwright/tests/projects/projects.spec.ts | - | ~0.6s | Sí | No | 1 |
+| 5 | Projects - Visual > Desktop > Header | playwright/tests/projects/projects.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 6 | Projects - Visual > Desktop > Grid | playwright/tests/projects/projects.spec.ts | - | ~1.4s | Sí | No | 1 |
+| 7 | Projects - Visual > Desktop > Footer | playwright/tests/projects/projects.spec.ts | - | ~1.2s | Sí | No | 1 |
+| 8 | Projects - Visual > Mobile > Header | playwright/tests/projects/projects.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 9 | Projects - Visual > Mobile > Grid | playwright/tests/projects/projects.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 10 | Projects - Visual > Mobile > Footer | playwright/tests/projects/projects.spec.ts | - | ~1.1s | Sí | No | 1 |
+
+## Tests de Code & AI
+
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | Code & AI - Article List > should load with correct title | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 2 | Code & AI - Article List > should display at least one article card | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 3 | Code & AI - Article List > should have links to article detail pages | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 4 | Code & AI - Navigation > should navigate from list to article detail | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.9s | Sí | No | 1 |
+| 5 | Code & AI - 404 Error Handling > should return 404 for non-existent article | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.2s | Sí | No | 1 |
+| 6 | Code & AI - Article Detail > should load portfolio article with correct title | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 7 | Code & AI - Article Detail > should display published/updated dates on detail page | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 8 | Code & AI - Article Detail > should have paragraph structure in article content | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
+| 9 | Code & AI - Article Detail > should load automatizando-e2e-con-ia article | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.9s | Sí | No | 1 |
+| 10 | Code & AI - Visual > Desktop > Header | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.5s | Sí | No | 1 |
+| 11 | Code & AI - Visual > Desktop > Articles Grid | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.8s | Sí | No | 1 |
+| 12 | Code & AI - Visual > Mobile > Header | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.3s | Sí | No | 1 |
+| 13 | Code & AI - Visual > Mobile > Articles Grid | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.3s | Sí | No | 1 |
+
+## Tests de PPiA
+
+| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
+|---|----------------|------|------|--------------|----------|--------------|---------|
+| 1 | PPiA - Smoke > should load PPiA page with correct title | playwright/tests/ppia/ppia.spec.ts | - | ~0.5s | Sí | No | 1 |
+| 2 | PPiA - Visual > Desktop - Header | playwright/tests/ppia/ppia.spec.ts | - | ~1.1s | Sí | No | 1 |
+| 3 | PPiA - Visual > Mobile - Header | playwright/tests/ppia/ppia.spec.ts | - | ~1.1s | Sí | No | 1 |
 
 ---
 
-## 📊 Estado de Documentación
+## 📊 Resumen
 
-**Agrupaciones de tests documentadas: 3**
-- ✅ `tests/home/` - Home page (funcionales + visual regression) - 49 tests
-- ✅ `tests/home/footer/` - Footer en contexto de home - 2 tests
-- ✅ `tests/footer/` - Footer (dynamic content + visual regression) - 6 tests
-
-**Agrupaciones pendientes de documentar: 6**
-- ⏳ `tests/specs/base-template.spec.ts` - Header, SEO, accesibilidad, smoke routes
-- ⏳ `tests/specs/navigation.spec.ts` - Navegación desktop y móvil
-- ⏳ `tests/specs/dark-mode.spec.ts` - Dark mode
-- ⏳ `tests/specs/cv.spec.ts` - Página CV
-- ⏳ `tests/specs/contact.spec.ts` - Página Contacto
-- ⏳ `tests/specs/code-ai.spec.ts` - Página Code & AI
-- ⏳ `tests/specs/projects.spec.ts` - Página Proyectos
-- ⏳ `tests/visual-regression/css-styles.spec.ts` - Visual regression (Header + CV + Contact + Projects + PPiA + Code & AI)
+| Spec | Funcionales | Visuales | Total | Tiempo total estimado |
+|------|-------------|----------|-------|-----------------------|
+| `home/home.spec.ts` | 5 | 12 | 17 | ~19s |
+| `header/header.nav.spec.ts` | 10 | 0 | 10 | ~10s |
+| `header/header.dark-mode.spec.ts` | 8 | 0 | 8 | ~9s |
+| `header/header.visual.spec.ts` | 0 | 4 | 4 | ~6s |
+| `footer/footer.spec.ts` | 4 | 2 | 6 | ~5s |
+| `cv/cv.spec.ts` | 2 | 8 | 10 | ~13s |
+| `contact/contact.spec.ts` | 4 | 6 | 10 | ~10s |
+| `projects/projects.spec.ts` | 4 | 6 | 10 | ~10s |
+| `code-ai/code-ai.spec.ts` | 9 | 4 | 13 | ~12s |
+| `ppia/ppia.spec.ts` | 1 | 2 | 3 | ~3s |
+| **TOTAL** | **47** | **44** | **91** | **~26s (4 workers)** |
 
 ---
 
-**Última actualización:** 19 de febrero de 2026
-**Documentados: 3 | Pendientes: 6**
+**Última actualización:** 20 de febrero de 2026
+**Ejecución:** 91 passed · 0 failed · 28.0s (4 workers en paralelo)
