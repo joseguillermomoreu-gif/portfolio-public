@@ -12,6 +12,7 @@ export function cvLocators(page: Page) {
     pdfDownloadCard: page.locator(selectors.pdfDownloadCard),
     cvTechInfo: page.locator(selectors.cvTechInfo),
     cvNote: page.locator(selectors.cvNote),
+    skillsCarouselSection: page.locator(selectors.skillsCarouselSection),
   };
 }
 

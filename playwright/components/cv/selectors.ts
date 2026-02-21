@@ -7,3 +7,4 @@ export const cvHeader = '.cv-header';
 export const pdfDownloadCard = '.pdf-download-card';
 export const cvTechInfo = '.cv-tech-info';
 export const cvNote = '.cv-note';
+export const skillsCarouselSection = '.skills-carousel-section';

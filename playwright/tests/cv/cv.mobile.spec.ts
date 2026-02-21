@@ -26,3 +26,9 @@ test('CV - Note', async ({ page }) => {
   const { cvNote } = cvLocators(page);
   await expect(cvNote).toHaveScreenshot('cv-note-mobile.png', { animations: 'disabled' });
 });
+
+test('CV - Skills Carousel section is visible with title', async ({ page }) => {
+  const { skillsCarouselSection } = cvLocators(page);
+  await expect(skillsCarouselSection).toBeVisible();
+  await expect(skillsCarouselSection).toContainText('Stack Técnico');
+});
