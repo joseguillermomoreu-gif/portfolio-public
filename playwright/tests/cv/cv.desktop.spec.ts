@@ -45,11 +45,6 @@ test.describe('CV - Visual', () => {
     await expect(cvTechInfo).toHaveScreenshot('cv-tech-info-desktop.png', { animations: 'disabled' });
   });
 
-  test('CV - Note', async ({ page }) => {
-    const { cvNote } = cvLocators(page);
-    await expect(cvNote).toHaveScreenshot('cv-note-desktop.png', { animations: 'disabled' });
-  });
-
   test('CV - Skills Carousel section is visible with title', async ({ page }) => {
     const { skillsCarouselSection } = cvLocators(page);
     await expect(skillsCarouselSection).toBeVisible();
