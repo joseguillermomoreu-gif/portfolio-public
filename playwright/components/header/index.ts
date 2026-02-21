@@ -123,6 +123,12 @@ export async function closeWithEsc(page: Page): Promise<void> {
   await page.locator(selectors.mobileOverlay).waitFor({ state: 'hidden' });
 }
 
+export async function hideHeader(page: Page): Promise<void> {
+  await page.locator('header').evaluate((el) => {
+    (el as HTMLElement).style.visibility = 'hidden';
+  });
+}
+
 // ─── Visual Regression ────────────────────────────────────────────────────────
 
 export async function headerMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {

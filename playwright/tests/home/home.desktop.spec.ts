@@ -84,6 +84,10 @@ test('home visual skills: grid', async ({ page }) => {
     await homePage.navigateHome(page);
   });
 
+  await test.step('When: oculta el header', async () => {
+    await headerPage.hideHeader(page);
+  });
+
   await test.step('Then: el grid de skills coincide con el snapshot visual', async () => {
     await homePage.skillsGridMatchesSnapshot(page, 'home-skills-grid-desktop.png');
   });
@@ -126,5 +130,67 @@ test('home visual foco', async ({ page }) => {
 
   await test.step('Then: la sección de foco actual coincide con el snapshot visual', async () => {
     await homePage.currentFocusMatchesSnapshot(page, 'home-quick-intro-focus-desktop.png');
+  });
+});
+
+// ─── Skills: Esquinas expandidas ──────────────────────────────────────────────
+
+test('home visual skills: esquina superior izquierda expandida', async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
+    await homePage.navigateHome(page);
+  });
+
+  await test.step('When: oculta el header y expande la skill de la esquina superior izquierda (pos 1)', async () => {
+    await headerPage.hideHeader(page);
+    await homePage.expandSkillAtPosition(page, 1);
+  });
+
+  await test.step('Then: el grid coincide con el snapshot visual', async () => {
+    await homePage.skillsGridExpandedMatchesSnapshot(page, 'home-skills-grid-desktop-expanded-top-left.png');
+  });
+});
+
+test('home visual skills: esquina superior derecha expandida', async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
+    await homePage.navigateHome(page);
+  });
+
+  await test.step('When: oculta el header y expande la skill de la esquina superior derecha (pos 3)', async () => {
+    await headerPage.hideHeader(page);
+    await homePage.expandSkillAtPosition(page, 3);
+  });
+
+  await test.step('Then: el grid coincide con el snapshot visual', async () => {
+    await homePage.skillsGridExpandedMatchesSnapshot(page, 'home-skills-grid-desktop-expanded-top-right.png');
+  });
+});
+
+test('home visual skills: esquina inferior izquierda expandida', async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
+    await homePage.navigateHome(page);
+  });
+
+  await test.step('When: oculta el header y expande la skill de la esquina inferior izquierda (pos 7)', async () => {
+    await headerPage.hideHeader(page);
+    await homePage.expandSkillAtPosition(page, 7);
+  });
+
+  await test.step('Then: el grid coincide con el snapshot visual', async () => {
+    await homePage.skillsGridExpandedMatchesSnapshot(page, 'home-skills-grid-desktop-expanded-bottom-left.png');
+  });
+});
+
+test('home visual skills: esquina inferior derecha expandida', async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
+    await homePage.navigateHome(page);
+  });
+
+  await test.step('When: oculta el header y expande la skill de la esquina inferior derecha (pos 9)', async () => {
+    await headerPage.hideHeader(page);
+    await homePage.expandSkillAtPosition(page, 9);
+  });
+
+  await test.step('Then: el grid coincide con el snapshot visual', async () => {
+    await homePage.skillsGridExpandedMatchesSnapshot(page, 'home-skills-grid-desktop-expanded-bottom-right.png');
   });
 });

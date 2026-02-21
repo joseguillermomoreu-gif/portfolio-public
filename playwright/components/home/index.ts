@@ -44,6 +44,17 @@ export async function skillsGridMatchesSnapshot(page: Page, snapshotName: string
   await expect(page.locator(selectors.stackVisual)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
+export async function expandSkillAtPosition(page: Page, position: number): Promise<void> {
+  const items = page.locator(selectors.stackItemExpandable).filter({ visible: true });
+  await items.nth(position - 1).click();
+  await page.locator(selectors.stackItemOpen).waitFor({ state: 'attached' });
+  await page.locator(selectors.stackDescriptionRevealed).waitFor({ state: 'attached' });
+}
+
+export async function skillsGridExpandedMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.stackVisual)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
 export async function quickIntroHeaderMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
   await expect(page.locator(selectors.quickIntroHeader)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
