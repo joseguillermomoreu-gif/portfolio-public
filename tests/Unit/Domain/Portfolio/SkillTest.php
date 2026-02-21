@@ -126,4 +126,45 @@ final class SkillTest extends TestCase
 
         SkillLevel::fromString('legendary');
     }
+
+    public function testDescriptionIsNullByDefault(): void
+    {
+        $skill = new Skill('PHP', SkillLevel::Expert, 9);
+
+        $this->assertNull($skill->description());
+    }
+
+    public function testDescriptionCanBeSet(): void
+    {
+        $skill = new Skill('PHP', SkillLevel::Expert, 9, null, '<p>My description</p>');
+
+        $this->assertSame('<p>My description</p>', $skill->description());
+    }
+
+    public function testFromArrayWithDescription(): void
+    {
+        $skill = Skill::fromArray([
+            'name' => 'PHP',
+            'level' => 'expert',
+            'years' => 9,
+            'description' => '<p>A description</p>',
+        ]);
+
+        $this->assertSame('<p>A description</p>', $skill->description());
+    }
+
+    public function testFromArrayWithoutDescriptionReturnsNull(): void
+    {
+        $skill = Skill::fromArray(['name' => 'PHP', 'level' => 'expert', 'years' => 9]);
+
+        $this->assertNull($skill->description());
+    }
+
+    public function testFromArrayWithEmptyDescriptionThrowsException(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessageMatches('/description/i');
+
+        new Skill('PHP', SkillLevel::Expert, 9, null, '   ');
+    }
 }

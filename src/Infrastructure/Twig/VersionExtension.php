@@ -10,13 +10,13 @@ use Twig\TwigFunction;
 /**
  * Twig Extension to expose app version.
  *
- * Provides app_version() function in Twig templates
- * to display current version from VERSION file
+ * Provides app_version() function in Twig templates.
+ * Version is injected from APP_VERSION env var (defined in .env).
  */
 final class VersionExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly string $projectDir
+        private readonly string $version
     ) {
     }
 
@@ -32,18 +32,6 @@ final class VersionExtension extends AbstractExtension
 
     public function getVersion(): string
     {
-        $versionFile = $this->projectDir . '/VERSION';
-
-        if (!file_exists($versionFile)) {
-            return 'unknown';
-        }
-
-        $content = file_get_contents($versionFile);
-
-        if (false === $content) {
-            return 'unknown';
-        }
-
-        return trim($content);
+        return $this->version;
     }
 }
