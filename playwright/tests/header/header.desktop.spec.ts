@@ -2,9 +2,9 @@ import { test } from '@playwright/test';
 import * as homePage from '@components/home';
 import * as headerPage from '@components/header';
 
-const EXPECTED_NAV_ORDER = ['Home', 'CV', 'Code & AI', 'PPiA', 'Proyectos', 'Contacto'];
+const EXPECTED_NAV_ORDER = ['Home', 'CV', 'Portfolio', 'Code & AI', 'PPiA', 'Proyectos', 'Contacto'];
 
-test('header nav: se renderiza con logo, 6 enlaces y aria-label correctos', async ({ page }) => {
+test('header nav: se renderiza con logo, 7 enlaces y aria-label correctos', async ({ page }) => {
   await test.step('When: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
@@ -14,8 +14,8 @@ test('header nav: se renderiza con logo, 6 enlaces y aria-label correctos', asyn
     await headerPage.logoHasText(page, 'José Moreu Peso');
   });
 
-  await test.step('Then: hay 6 enlaces de navegación en el orden esperado', async () => {
-    await headerPage.hasNavLinksCount(page, 6);
+  await test.step('Then: hay 7 enlaces de navegación en el orden esperado', async () => {
+    await headerPage.hasNavLinksCount(page, 7);
     await headerPage.navLinksAreInOrder(page, EXPECTED_NAV_ORDER);
   });
 
@@ -26,7 +26,7 @@ test('header nav: se renderiza con logo, 6 enlaces y aria-label correctos', asyn
 });
 
 test('header nav: el header está presente en todas las páginas', async ({ page }) => {
-  const routes = ['/', '/cv', '/contacto', '/proyectos', '/code-ai', '/ppia'];
+  const routes = ['/', '/cv', '/portfolio', '/contacto', '/proyectos', '/code-ai', '/ppia'];
 
   for (const route of routes) {
     await test.step(`When: el usuario navega a ${route}`, async () => {

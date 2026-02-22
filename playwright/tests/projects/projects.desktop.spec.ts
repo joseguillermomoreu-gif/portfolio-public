@@ -14,11 +14,11 @@ test.describe('Projects - Content', () => {
     await navigateToProjects(page);
   });
 
-  test('should display 5 project cards', async ({ page }) => {
+  test('should display 6 project cards', async ({ page }) => {
     const { projectCards } = projectsLocators(page);
 
-    await test.step('Then exactly 5 project cards are rendered', async () => {
-      await expect(projectCards).toHaveCount(5);
+    await test.step('Then exactly 6 project cards are rendered', async () => {
+      await expect(projectCards).toHaveCount(6);
     });
   });
 
