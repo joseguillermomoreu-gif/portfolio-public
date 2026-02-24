@@ -27,6 +27,7 @@ export default [
 
       // Playwright rules
       ...playwright.configs['flat/recommended'].rules,
+      'playwright/expect-expect': 'off',
       'playwright/no-skipped-test': 'warn',
       'playwright/prefer-web-first-assertions': 'error',
       'playwright/no-wait-for-timeout': 'warn',

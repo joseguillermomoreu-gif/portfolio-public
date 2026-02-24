@@ -1,18 +1,16 @@
-import { test, expect } from '@playwright/test';
-import { codeAiLocators } from '@components/code-ai';
+import { test } from '@playwright/test';
+import * as codeAiPage from '@components/code-ai';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/code-ai');
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
-});
+test('Code & AI visual: cabecera y grid en mobile', { tag: ['@test', '@code_ai', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página Code & AI', async () => {
+    await codeAiPage.navigateToCodeAi(page);
+  });
 
-test('Code & AI - Header', async ({ page }) => {
-  const { codeAiHeader } = codeAiLocators(page);
-  await expect(codeAiHeader).toHaveScreenshot('code-ai-header-mobile.png', { animations: 'disabled' });
-});
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await codeAiPage.codeAiHeaderMatchesSnapshot(page, 'code-ai-header-mobile.png');
+  });
 
-test('Code & AI - Articles Grid', async ({ page }) => {
-  const { articlesGrid } = codeAiLocators(page);
-  await expect(articlesGrid).toHaveScreenshot('code-ai-grid-mobile.png', { animations: 'disabled' });
+  await test.step('Then: el grid de artículos coincide con el snapshot', async () => {
+    await codeAiPage.articlesGridMatchesSnapshot(page, 'code-ai-grid-mobile.png');
+  });
 });

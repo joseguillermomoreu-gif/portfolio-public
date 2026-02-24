@@ -2,7 +2,7 @@ import { Page, expect } from '@playwright/test';
 import * as selectors from './selectors';
 
 export async function navigateHome(page: Page): Promise<void> {
-  await page.goto('/');
+  await page.goto(selectors.route);
   await page.waitForLoadState('domcontentloaded');
 }
 
@@ -30,10 +30,22 @@ export async function hasFourStatCards(page: Page): Promise<void> {
 }
 
 export async function portfolioPublicRepoLinkIsValid(page: Page): Promise<void> {
-  const publicRepoLink = page.locator(selectors.portfolioContext).first().locator('a[href*="portfolio-public"]');
+  const publicRepoLink = page.locator(selectors.portfolioContext).first().locator(selectors.publicRepoLink);
   await expect(publicRepoLink).toBeVisible();
-  await expect(publicRepoLink).toHaveAttribute('href', 'https://github.com/joseguillermomoreu-gif/portfolio-public');
+  await expect(publicRepoLink).toHaveAttribute('href', selectors.publicRepoUrl);
   await expect(publicRepoLink).toHaveAttribute('target', '_blank');
+}
+
+export async function akkodisLinkIsValid(page: Page): Promise<void> {
+  await expect(page.locator(selectors.akkodisLink)).toBeVisible();
+  await expect(page.locator(selectors.akkodisLink)).toHaveAttribute('href', selectors.akkodisUrl);
+  await expect(page.locator(selectors.akkodisLink)).toHaveAttribute('target', '_blank');
+}
+
+export async function elConfidencialLinkIsValid(page: Page): Promise<void> {
+  await expect(page.locator(selectors.elConfidencialLink)).toBeVisible();
+  await expect(page.locator(selectors.elConfidencialLink)).toHaveAttribute('href', selectors.elConfidencialUrl);
+  await expect(page.locator(selectors.elConfidencialLink)).toHaveAttribute('target', '_blank');
 }
 
 export async function heroMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {

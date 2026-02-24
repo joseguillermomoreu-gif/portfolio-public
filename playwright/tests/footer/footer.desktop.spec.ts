@@ -1,70 +1,38 @@
-import { test, expect } from '@playwright/test';
-import { footerLocators, scrollToFooter, footerDynamicMasks } from '@components/footer';
+import { test } from '@playwright/test';
+import * as footerPage from '@components/footer';
+import * as homePage from '@components/home';
 
-test.describe('Footer - Structure', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+test('footer: contenido, enlaces y metadatos son correctos', { tag: ['@test', '@footer'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página principal', async () => {
+    await homePage.navigateHome(page);
   });
 
-  test('should display social links with security attributes', async ({ page }) => {
-    const { socialLinks } = footerLocators(page);
-
-    await test.step('Then social links have target="_blank" and rel="noopener"', async () => {
-      await expect(socialLinks.first()).toBeVisible();
-      await expect(socialLinks.first()).toHaveAttribute('target', '_blank');
-      await expect(socialLinks.first()).toHaveAttribute('rel', /noopener/);
-    });
+  await test.step('Then: los enlaces sociales tienen target="_blank" y rel="noopener"', async () => {
+    await footerPage.socialLinksAreSecure(page);
   });
 
-  test('should have GitHub profile link', async ({ page }) => {
-    const { container } = footerLocators(page);
-
-    await test.step('Then the GitHub profile link is visible and opens in a new tab', async () => {
-      const githubLink = container.locator('a[href="https://github.com/joseguillermomoreu-gif"]');
-      await expect(githubLink).toBeVisible();
-      await expect(githubLink).toHaveAttribute('target', '_blank');
-    });
-  });
-});
-
-test.describe('Footer - Dynamic Content', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+  await test.step('Then: el enlace al perfil de GitHub es visible y se abre en nueva pestaña', async () => {
+    await footerPage.githubProfileLinkIsValid(page);
   });
 
-  test('should display the current year', async ({ page }) => {
-    const { year } = footerLocators(page);
-    const currentYear = new Date().getFullYear().toString();
-
-    await test.step('Then the footer shows the current year', async () => {
-      await expect(year).toBeVisible();
-      await expect(year).toContainText(currentYear);
-    });
-  });
-
-  test('should display version with semver format', async ({ page }) => {
-    const { version } = footerLocators(page);
-
-    await test.step('Then the version element matches vX.Y.Z format', async () => {
-      await expect(version).toBeVisible();
-      const versionText = await version.textContent();
-      expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/);
-    });
+  await test.step('Then: el footer muestra el año actual y la versión en formato semver', async () => {
+    await footerPage.yearIsCurrentYear(page);
+    await footerPage.versionMatchesSemver(page);
   });
 });
 
 // ─── Visual Regression ────────────────────────────────────────────────────────
 
-test.describe('Footer - Visual', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-    // eslint-disable-next-line playwright/no-networkidle
-    await page.waitForLoadState('networkidle');
-    await scrollToFooter(page);
+test('footer visual: footer en desktop', { tag: ['@test', '@footer', '@styles'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
+    await homePage.navigateHome(page);
   });
 
-  test('Footer - Desktop', async ({ page }) => {
-    const { container } = footerLocators(page);
-    await expect(container).toHaveScreenshot('footer-desktop.png', { animations: 'disabled', mask: footerDynamicMasks(page) });
+  await test.step('When: el usuario hace scroll al footer', async () => {
+    await footerPage.scrollToFooter(page);
+  });
+
+  await test.step('Then: el footer coincide con el snapshot', async () => {
+    await footerPage.footerMatchesSnapshot(page, 'footer-desktop.png');
   });
 });

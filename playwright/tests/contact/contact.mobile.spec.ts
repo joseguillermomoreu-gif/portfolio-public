@@ -1,23 +1,20 @@
-import { test, expect } from '@playwright/test';
-import { contactLocators } from '@components/contact';
+import { test } from '@playwright/test';
+import * as contactPage from '@components/contact';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/contacto');
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
-});
+test('Contacto visual: cabecera, tarjeta y redes en mobile', { tag: ['@test', '@contact', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de contacto', async () => {
+    await contactPage.navigateToContact(page);
+  });
 
-test('Contact - Header', async ({ page }) => {
-  const { contactHeader } = contactLocators(page);
-  await expect(contactHeader).toHaveScreenshot('contact-header-mobile.png', { animations: 'disabled' });
-});
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await contactPage.contactHeaderMatchesSnapshot(page, 'contact-header-mobile.png');
+  });
 
-test('Contact - Contact Card', async ({ page }) => {
-  const { contactCard } = contactLocators(page);
-  await expect(contactCard).toHaveScreenshot('contact-card-mobile.png', { animations: 'disabled' });
-});
+  await test.step('Then: la tarjeta de contacto coincide con el snapshot', async () => {
+    await contactPage.contactCardMatchesSnapshot(page, 'contact-card-mobile.png');
+  });
 
-test('Contact - Social Section', async ({ page }) => {
-  const { socialSection } = contactLocators(page);
-  await expect(socialSection).toHaveScreenshot('contact-social-mobile.png', { animations: 'disabled' });
+  await test.step('Then: la sección de redes sociales coincide con el snapshot', async () => {
+    await contactPage.socialSectionMatchesSnapshot(page, 'contact-social-mobile.png');
+  });
 });

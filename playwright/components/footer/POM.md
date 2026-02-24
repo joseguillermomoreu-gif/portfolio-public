@@ -1,18 +1,27 @@
 # POM: Footer
 
-Footer presente en todas las páginas. Incluye enlaces a redes sociales, versión dinámica y año actual. Provee helpers para visual regression con enmascaramiento del contenido dinámico.
+Footer presente en todas las páginas. Incluye enlaces a redes sociales, versión dinámica y año actual.
 
 ---
 
 ## Acciones
 
 - `scrollToFooter()` — Hace scroll hasta que el footer sea visible
-- `footerDynamicMasks()` — Retorna `Locator[]` con `.footer-meta` para usar como `mask` en visual regression
+
+## Assertions
+
+- `socialLinksAreSecure()` — El primer enlace social tiene `target="_blank"` y `rel="noopener"`
+- `githubProfileLinkIsValid()` — El enlace al perfil de GitHub es visible y se abre en `_blank`
+- `yearIsCurrentYear()` — El footer muestra el año en curso
+- `versionMatchesSemver()` — El footer muestra la versión en formato `vX.Y.Z`
 
 ## Visual Regression
 
-- Usar `footerDynamicMasks()` como `mask` para enmascarar versión y año (contenido dinámico).
-- Se enmascara `.footer-meta` (contenedor padre) para que el tamaño de la máscara sea estable aunque cambie el texto.
+- `footerMatchesSnapshot(snapshotName)` — Screenshot de `.site-footer` con `.footer-meta` enmascarado (versión y año son contenido dinámico)
+
+## Notas
+
+- Se enmascara `.footer-meta` (contenedor padre de versión y año) para que el tamaño de la máscara sea estable aunque cambie el texto.
 
 ## Selectores
 
@@ -21,8 +30,8 @@ Footer presente en todas las páginas. Incluye enlaces a redes sociales, versió
 - `version` → `.footer-version`
 - `year` → `.footer-year`
 - `footerMeta` → `.footer-meta`
-- `footerText` → `.footer-text`
+- `githubProfileLink` → `a[href="https://github.com/joseguillermomoreu-gif"]`
 
 ---
 
-*Spec*: `footer.spec.ts`
+*Specs*: `footer.desktop.spec.ts`, `footer.mobile.spec.ts`

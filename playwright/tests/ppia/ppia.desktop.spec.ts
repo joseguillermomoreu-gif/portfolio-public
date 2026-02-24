@@ -1,27 +1,16 @@
-import { test, expect } from '@playwright/test';
-import { navigateToPpia, ppiaLocators } from '@components/ppia';
+import { test } from '@playwright/test';
+import * as ppiaPage from '@components/ppia';
 
-test.describe('PPiA - Smoke', () => {
-  test('should load PPiA page with correct title', async ({ page }) => {
-    await navigateToPpia(page);
-
-    await test.step('Then the page title contains PPiA', async () => {
-      await expect(page).toHaveTitle(/PPiA|Playwright Page Inspector/i);
-    });
-  });
-});
-
-// ─── Visual Regression ────────────────────────────────────────────────────────
-
-test.describe('PPiA - Visual', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/ppia');
-    // eslint-disable-next-line playwright/no-networkidle
-    await page.waitForLoadState('networkidle');
+test('PPiA: título correcto y cabecera coincide con snapshot', { tag: ['@test', '@ppia', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página PPiA', async () => {
+    await ppiaPage.navigateToPpia(page);
   });
 
-  test('PPiA - Header', async ({ page }) => {
-    const { ppiaHeader } = ppiaLocators(page);
-    await expect(ppiaHeader).toHaveScreenshot('ppia-header-desktop.png', { animations: 'disabled' });
+  await test.step('Then: el título de la página contiene PPiA', async () => {
+    await ppiaPage.titleIsCorrect(page);
+  });
+
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await ppiaPage.ppiaHeaderMatchesSnapshot(page, 'ppia-header-desktop.png');
   });
 });

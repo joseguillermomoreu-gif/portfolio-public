@@ -1,175 +1,125 @@
-# Tests E2E - Resultados de Ejecución
+# TEST.md — E2E Test Suite
 
-**Última ejecución:** 20 de febrero de 2026
+> Generado automáticamente desde el JSON reporter de Playwright.
+> Última actualización: 2026-02-23
 
-**Leyenda de tiempos**:
-- `~Xs` → Tiempo del test en la última ejecución limpia (sin retries)
-- `*` → Test falla permanentemente (ambos intentos)
-
-**Config global**: `retries: 1` · `workers: 4` (local) / `1` (CI) · `fullyParallel: true`
+**Total tests: 72** | Proyectos: desktop · mobile · tablet-small · tablet-large
 
 ---
 
-## Tests de Home
+## Home
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Home - Smoke > should serve homepage with correct title | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 2 | Home - Hero Section > should display CV CTA button | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 3 | Home - Hero Section > should display Contact CTA button | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 4 | Home - Stats Cards > should display 4 stat cards | playwright/tests/home/home.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 5 | Home - Portfolio Context > should have portfolio-public repository link | playwright/tests/home/home.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 6 | Home - Hero Visual > Desktop | playwright/tests/home/home.spec.ts | - | ~1.5s | Sí | No | 1 |
-| 7 | Home - Hero Visual > Mobile | playwright/tests/home/home.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 8 | Home - Hero Visual > Dark Mode Desktop | playwright/tests/home/home.spec.ts | - | ~2.1s | Sí | No | 1 |
-| 9 | Home - Skills Visual > Desktop - Grid | playwright/tests/home/home.spec.ts | - | ~1.4s | Sí | No | 1 |
-| 10 | Home - Quick Intro Visual > Desktop - Header | playwright/tests/home/home.spec.ts | - | ~1.4s | Sí | No | 1 |
-| 11 | Home - Quick Intro Visual > Desktop - Stats | playwright/tests/home/home.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 12 | Home - Quick Intro Visual > Mobile - Header | playwright/tests/home/home.spec.ts | - | ~1.4s | Sí | No | 1 |
-| 13 | Home - Quick Intro Visual > Mobile - Stats | playwright/tests/home/home.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 14 | Home - Context & Focus Visual > Desktop - Context | playwright/tests/home/home.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 15 | Home - Context & Focus Visual > Desktop - Focus | playwright/tests/home/home.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 16 | Home - Context & Focus Visual > Mobile - Context | playwright/tests/home/home.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 17 | Home - Context & Focus Visual > Mobile - Focus | playwright/tests/home/home.spec.ts | - | ~1.1s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 1 | home: la página principal tiene el título correcto | `playwright/tests/home/home.desktop.spec.ts` | `@test` `@home` | 1.2s | When: el usuario navega a la página principal<br>Then: el título contiene el nombre del propietario<br>Then: la sección de foco actual coincide con el snapshot visual |
+| 2 | home hero: aparecenlos botones de CV y de Contacto | `playwright/tests/home/home.desktop.spec.ts` | `@test` `@home` `@styles` | 1.2s | When: el usuario navega a la página principal<br>Then: el botón CTA de CV es visible<br>Then: el botón CTA de Contacto es visible<br>Then: el hero coincide con el snapshot visual |
+| 3 | home visual quick intro: header | `playwright/tests/home/home.desktop.spec.ts` | `@test` `@home` `@styles` | 1.0s | When: el usuario navega a la página principal<br>Then: el header de quick intro coincide con el snapshot visual |
+| 4 | home stats: se muestran 4 stat cards | `playwright/tests/home/home.desktop.spec.ts` | `@test` `@home` `@styles` | 1.0s | When: el usuario navega a la página principal<br>Then: se renderizan 4 stat cards<br>Then: las stats de quick intro coinciden con el snapshot visual |
+| 5 | home contexto: existe el enlace al repositorio público del portfolio | `playwright/tests/home/home.desktop.spec.ts` | `@test` `@home` | 959ms | When: el usuario navega a la página principal<br>Then: el enlace al repositorio público es visible con href y target correctos |
+| 6 | home contexto: el enlace a Akkodis y de El confidencial son validoses válido | `playwright/tests/home/home.desktop.spec.ts` | `@test` `@home` `@styles` | 806ms | When: el usuario navega a la página principal<br>Then: el enlace a Akkodis es visible con href y target correctos<br>Then: el enlace a El Confidencial es visible con href y target correctos<br>Then: la sección de contexto coincide con el snapshot visual |
+| 7 | home visual hero: modo oscuro | `playwright/tests/home/home.desktop.spec.ts` | `@test` `@home` `@styles` `@dark_mode` | 1.7s | When: el usuario navega a la página principal y activa el modo oscuro<br>Then: el tema activo es oscuro<br>Then: el hero coincide con el snapshot en modo oscuro |
+| 8 | home visual skills: grid | `playwright/tests/home/home.skills.desktop.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.0s | When: el usuario navega a la página principal<br>When: oculta el header<br>Then: el grid de skills coincide con el snapshot visual |
+| 9 | home visual skills: esquina superior izquierda expandida | `playwright/tests/home/home.skills.desktop.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.9s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina superior izquierda (pos 1)<br>Then: el grid coincide con el snapshot visual |
+| 10 | home visual skills: esquina superior derecha expandida | `playwright/tests/home/home.skills.desktop.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.7s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina superior derecha (pos 3)<br>Then: el grid coincide con el snapshot visual |
+| 11 | home visual skills: esquina inferior izquierda expandida | `playwright/tests/home/home.skills.desktop.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.6s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina inferior izquierda (pos 7)<br>Then: el grid coincide con el snapshot visual |
+| 12 | home visual skills: esquina inferior derecha expandida | `playwright/tests/home/home.skills.desktop.spec.ts` | `@test` `@home` `@skills` `@styles` | 2.3s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina inferior derecha (pos 9)<br>Then: el grid coincide con el snapshot visual |
+| 13 | home visual hero | `playwright/tests/home/home.mobile.spec.ts` | `@test` `@home` `@styles` | 1.2s | When: el usuario navega a la página principal<br>Then: el hero coincide con el snapshot visual |
+| 14 | home visual quick intro: header | `playwright/tests/home/home.mobile.spec.ts` | `@test` `@home` `@styles` | 1.1s | When: el usuario navega a la página principal<br>Then: el header de quick intro coincide con el snapshot visual |
+| 15 | home visual quick intro: stats | `playwright/tests/home/home.mobile.spec.ts` | `@test` `@home` `@styles` | 1.0s | When: el usuario navega a la página principal<br>Then: las stats de quick intro coinciden con el snapshot visual |
+| 16 | home visual contexto | `playwright/tests/home/home.mobile.spec.ts` | `@test` `@home` `@styles` | 898ms | When: el usuario navega a la página principal<br>Then: la sección de contexto coincide con el snapshot visual |
+| 17 | home visual foco | `playwright/tests/home/home.mobile.spec.ts` | `@test` `@home` `@styles` | 682ms | When: el usuario navega a la página principal<br>Then: la sección de foco actual coincide con el snapshot visual |
+| 18 | home visual skills: grid | `playwright/tests/home/home.skills.mobile.spec.ts` | `@test` `@home` `@skills` `@styles` | 629ms | When: el usuario navega a la página principal<br>When: oculta el header<br>Then: el grid de skills (6 items) coincide con el snapshot visual |
+| 19 | home visual skills: esquina superior izquierda expandida | `playwright/tests/home/home.skills.mobile.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.5s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina superior izquierda (pos 1)<br>Then: el grid coincide con el snapshot visual |
+| 20 | home visual skills: esquina superior derecha expandida | `playwright/tests/home/home.skills.mobile.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.5s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina superior derecha (pos 2)<br>Then: el grid coincide con el snapshot visual |
+| 21 | home visual skills: esquina inferior izquierda expandida | `playwright/tests/home/home.skills.mobile.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.5s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina inferior izquierda (pos 5)<br>Then: el grid coincide con el snapshot visual |
+| 22 | home visual skills: esquina inferior derecha expandida | `playwright/tests/home/home.skills.mobile.spec.ts` | `@test` `@home` `@skills` `@styles` | 1.6s | Given: el usuario navega a la página principal<br>When: oculta el header y expande la skill de la esquina inferior derecha (pos 6)<br>Then: el grid coincide con el snapshot visual |
 
-## Tests de Header - Navegación
+## Header
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Header - Structure > should display logo with owner name | playwright/tests/header/header.nav.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 2 | Header - Structure > should have 6 navigation links in correct order | playwright/tests/header/header.nav.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 3 | Header - Structure > should highlight the active Home link on homepage | playwright/tests/header/header.nav.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 4 | Header - Structure > should have accessible navigation element | playwright/tests/header/header.nav.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 5 | Header - Structure > should be present across all pages | playwright/tests/header/header.nav.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 6 | Header - Mobile Hamburger > should show hamburger and hide nav by default | playwright/tests/header/header.nav.spec.ts | - | ~0.9s | Sí | No | 1 |
-| 7 | Header - Mobile Hamburger > clicking hamburger should open mobile menu | playwright/tests/header/header.nav.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 8 | Header - Mobile Hamburger > clicking overlay should close mobile menu | playwright/tests/header/header.nav.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 9 | Header - Mobile Hamburger > pressing ESC should close mobile menu | playwright/tests/header/header.nav.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 10 | Header - Mobile Hamburger > hamburger should have proper ARIA attributes | playwright/tests/header/header.nav.spec.ts | - | ~0.9s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 23 | header nav: se renderiza con logo, 7 enlaces y aria-label correctos | `playwright/tests/header/header.desktop.spec.ts` | `@test` `@header` | 1.4s | When: el usuario navega a la página principal<br>Then: el logo es visible y muestra el nombre del propietario<br>Then: hay 7 enlaces de navegación en el orden esperado<br>Then: el enlace activo es "Home" y la nav tiene aria-label |
+| 24 | header nav: el header está presente en todas las páginas | `playwright/tests/header/header.desktop.spec.ts` | `@test` `@header` | 1.7s | When: el usuario navega a /<br>Then: el header y el logo son visibles en /<br>When: el usuario navega a /cv<br>Then: el header y el logo son visibles en /cv<br>When: el usuario navega a /portfolio<br>Then: el header y el logo son visibles en /portfolio<br>When: el usuario navega a /contacto<br>Then: el header y el logo son visibles en /contacto<br>When: el usuario navega a /proyectos<br>Then: el header y el logo son visibles en /proyectos<br>When: el usuario navega a /code-ai<br>Then: el header y el logo son visibles en /code-ai<br>When: el usuario navega a /ppia<br>Then: el header y el logo son visibles en /ppia |
+| 25 | header visual: aspecto en desktop (sin scroll y con scroll) | `playwright/tests/header/header.desktop.spec.ts` | `@test` `@header` `@styles` | 1.7s | Given: el usuario navega a la página principal<br>Given: el header sin scroll coincide con el snapshot<br>When: el usuario hace scroll hacia abajo<br>Then: el header con scroll coincide con el snapshot |
+| 26 | header dark mode: en desktop el tema es light por defecto y el toggle es visible | `playwright/tests/header/header.desktop.spec.ts` | `@test` `@header` `@dark_mode` | 1.2s | When: el usuario navega a la página principal con localStorage limpio<br>Then: el tema por defecto es light y el toggle es visible con aria-label |
+| 27 | header nav mobile: estado inicial — hamburger visible, cerrado y con ARIA correctos | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` | 661ms | When: el usuario navega a la página principal<br>Then: el hamburger es visible y el menú está cerrado<br>Then: el hamburger tiene aria-label y aria-expanded es false |
+| 28 | header nav mobile: abrir menú — aria-expanded y estado activo | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` | 689ms | Given: el usuario navega a la página principal<br>When: el usuario hace click en el hamburger<br>Then: aria-expanded cambia a true y el menú está activo |
+| 29 | header nav mobile: click en el overlay cierra el menú | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` | 700ms | Given: el usuario navega y el menú está abierto<br>When: el usuario hace click en el overlay<br>Then: el menú está cerrado |
+| 30 | header nav mobile: tecla Escape cierra el menú | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` | 690ms | Given: el usuario navega y el menú está abierto<br>When: el usuario pulsa Escape<br>Then: el menú está cerrado |
+| 31 | header visual: aspecto en mobile (menú cerrado y abierto) | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` `@styles` | 727ms | Given: el usuario navega a la página principal<br>Given: el header con menú cerrado coincide con el snapshot<br>When: el usuario abre el menú de navegación<br>Then: la página completa con menú abierto coincide con el snapshot |
+| 32 | header dark mode: dark mode se fuerza en mobile (375×667) | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` `@dark_mode` | 780ms | When: el usuario navega a la página principal con localStorage limpio<br>Then: el tema es dark y el toggle está oculto |
+| 33 | header dark mode: dark mode persiste en mobile tras recargar | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` `@dark_mode` | 820ms | Given: localStorage limpio<br>When: el usuario recarga la página<br>Then: el tema sigue siendo dark |
+| 34 | header dark mode: dark mode ignora localStorage light en mobile | `playwright/tests/header/header.mobile.spec.ts` | `@test` `@header` `@dark_mode` | 994ms | Given: localStorage tiene theme=light<br>When: el usuario recarga la página<br>Then: dark mode sigue forzado |
+| 35 | header dark mode: dark mode se fuerza en tablets < 850px (844×390) | `playwright/tests/header/header.dark-mode.tablet-small.spec.ts` | `@test` `@header` `@dark_mode` | 821ms | When: el usuario navega a la página principal con localStorage limpio<br>Then: el tema es dark y el toggle está oculto |
+| 36 | header dark mode: dark mode persiste tras recargar | `playwright/tests/header/header.dark-mode.tablet-small.spec.ts` | `@test` `@header` `@dark_mode` | 1.1s | Given: localStorage limpio<br>When: el usuario recarga la página<br>Then: el tema sigue siendo dark |
+| 37 | header dark mode: dark mode ignora localStorage light | `playwright/tests/header/header.dark-mode.tablet-small.spec.ts` | `@test` `@header` `@dark_mode` | 1.1s | Given: localStorage tiene theme=light<br>When: el usuario recarga la página<br>Then: dark mode sigue forzado |
+| 38 | header dark mode: en tablets >= 850px el toggle funciona (1024×768) | `playwright/tests/header/header.dark-mode.tablet-large.spec.ts` | `@test` `@header` `@dark_mode` | 1.5s | Given: el usuario navega con localStorage limpio<br>Given: el tema por defecto es light y el toggle es visible<br>When: el usuario hace click en el toggle de tema<br>Then: el tema cambia a dark |
 
-## Tests de Header - Dark Mode
+## Footer
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Header - Dark Mode Mobile (forced < 850px) > should hide theme toggle on mobile | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 2 | Header - Dark Mode Mobile (forced < 850px) > should force dark mode on mobile | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 3 | Header - Dark Mode Mobile (forced < 850px) > should maintain dark mode on reload | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 4 | Header - Dark Mode Mobile (forced < 850px) > should ignore localStorage light theme on mobile | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 5 | Header - Dark Mode Tablet Breakpoint > should force dark mode on tablets < 850px | playwright/tests/header/header.dark-mode.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 6 | Header - Dark Mode Tablet Breakpoint > should allow theme toggle on tablets >= 850px | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 7 | Header - Dark Mode Desktop > should start with light theme by default on desktop | playwright/tests/header/header.dark-mode.spec.ts | - | ~0.9s | Sí | No | 1 |
-| 8 | Header - Dark Mode Desktop > should display theme toggle with aria-label on desktop | playwright/tests/header/header.dark-mode.spec.ts | - | ~1.0s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 39 | footer: contenido, enlaces y metadatos son correctos | `playwright/tests/footer/footer.desktop.spec.ts` | `@test` `@footer` | 1.4s | When: el usuario navega a la página principal<br>Then: los enlaces sociales tienen target="_blank" y rel="noopener"<br>Then: el enlace al perfil de GitHub es visible y se abre en nueva pestaña<br>Then: el footer muestra el año actual y la versión en formato semver |
+| 40 | footer visual: footer en desktop | `playwright/tests/footer/footer.desktop.spec.ts` | `@test` `@footer` `@styles` | 1.5s | Given: el usuario navega a la página principal<br>When: el usuario hace scroll al footer<br>Then: el footer coincide con el snapshot |
+| 41 | footer visual: footer en mobile | `playwright/tests/footer/footer.mobile.spec.ts` | `@test` `@footer` `@styles` | 782ms | Given: el usuario navega a la página principal<br>When: el usuario hace scroll al footer<br>Then: el footer coincide con el snapshot |
 
-## Tests de Header - Visual
+## Contact
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Header - Visual > Desktop - Top (not scrolled) | playwright/tests/header/header.visual.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 2 | Header - Visual > Desktop - Scrolled | playwright/tests/header/header.visual.spec.ts | - | ~1.6s | Sí | No | 1 |
-| 3 | Header - Visual > Mobile - Nav Closed | playwright/tests/header/header.visual.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 4 | Header - Visual > Mobile - Nav Open | playwright/tests/header/header.visual.spec.ts | - | ~1.6s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 42 | Contacto: título, enlaces y seguridad son correctos | `playwright/tests/contact/contact.desktop.spec.ts` | `@test` `@contact` | 1.2s | When: el usuario navega a la página de contacto<br>Then: el título de la página contiene Contacto y el nombre del autor<br>Then: el enlace de email y el de GitHub son válidos<br>Then: todos los enlaces externos tienen rel="noopener" |
+| 43 | Contacto visual: cabecera, tarjeta y redes en desktop | `playwright/tests/contact/contact.desktop.spec.ts` | `@test` `@contact` `@styles` | 1.4s | When: el usuario navega a la página de contacto<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de contacto coincide con el snapshot<br>Then: la sección de redes sociales coincide con el snapshot |
+| 44 | Contacto visual: cabecera, tarjeta y redes en mobile | `playwright/tests/contact/contact.mobile.spec.ts` | `@test` `@contact` `@styles` | 803ms | When: el usuario navega a la página de contacto<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de contacto coincide con el snapshot<br>Then: la sección de redes sociales coincide con el snapshot |
 
-## Tests de Footer
+## CV
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Footer - Structure > should display social links with security attributes | playwright/tests/footer/footer.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 2 | Footer - Structure > should have GitHub profile link | playwright/tests/footer/footer.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 3 | Footer - Dynamic Content > should display the current year | playwright/tests/footer/footer.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 4 | Footer - Dynamic Content > should display version with semver format | playwright/tests/footer/footer.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 5 | Footer - Visual > Desktop | playwright/tests/footer/footer.spec.ts | - | ~1.4s | Sí | No | 1 |
-| 6 | Footer - Visual > Mobile | playwright/tests/footer/footer.spec.ts | - | ~1.2s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 45 | CV: título, descarga PDF y carrusel son correctos | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` | 1.0s | When: el usuario navega a la página CV<br>Then: el título de la página contiene CV y el nombre del autor<br>Then: el enlace de descarga del PDF es visible y el carrusel tiene el título "Stack Técnico" |
+| 46 | CV visual: cabecera, PDF y técnica en desktop | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` `@styles` | 1.9s | When: el usuario navega a la página CV<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de descarga PDF coincide con el snapshot<br>Then: la información técnica coincide con el snapshot |
+| 47 | CV: la sección del carrusel de skills es visible con título | `playwright/tests/cv/cv.mobile.spec.ts` | `@test` `@cv` | 639ms | When: el usuario navega a la página CV<br>Then: el carrusel de skills es visible y tiene el título "Stack Técnico" |
+| 48 | CV visual: cabecera, PDF y técnica en mobile | `playwright/tests/cv/cv.mobile.spec.ts` | `@test` `@cv` `@styles` | 1.3s | When: el usuario navega a la página CV<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de descarga PDF coincide con el snapshot<br>Then: la información técnica coincide con el snapshot |
 
-## Tests de CV
+## Code & AI
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | CV - Smoke & Content > should load CV page with correct title | playwright/tests/cv/cv.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 2 | CV - Smoke & Content > should display PDF download link | playwright/tests/cv/cv.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 3 | CV - Visual > Desktop > Header | playwright/tests/cv/cv.spec.ts | - | ~1.5s | Sí | No | 1 |
-| 4 | CV - Visual > Desktop > PDF Download Card | playwright/tests/cv/cv.spec.ts | - | ~1.8s | Sí | No | 1 |
-| 5 | CV - Visual > Desktop > Tech Info | playwright/tests/cv/cv.spec.ts | - | ~1.8s | Sí | No | 1 |
-| 6 | CV - Visual > Desktop > Note | playwright/tests/cv/cv.spec.ts | - | ~1.7s | Sí | No | 1 |
-| 7 | CV - Visual > Mobile > Header | playwright/tests/cv/cv.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 8 | CV - Visual > Mobile > PDF Download Card | playwright/tests/cv/cv.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 9 | CV - Visual > Mobile > Tech Info | playwright/tests/cv/cv.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 10 | CV - Visual > Mobile > Note | playwright/tests/cv/cv.spec.ts | - | ~1.1s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 49 | Code & AI: título, artículos y enlace al portfolio son correctos | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.1s | When: el usuario navega a la página Code & AI<br>Then: el título de la página contiene Code & AI y el nombre del autor<br>Then: se renderiza al menos una tarjeta y el enlace al portfolio es visible |
+| 50 | Code & AI: navega de la lista al detalle de artículo | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.0s | Given: estoy en la página de listado de Code & AI<br>When: hago click en el enlace al artículo portfolio<br>Then: llego a la página de detalle con el título correcto |
+| 51 | Code & AI detalle: título, fechas y párrafos del artículo portfolio | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.1s | When: el usuario navega al detalle del artículo del portfolio<br>Then: el título de la página coincide con el artículo<br>Then: el artículo muestra fecha y contiene párrafos |
+| 52 | Code & AI detalle: carga el artículo automatizando-e2e-con-ia | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.0s | When: el usuario navega al artículo de PPiA<br>Then: el título de la página coincide con el artículo de PPiA |
+| 53 | Code & AI: devuelve 404 para un artículo inexistente | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 276ms | When: el usuario navega a un artículo inexistente |
+| 54 | Code & AI visual: cabecera y grid en desktop | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` `@styles` | 1.7s | When: el usuario navega a la página Code & AI<br>Then: la cabecera coincide con el snapshot<br>Then: el grid de artículos coincide con el snapshot |
+| 55 | Code & AI visual: cabecera y grid en mobile | `playwright/tests/code-ai/code-ai.mobile.spec.ts` | `@test` `@code_ai` `@styles` | 1.0s | When: el usuario navega a la página Code & AI<br>Then: la cabecera coincide con el snapshot<br>Then: el grid de artículos coincide con el snapshot |
 
-## Tests de Contacto
+## PPiA
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Contact - Content & Links > should load contact page with correct title | playwright/tests/contact/contact.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 2 | Contact - Content & Links > should display email link pointing to correct address | playwright/tests/contact/contact.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 3 | Contact - Content & Links > should display GitHub link pointing to user profile | playwright/tests/contact/contact.spec.ts | - | ~0.7s | Sí | No | 1 |
-| 4 | Contact - Content & Links > external links should have security attributes | playwright/tests/contact/contact.spec.ts | - | ~0.5s | Sí | No | 1 |
-| 5 | Contact - Visual > Desktop > Header | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 6 | Contact - Visual > Desktop > Contact Card | playwright/tests/contact/contact.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 7 | Contact - Visual > Desktop > Social Section | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 8 | Contact - Visual > Mobile > Header | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 9 | Contact - Visual > Mobile > Contact Card | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 10 | Contact - Visual > Mobile > Social Section | playwright/tests/contact/contact.spec.ts | - | ~1.1s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 56 | PPiA: título correcto y cabecera coincide con snapshot | `playwright/tests/ppia/ppia.desktop.spec.ts` | `@test` `@ppia` `@styles` | 904ms | When: el usuario navega a la página PPiA<br>Then: el título de la página contiene PPiA<br>Then: la cabecera coincide con el snapshot |
+| 57 | PPiA visual: cabecera en mobile | `playwright/tests/ppia/ppia.mobile.spec.ts` | `@test` `@ppia` `@styles` | 644ms | When: el usuario navega a la página PPiA<br>Then: la cabecera coincide con el snapshot |
 
-## Tests de Proyectos
+## Proyectos
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Projects - Content > should display 5 project cards | playwright/tests/projects/projects.spec.ts | - | ~0.5s | Sí | No | 1 |
-| 2 | Projects - Content > should display POM-PPIA project with correct GitHub link | playwright/tests/projects/projects.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 3 | Projects - Content > should display Portfolio project with website link | playwright/tests/projects/projects.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 4 | Projects - Content > should display PPIA as Private without GitHub link | playwright/tests/projects/projects.spec.ts | - | ~0.6s | Sí | No | 1 |
-| 5 | Projects - Visual > Desktop > Header | playwright/tests/projects/projects.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 6 | Projects - Visual > Desktop > Grid | playwright/tests/projects/projects.spec.ts | - | ~1.4s | Sí | No | 1 |
-| 7 | Projects - Visual > Desktop > Footer | playwright/tests/projects/projects.spec.ts | - | ~1.2s | Sí | No | 1 |
-| 8 | Projects - Visual > Mobile > Header | playwright/tests/projects/projects.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 9 | Projects - Visual > Mobile > Grid | playwright/tests/projects/projects.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 10 | Projects - Visual > Mobile > Footer | playwright/tests/projects/projects.spec.ts | - | ~1.1s | Sí | No | 1 |
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 58 | Proyectos: conteo, enlaces y visibilidad de tarjetas son correctos | `playwright/tests/projects/projects.desktop.spec.ts` | `@test` `@projects` | 765ms | When: el usuario navega a la página de proyectos<br>Then: se renderizan exactamente 6 tarjetas de proyecto<br>Then: POM-PPIA tiene enlace a GitHub y Portfolio tiene enlace a producción<br>Then: la tarjeta PPIA es privada y no tiene enlace de GitHub |
+| 59 | Proyectos visual: cabecera, grid y footer en desktop | `playwright/tests/projects/projects.desktop.spec.ts` | `@test` `@projects` `@styles` | 1.2s | When: el usuario navega a la página de proyectos<br>Then: la cabecera coincide con el snapshot<br>Then: el grid coincide con el snapshot<br>Then: el footer coincide con el snapshot |
+| 60 | Proyectos visual: cabecera, grid y footer en mobile | `playwright/tests/projects/projects.mobile.spec.ts` | `@test` `@projects` `@styles` | 980ms | When: el usuario navega a la página de proyectos<br>Then: la cabecera coincide con el snapshot<br>Then: el grid coincide con el snapshot<br>Then: el footer coincide con el snapshot |
 
-## Tests de Code & AI
+## Portfolio
 
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | Code & AI - Article List > should load with correct title | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 2 | Code & AI - Article List > should display at least one article card | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 3 | Code & AI - Article List > should have links to article detail pages | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 4 | Code & AI - Navigation > should navigate from list to article detail | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.9s | Sí | No | 1 |
-| 5 | Code & AI - 404 Error Handling > should return 404 for non-existent article | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.2s | Sí | No | 1 |
-| 6 | Code & AI - Article Detail > should load portfolio article with correct title | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 7 | Code & AI - Article Detail > should display published/updated dates on detail page | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 8 | Code & AI - Article Detail > should have paragraph structure in article content | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.8s | Sí | No | 1 |
-| 9 | Code & AI - Article Detail > should load automatizando-e2e-con-ia article | playwright/tests/code-ai/code-ai.spec.ts | - | ~0.9s | Sí | No | 1 |
-| 10 | Code & AI - Visual > Desktop > Header | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.5s | Sí | No | 1 |
-| 11 | Code & AI - Visual > Desktop > Articles Grid | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.8s | Sí | No | 1 |
-| 12 | Code & AI - Visual > Mobile > Header | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.3s | Sí | No | 1 |
-| 13 | Code & AI - Visual > Mobile > Articles Grid | playwright/tests/code-ai/code-ai.spec.ts | - | ~1.3s | Sí | No | 1 |
-
-## Tests de PPiA
-
-| # | Nombre del Test | Path | Tags | Mejor Tiempo | Paralelo | Dependencias | Retries |
-|---|----------------|------|------|--------------|----------|--------------|---------|
-| 1 | PPiA - Smoke > should load PPiA page with correct title | playwright/tests/ppia/ppia.spec.ts | - | ~0.5s | Sí | No | 1 |
-| 2 | PPiA - Visual > Desktop - Header | playwright/tests/ppia/ppia.spec.ts | - | ~1.1s | Sí | No | 1 |
-| 3 | PPiA - Visual > Mobile - Header | playwright/tests/ppia/ppia.spec.ts | - | ~1.1s | Sí | No | 1 |
-
----
-
-## 📊 Resumen
-
-| Spec | Funcionales | Visuales | Total | Tiempo total estimado |
-|------|-------------|----------|-------|-----------------------|
-| `home/home.spec.ts` | 5 | 12 | 17 | ~19s |
-| `header/header.nav.spec.ts` | 10 | 0 | 10 | ~10s |
-| `header/header.dark-mode.spec.ts` | 8 | 0 | 8 | ~9s |
-| `header/header.visual.spec.ts` | 0 | 4 | 4 | ~6s |
-| `footer/footer.spec.ts` | 4 | 2 | 6 | ~5s |
-| `cv/cv.spec.ts` | 2 | 8 | 10 | ~13s |
-| `contact/contact.spec.ts` | 4 | 6 | 10 | ~10s |
-| `projects/projects.spec.ts` | 4 | 6 | 10 | ~10s |
-| `code-ai/code-ai.spec.ts` | 9 | 4 | 13 | ~12s |
-| `ppia/ppia.spec.ts` | 1 | 2 | 3 | ~3s |
-| **TOTAL** | **47** | **44** | **91** | **~26s (4 workers)** |
-
----
-
-**Última actualización:** 20 de febrero de 2026
-**Ejecución:** 91 passed · 0 failed · 28.0s (4 workers en paralelo)
+| # | Test Title | Path | Tags | Time | Gherkin |
+|---|---|---|---|---|---|
+| 61 | Portfolio: título, categorías y keywords son correctos | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.1s | When: el usuario navega a la página de portfolio<br>Then: el título contiene Portfolio y el nombre del autor<br>Then: se renderizan 4 categorías y 16 keywords<br>Then: arquitectura y testing tienen 4 keywords y sus etiquetas son visibles |
+| 62 | Portfolio: al hacer click en DDD se abre el modal con título y cuerpo | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.1s | Given: el usuario navega a la página de portfolio<br>When: hago click en la keyword DDD<br>Then: el modal DDD es visible con título, contenido y overlay |
+| 63 | Portfolio: al hacer click en cerrar se oculta el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.2s | Given: el modal DDD está abierto<br>When: hago click en el botón de cierre<br>Then: el modal y el overlay están ocultos |
+| 64 | Portfolio: al hacer click en el overlay se cierra el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 659ms | Given: el modal de Playwright está abierto<br>When: hago click en el overlay<br>Then: el modal está oculto |
+| 65 | Portfolio: al pulsar ESC se cierra el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 703ms | Given: el modal de Docker está abierto<br>When: pulso Escape<br>Then: el modal está oculto |
+| 66 | Portfolio: el modal de simpleicons muestra la imagen de marca | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 772ms | Given: el usuario navega a la página de portfolio<br>When: abro el modal de Symfony<br>Then: la cabecera del modal muestra un icono de marca |
+| 67 | Portfolio: el modal de monograma muestra el elemento de monograma | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.0s | Given: el usuario navega a la página de portfolio<br>When: abro el modal de DDD<br>Then: la cabecera del modal muestra un monograma |
+| 68 | Portfolio visual: cabecera y keywords en desktop | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` `@styles` | 1.1s | When: el usuario navega a la página de portfolio<br>Then: la cabecera coincide con el snapshot<br>Then: la sección de keywords coincide con el snapshot |
+| 69 | Portfolio mobile: las 4 categorías están presentes | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 527ms | When: el usuario navega a la página de portfolio<br>Then: se renderizan 4 secciones de categoría |
+| 70 | Portfolio mobile: el modal TDD se abre correctamente | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 774ms | Given: el usuario navega a la página de portfolio<br>When: abro el modal de TDD<br>Then: el modal TDD es visible con el título correcto |
+| 71 | Portfolio mobile: el modal TDD se cierra con el botón | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 1.1s | Given: el modal TDD está abierto<br>When: cierro el modal con el botón<br>Then: el modal está oculto |
+| 72 | Portfolio visual: cabecera y keywords en mobile | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` `@styles` | 765ms | When: el usuario navega a la página de portfolio<br>Then: la cabecera coincide con el snapshot<br>Then: la sección de keywords coincide con el snapshot |

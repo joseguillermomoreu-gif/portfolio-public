@@ -3,4 +3,4 @@ export const socialLinks = '.footer-social a';
 export const version = '.footer-version';
 export const year = '.footer-year';
 export const footerMeta = '.footer-meta';
-export const footerText = '.footer-text';
+export const githubProfileLink = 'a[href="https://github.com/joseguillermomoreu-gif"]';

@@ -2,8 +2,8 @@ import { test } from '@playwright/test';
 import * as homePage from '@components/home';
 import * as headerPage from '@components/header';
 
-test('header dark mode: dark mode se fuerza en tablets < 850px (844×390)', async ({ page }) => {
-  await test.step('Given: viewport tablet landscape de 844×390 con localStorage limpio', async () => {
+test('header dark mode: dark mode se fuerza en tablets < 850px (844×390)', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página principal con localStorage limpio', async () => {
     await homePage.navigateHome(page);
     await headerPage.clearThemeFromLocalStorage(page);
   });
@@ -14,7 +14,7 @@ test('header dark mode: dark mode se fuerza en tablets < 850px (844×390)', asyn
   });
 });
 
-test('header dark mode: dark mode persiste tras recargar', async ({ page }) => {
+test('header dark mode: dark mode persiste tras recargar', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
   await test.step('Given: localStorage limpio', async () => {
     await homePage.navigateHome(page);
     await headerPage.clearThemeFromLocalStorage(page);
@@ -30,7 +30,7 @@ test('header dark mode: dark mode persiste tras recargar', async ({ page }) => {
   });
 });
 
-test('header dark mode: dark mode ignora localStorage light', async ({ page }) => {
+test('header dark mode: dark mode ignora localStorage light', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
   await test.step('Given: localStorage tiene theme=light', async () => {
     await homePage.navigateHome(page);
     await headerPage.setLocalStorageThemeToLight(page);

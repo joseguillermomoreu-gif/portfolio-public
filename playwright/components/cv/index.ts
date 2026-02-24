@@ -1,21 +1,34 @@
-import { Page } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import * as selectors from './selectors';
 
-export function cvLocators(page: Page) {
-  return {
-    heading: page.locator(selectors.heading),
-    pdfLink: page.locator(selectors.pdfLink),
-    programmingCounter: page.locator(selectors.programmingCounter),
-    wipButton: page.locator(selectors.wipButton),
-    cvPage: page.locator(selectors.cvPage),
-    cvHeader: page.locator(selectors.cvHeader),
-    pdfDownloadCard: page.locator(selectors.pdfDownloadCard),
-    cvTechInfo: page.locator(selectors.cvTechInfo),
-    skillsCarouselSection: page.locator(selectors.skillsCarouselSection),
-  };
+export async function navigateToCv(page: Page): Promise<void> {
+  await page.goto(selectors.route);
+  await page.waitForLoadState('domcontentloaded');
+  await page.locator(selectors.heading).waitFor({ state: 'visible' });
 }
 
-export async function navigateToCv(page: Page): Promise<void> {
-  await page.goto('/cv');
-  await page.waitForLoadState('domcontentloaded');
+export async function titleIsCorrect(page: Page): Promise<void> {
+  await expect(page).toHaveTitle(/CV.*José Moreu/i);
+}
+
+export async function pdfLinkIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.pdfLink)).toBeVisible();
+}
+
+export async function skillsCarouselHasTitle(page: Page): Promise<void> {
+  const section = page.locator(selectors.skillsCarouselSection);
+  await expect(section).toBeVisible();
+  await expect(section).toContainText(selectors.skillsCarouselTitle);
+}
+
+export async function cvHeaderMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.cvHeader)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function cvPdfCardMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.pdfDownloadCard)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function cvTechInfoMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.cvTechInfo)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }

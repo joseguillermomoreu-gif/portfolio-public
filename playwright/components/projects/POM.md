@@ -1,31 +1,43 @@
 # POM: Projects
 
-Página de proyectos (`/proyectos`). Cubre grid de tarjetas de proyecto con helpers para acceder a cada campo de la tarjeta.
+Página de proyectos (`/proyectos`). Cubre grid de tarjetas de proyecto con assertions directas sobre cada tarjeta.
 
 ---
 
 ## Acciones
 
-- `navigateToProjects()` — Navega a `/proyectos` y espera `domcontentloaded`
-- `getProjectCardByName(name)` — Retorna el locator de la tarjeta de proyecto por nombre
-- `getProjectStatus(card)` — Retorna el locator del estado del proyecto en la tarjeta
-- `getProjectDescription(card)` — Retorna el locator de la descripción del proyecto
-- `getProjectStack(card)` — Retorna el locator del stack tecnológico
-- `getProjectTags(card)` — Retorna el locator de las tags del proyecto
-- `getProjectHighlights(card)` — Retorna el locator de los highlights del proyecto
-- `getProjectGithubLink(card)` — Retorna el locator del enlace GitHub del proyecto
-- `getProjectWebsiteLink(card)` — Retorna el locator del enlace web del proyecto
+- `navigateToProjects()` — Navega a `/proyectos`, espera `domcontentloaded` y el `h1` visible
+
+## Assertions
+
+- `hasProjectCount(count)` — Hay exactamente `count` tarjetas de proyecto
+- `projectGithubLinkIs(projectName, href)` — La tarjeta del proyecto indicado tiene el href de GitHub esperado
+- `projectWebsiteLinkIs(projectName, href)` — La tarjeta del proyecto indicado tiene el href de web esperado
+- `ppiaProjectIsPrivate()` — La tarjeta PPIA tiene estado "Private", contiene el highlight de El Confidencial y no tiene enlace de GitHub visible
+
+## Visual Regression
+
+- `projectsHeaderMatchesSnapshot(snapshotName)` — Screenshot de `.projects-header`
+- `projectsGridMatchesSnapshot(snapshotName)` — Screenshot de `.projects-grid`
+- `projectsFooterMatchesSnapshot(snapshotName)` — Screenshot de `.projects-footer`
 
 ## Selectores
 
+- `route` → `/proyectos`
 - `heading` → `h1`
 - `projectCards` → `[data-testid="project-card"]`
-- `mainContent` → `main`
-- `projectsPage` → `.projects-page`
+- `projectName` → `[data-testid="project-name"]`
+- `projectStatus` → `[data-testid="project-status"]`
+- `projectHighlights` → `[data-testid="project-highlights"]`
+- `projectGithubLink` → `[data-testid="project-github-link"]`
+- `projectWebsiteLink` → `[data-testid="project-website-link"]`
 - `projectsHeader` → `.projects-header`
 - `projectsGrid` → `.projects-grid`
 - `projectsFooter` → `.projects-footer`
+- `ppiaProjectName` → `PPIA` (constante)
+- `ppiaStatusPrivate` → `Private` (constante)
+- `ppiaHighlightText` → `El Confidencial` (constante)
 
 ---
 
-*Spec*: `projects.spec.ts`
+*Specs*: `projects.desktop.spec.ts`, `projects.mobile.spec.ts`

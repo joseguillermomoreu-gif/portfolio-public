@@ -15,6 +15,7 @@ Header presente en todas las páginas. Gestiona navegación principal, theme tog
 - `getNavLinkByHref(href)` — Retorna locator del link de nav por href exacto
 - `clearThemeFromLocalStorage()` — Limpia el theme del localStorage
 - `setLocalStorageThemeToLight()` — Establece `theme=light` en localStorage
+- `hideHeader()` — Oculta el elemento `<header>` vía JS (`visibility: hidden`); usado para screenshots del skills grid sin interferencia del header
 
 ## Assertions
 
@@ -46,10 +47,11 @@ Header presente en todas las páginas. Gestiona navegación principal, theme tog
 - `navigation` → `nav[role="navigation"]`
 - `navLinksContainer` → `.nav-links`
 - `navLinks` → `.nav-links .nav-link`
+- `activeNavLink` → `.nav-link.active`
 - `themeToggle` → `#theme-toggle`
 - `mobileMenuToggle` → `.mobile-menu-toggle`
 - `mobileOverlay` → `.mobile-overlay`
 
 ---
 
-*Specs*: `header.nav.desktop.spec.ts`, `header.nav.mobile.spec.ts`, `header.dark-mode.spec.ts`, `header.dark-mode.desktop.spec.ts`, `header.dark-mode.tablet-small.spec.ts`, `header.dark-mode.tablet-large.spec.ts`, `header.visual.desktop.spec.ts`, `header.visual.mobile.spec.ts`
+*Specs*: `header.desktop.spec.ts`, `header.mobile.spec.ts`, `header.dark-mode.tablet-small.spec.ts`, `header.dark-mode.tablet-large.spec.ts`

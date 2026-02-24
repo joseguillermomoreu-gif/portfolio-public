@@ -1,23 +1,20 @@
-import { test, expect } from '@playwright/test';
-import { projectsLocators } from '@components/projects';
+import { test } from '@playwright/test';
+import * as projectsPage from '@components/projects';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/proyectos');
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
-});
+test('Proyectos visual: cabecera, grid y footer en mobile', { tag: ['@test', '@projects', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de proyectos', async () => {
+    await projectsPage.navigateToProjects(page);
+  });
 
-test('Projects - Header', async ({ page }) => {
-  const { projectsHeader } = projectsLocators(page);
-  await expect(projectsHeader).toHaveScreenshot('projects-header-mobile.png', { animations: 'disabled' });
-});
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await projectsPage.projectsHeaderMatchesSnapshot(page, 'projects-header-mobile.png');
+  });
 
-test('Projects - Grid', async ({ page }) => {
-  const { projectsGrid } = projectsLocators(page);
-  await expect(projectsGrid).toHaveScreenshot('projects-grid-mobile.png', { animations: 'disabled' });
-});
+  await test.step('Then: el grid coincide con el snapshot', async () => {
+    await projectsPage.projectsGridMatchesSnapshot(page, 'projects-grid-mobile.png');
+  });
 
-test('Projects - Footer', async ({ page }) => {
-  const { projectsFooter } = projectsLocators(page);
-  await expect(projectsFooter).toHaveScreenshot('projects-footer-mobile.png', { animations: 'disabled' });
+  await test.step('Then: el footer coincide con el snapshot', async () => {
+    await projectsPage.projectsFooterMatchesSnapshot(page, 'projects-footer-mobile.png');
+  });
 });

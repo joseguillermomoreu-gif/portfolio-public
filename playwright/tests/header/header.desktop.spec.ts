@@ -1,10 +1,11 @@
 import { test } from '@playwright/test';
 import * as homePage from '@components/home';
 import * as headerPage from '@components/header';
+import * as utils from '@components/index';
 
 const EXPECTED_NAV_ORDER = ['Home', 'CV', 'Portfolio', 'Code & AI', 'PPiA', 'Proyectos', 'Contacto'];
 
-test('header nav: se renderiza con logo, 7 enlaces y aria-label correctos', async ({ page }) => {
+test('header nav: se renderiza con logo, 7 enlaces y aria-label correctos', { tag: ['@test', '@header'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
@@ -25,7 +26,7 @@ test('header nav: se renderiza con logo, 7 enlaces y aria-label correctos', asyn
   });
 });
 
-test('header nav: el header está presente en todas las páginas', async ({ page }) => {
+test('header nav: el header está presente en todas las páginas', { tag: ['@test', '@header'] }, async ({ page }) => {
   const routes = ['/', '/cv', '/portfolio', '/contacto', '/proyectos', '/code-ai', '/ppia'];
 
   for (const route of routes) {
@@ -40,26 +41,34 @@ test('header nav: el header está presente en todas las páginas', async ({ page
   }
 });
 
-test('header visual: aspecto en desktop sin scroll', async ({ page }) => {
-  await test.step('When: el usuario navega a la página principal', async () => {
+test('header visual: aspecto en desktop (sin scroll y con scroll)', { tag: ['@test', '@header', '@styles'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
 
-  await test.step('Then: el header coincide con el snapshot', async () => {
+  await test.step('Given: el header sin scroll coincide con el snapshot', async () => {
     await headerPage.headerMatchesSnapshot(page, 'header-top-desktop.png');
-  });
-});
-
-test('header visual: aspecto en desktop con scroll', async ({ page }) => {
-  await test.step('When: el usuario navega a la página principal', async () => {
-    await homePage.navigateHome(page);
   });
 
   await test.step('When: el usuario hace scroll hacia abajo', async () => {
-    await headerPage.scrollToTriggerEffect(page, 200);
+    await utils.scrollToTriggerEffect(page, 200);
   });
 
-  await test.step('Then: el header con efecto scroll coincide con el snapshot', async () => {
+  await test.step('Then: el header con scroll coincide con el snapshot', async () => {
     await headerPage.headerMatchesSnapshot(page, 'header-scrolled-desktop.png');
+  });
+});
+
+test('header dark mode: en desktop el tema es light por defecto y el toggle es visible', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página principal con localStorage limpio', async () => {
+    await homePage.navigateHome(page);
+    await headerPage.clearThemeFromLocalStorage(page);
+    await page.reload();
+  });
+
+  await test.step('Then: el tema por defecto es light y el toggle es visible con aria-label', async () => {
+    await headerPage.themeIsLight(page);
+    await headerPage.themeToggleIsVisible(page);
+    await headerPage.themeToggleHasAriaLabel(page);
   });
 });

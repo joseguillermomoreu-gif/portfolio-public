@@ -1,29 +1,32 @@
-import { test, expect } from '@playwright/test';
-import { cvLocators } from '@components/cv';
+import { test } from '@playwright/test';
+import * as cvPage from '@components/cv';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/cv');
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
+test('CV: la sección del carrusel de skills es visible con título', { tag: ['@test', '@cv'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página CV', async () => {
+    await cvPage.navigateToCv(page);
+  });
+
+  await test.step('Then: el carrusel de skills es visible y tiene el título "Stack Técnico"', async () => {
+    await cvPage.skillsCarouselHasTitle(page);
+  });
 });
 
-test('CV - Header', async ({ page }) => {
-  const { cvHeader } = cvLocators(page);
-  await expect(cvHeader).toHaveScreenshot('cv-header-mobile.png', { animations: 'disabled' });
-});
+// ─── Visual Regression ────────────────────────────────────────────────────────
 
-test('CV - PDF Download Card', async ({ page }) => {
-  const { pdfDownloadCard } = cvLocators(page);
-  await expect(pdfDownloadCard).toHaveScreenshot('cv-pdf-card-mobile.png', { animations: 'disabled' });
-});
+test('CV visual: cabecera, PDF y técnica en mobile', { tag: ['@test', '@cv', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página CV', async () => {
+    await cvPage.navigateToCv(page);
+  });
 
-test('CV - Tech Info', async ({ page }) => {
-  const { cvTechInfo } = cvLocators(page);
-  await expect(cvTechInfo).toHaveScreenshot('cv-tech-info-mobile.png', { animations: 'disabled' });
-});
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await cvPage.cvHeaderMatchesSnapshot(page, 'cv-header-mobile.png');
+  });
 
-test('CV - Skills Carousel section is visible with title', async ({ page }) => {
-  const { skillsCarouselSection } = cvLocators(page);
-  await expect(skillsCarouselSection).toBeVisible();
-  await expect(skillsCarouselSection).toContainText('Stack Técnico');
+  await test.step('Then: la tarjeta de descarga PDF coincide con el snapshot', async () => {
+    await cvPage.cvPdfCardMatchesSnapshot(page, 'cv-pdf-card-mobile.png');
+  });
+
+  await test.step('Then: la información técnica coincide con el snapshot', async () => {
+    await cvPage.cvTechInfoMatchesSnapshot(page, 'cv-tech-info-mobile.png');
+  });
 });

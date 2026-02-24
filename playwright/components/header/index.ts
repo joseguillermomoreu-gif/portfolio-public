@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import * as selectors from './selectors';
 
 export async function toggleTheme(page: Page): Promise<void> {
@@ -8,7 +8,7 @@ export async function toggleTheme(page: Page): Promise<void> {
 }
 
 export async function getCurrentTheme(page: Page): Promise<string | null> {
-  return page.evaluate(() => document.documentElement.getAttribute('data-theme'));
+  return page.locator('html').getAttribute('data-theme');
 }
 
 export async function openMobileMenu(page: Page): Promise<void> {
@@ -17,18 +17,9 @@ export async function openMobileMenu(page: Page): Promise<void> {
 }
 
 export async function closeMobileMenu(page: Page): Promise<void> {
+  // eslint-disable-next-line playwright/no-force-option -- overlay has pointer-events:none by design; force is required to dispatch the click event
   await page.locator(selectors.mobileOverlay).click({ force: true });
   await page.locator(selectors.mobileOverlay).waitFor({ state: 'hidden' });
-}
-
-export async function scrollToTriggerEffect(page: Page, scrollY = 200): Promise<void> {
-  await page.evaluate((y) => window.scrollTo(0, y), scrollY);
-  // eslint-disable-next-line playwright/no-wait-for-timeout
-  await page.waitForTimeout(300);
-}
-
-export function getNavLinkByHref(page: Page, href: string): Locator {
-  return page.locator(selectors.navLinksContainer).locator(`a[href="${href}"]`);
 }
 
 // ─── LocalStorage ─────────────────────────────────────────────────────────────
@@ -83,7 +74,7 @@ export async function navLinksAreInOrder(page: Page, expected: string[]): Promis
 }
 
 export async function activeNavLinkIs(page: Page, text: string): Promise<void> {
-  const activeLink = page.locator(selectors.navLinksContainer).locator('.nav-link.active');
+  const activeLink = page.locator(selectors.navLinksContainer).locator(selectors.activeNavLink);
   await expect(activeLink).toHaveText(text);
 }
 
@@ -100,8 +91,7 @@ export async function mobileMenuToggleIsVisible(page: Page): Promise<void> {
 }
 
 export async function mobileMenuIsClosed(page: Page): Promise<void> {
-  const hasActive = await page.locator(selectors.navLinksContainer).evaluate((el) => el.classList.contains('active'));
-  expect(hasActive).toBe(false);
+  await expect(page.locator(selectors.navLinksContainer)).not.toHaveClass(/active/);
 }
 
 export async function mobileMenuIsOpen(page: Page): Promise<void> {

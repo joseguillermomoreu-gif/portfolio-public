@@ -1,25 +1,36 @@
 # POM: CV
 
-Página de currículum vitae (`/cv`). Cubre descarga de PDF, contador de programación, información técnica y nota informativa.
+Página de currículum vitae (`/cv`). Cubre descarga de PDF, información técnica y carrusel de skills.
 
 ---
 
 ## Acciones
 
-- `navigateToCv()` — Navega a `/cv` y espera `domcontentloaded`
+- `navigateToCv()` — Navega a `/cv`, espera `domcontentloaded` y el `h1` visible
+
+## Assertions
+
+- `titleIsCorrect()` — El título de la página contiene "CV" y "José Moreu"
+- `pdfLinkIsVisible()` — El enlace de descarga del PDF es visible
+- `skillsCarouselHasTitle()` — La sección del carrusel es visible y contiene el texto "Stack Técnico"
+
+## Visual Regression
+
+- `cvHeaderMatchesSnapshot(snapshotName)` — Screenshot de `.cv-header`
+- `cvPdfCardMatchesSnapshot(snapshotName)` — Screenshot de `.pdf-download-card`
+- `cvTechInfoMatchesSnapshot(snapshotName)` — Screenshot de `.cv-tech-info`
 
 ## Selectores
 
+- `route` → `/cv`
 - `heading` → `h1`
 - `pdfLink` → `a[href*=".pdf"]` (first)
-- `programmingCounter` → `.programming-counter`
-- `wipButton` → `.cv-generator-btn`
-- `cvPage` → `.cv-page`
 - `cvHeader` → `.cv-header`
 - `pdfDownloadCard` → `.pdf-download-card`
 - `cvTechInfo` → `.cv-tech-info`
-- `cvNote` → `.cv-note`
+- `skillsCarouselSection` → `.skills-carousel-section`
+- `skillsCarouselTitle` → `Stack Técnico` (constante)
 
 ---
 
-*Spec*: `cv.spec.ts`
+*Specs*: `cv.desktop.spec.ts`, `cv.mobile.spec.ts`

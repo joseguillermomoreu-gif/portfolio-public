@@ -1,53 +1,37 @@
-import { test, expect } from '@playwright/test';
-import { cvLocators, navigateToCv } from '@components/cv';
+import { test } from '@playwright/test';
+import * as cvPage from '@components/cv';
 
-test.describe('CV - Smoke & Content', () => {
-  test.beforeEach(async ({ page }) => {
-    await navigateToCv(page);
+test('CV: título, descarga PDF y carrusel son correctos', { tag: ['@test', '@cv'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página CV', async () => {
+    await cvPage.navigateToCv(page);
   });
 
-  test('should load CV page with correct title', async ({ page }) => {
-    await test.step('Then the page title contains CV and owner name', async () => {
-      await expect(page).toHaveTitle(/CV.*José Moreu/i);
-    });
+  await test.step('Then: el título de la página contiene CV y el nombre del autor', async () => {
+    await cvPage.titleIsCorrect(page);
   });
 
-  test('should display PDF download link', async ({ page }) => {
-    const { pdfLink } = cvLocators(page);
-
-    await test.step('Then the PDF download link is visible', async () => {
-      await expect(pdfLink).toBeVisible();
-    });
+  await test.step('Then: el enlace de descarga del PDF es visible y el carrusel tiene el título "Stack Técnico"', async () => {
+    await cvPage.pdfLinkIsVisible(page);
+    await cvPage.skillsCarouselHasTitle(page);
   });
 });
 
 // ─── Visual Regression ────────────────────────────────────────────────────────
 
-test.describe('CV - Visual', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/cv');
-    // eslint-disable-next-line playwright/no-networkidle
-    await page.waitForLoadState('networkidle');
+test('CV visual: cabecera, PDF y técnica en desktop', { tag: ['@test', '@cv', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página CV', async () => {
+    await cvPage.navigateToCv(page);
   });
 
-  test('CV - Header', async ({ page }) => {
-    const { cvHeader } = cvLocators(page);
-    await expect(cvHeader).toHaveScreenshot('cv-header-desktop.png', { animations: 'disabled' });
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await cvPage.cvHeaderMatchesSnapshot(page, 'cv-header-desktop.png');
   });
 
-  test('CV - PDF Download Card', async ({ page }) => {
-    const { pdfDownloadCard } = cvLocators(page);
-    await expect(pdfDownloadCard).toHaveScreenshot('cv-pdf-card-desktop.png', { animations: 'disabled' });
+  await test.step('Then: la tarjeta de descarga PDF coincide con el snapshot', async () => {
+    await cvPage.cvPdfCardMatchesSnapshot(page, 'cv-pdf-card-desktop.png');
   });
 
-  test('CV - Tech Info', async ({ page }) => {
-    const { cvTechInfo } = cvLocators(page);
-    await expect(cvTechInfo).toHaveScreenshot('cv-tech-info-desktop.png', { animations: 'disabled' });
-  });
-
-  test('CV - Skills Carousel section is visible with title', async ({ page }) => {
-    const { skillsCarouselSection } = cvLocators(page);
-    await expect(skillsCarouselSection).toBeVisible();
-    await expect(skillsCarouselSection).toContainText('Stack Técnico');
+  await test.step('Then: la información técnica coincide con el snapshot', async () => {
+    await cvPage.cvTechInfoMatchesSnapshot(page, 'cv-tech-info-desktop.png');
   });
 });

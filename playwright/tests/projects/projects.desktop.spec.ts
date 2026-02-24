@@ -1,80 +1,41 @@
-import { test, expect } from '@playwright/test';
-import {
-  projectsLocators,
-  navigateToProjects,
-  getProjectCardByName,
-  getProjectGithubLink,
-  getProjectWebsiteLink,
-  getProjectStatus,
-  getProjectHighlights,
-} from '@components/projects';
+import { test } from '@playwright/test';
+import * as projectsPage from '@components/projects';
 
-test.describe('Projects - Content', () => {
-  test.beforeEach(async ({ page }) => {
-    await navigateToProjects(page);
+test('Proyectos: conteo, enlaces y visibilidad de tarjetas son correctos', { tag: ['@test', '@projects'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de proyectos', async () => {
+    await projectsPage.navigateToProjects(page);
   });
 
-  test('should display 6 project cards', async ({ page }) => {
-    const { projectCards } = projectsLocators(page);
-
-    await test.step('Then exactly 6 project cards are rendered', async () => {
-      await expect(projectCards).toHaveCount(6);
-    });
+  await test.step('Then: se renderizan exactamente 6 tarjetas de proyecto', async () => {
+    await projectsPage.hasProjectCount(page, 6);
   });
 
-  test('should display POM-PPIA project with correct GitHub link', async ({ page }) => {
-    await test.step('Then the POM-PPIA card has the correct GitHub link', async () => {
-      const card = getProjectCardByName(page, 'POM-PPIA');
-      await expect(getProjectGithubLink(card)).toHaveAttribute(
-        'href', 'https://github.com/joseguillermomoreu-gif/pom-ppia'
-      );
-    });
+  await test.step('Then: POM-PPIA tiene enlace a GitHub y Portfolio tiene enlace a producción', async () => {
+    await projectsPage.projectGithubLinkIs(page, 'POM-PPIA', 'https://github.com/joseguillermomoreu-gif/pom-ppia');
+    await projectsPage.projectWebsiteLinkIs(page, 'Portfolio', 'https://josemoreupeso.es');
   });
 
-  test('should display Portfolio project with website link', async ({ page }) => {
-    await test.step('Then the Portfolio card has a website link pointing to the production URL', async () => {
-      const card = getProjectCardByName(page, 'Portfolio');
-      await expect(getProjectWebsiteLink(card)).toHaveAttribute(
-        'href', 'https://josemoreupeso.es'
-      );
-    });
-  });
-
-  test('should display PPIA as Private without GitHub link', async ({ page }) => {
-    const { projectCards } = projectsLocators(page);
-
-    await test.step('Then the PPIA card is Private and has no GitHub link', async () => {
-      const card = projectCards.filter({
-        has: page.locator('[data-testid="project-name"]').getByText('PPIA', { exact: true }),
-      }).first();
-      await expect(getProjectStatus(card)).toContainText('Private');
-      await expect(getProjectHighlights(card)).toContainText('El Confidencial');
-      await expect(getProjectGithubLink(card)).toBeHidden();
-    });
+  await test.step('Then: la tarjeta PPIA es privada y no tiene enlace de GitHub', async () => {
+    await projectsPage.ppiaProjectIsPrivate(page);
   });
 });
 
 // ─── Visual Regression ────────────────────────────────────────────────────────
 
-test.describe('Projects - Visual', () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/proyectos');
-    // eslint-disable-next-line playwright/no-networkidle
-    await page.waitForLoadState('networkidle');
+test('Proyectos visual: cabecera, grid y footer en desktop', { tag: ['@test', '@projects', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de proyectos', async () => {
+    await projectsPage.navigateToProjects(page);
   });
 
-  test('Projects - Header', async ({ page }) => {
-    const { projectsHeader } = projectsLocators(page);
-    await expect(projectsHeader).toHaveScreenshot('projects-header-desktop.png', { animations: 'disabled' });
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await projectsPage.projectsHeaderMatchesSnapshot(page, 'projects-header-desktop.png');
   });
 
-  test('Projects - Grid', async ({ page }) => {
-    const { projectsGrid } = projectsLocators(page);
-    await expect(projectsGrid).toHaveScreenshot('projects-grid-desktop.png', { animations: 'disabled' });
+  await test.step('Then: el grid coincide con el snapshot', async () => {
+    await projectsPage.projectsGridMatchesSnapshot(page, 'projects-grid-desktop.png');
   });
 
-  test('Projects - Footer', async ({ page }) => {
-    const { projectsFooter } = projectsLocators(page);
-    await expect(projectsFooter).toHaveScreenshot('projects-footer-desktop.png', { animations: 'disabled' });
+  await test.step('Then: el footer coincide con el snapshot', async () => {
+    await projectsPage.projectsFooterMatchesSnapshot(page, 'projects-footer-desktop.png');
   });
 });

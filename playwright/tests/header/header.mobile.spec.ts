@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 import * as homePage from '@components/home';
 import * as headerPage from '@components/header';
 
-test('header nav mobile: estado inicial del hamburger — visible, cerrado y con ARIA correctos', async ({ page }) => {
+test('header nav mobile: estado inicial — hamburger visible, cerrado y con ARIA correctos', { tag: ['@test', '@header'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
@@ -16,18 +16,10 @@ test('header nav mobile: estado inicial del hamburger — visible, cerrado y con
     await headerPage.mobileMenuToggleHasAriaLabel(page);
     await headerPage.mobileMenuToggleAriaExpandedIs(page, 'false');
   });
-
-  await test.step('When: el usuario abre el menú', async () => {
-    await headerPage.openMobileMenu(page);
-  });
-
-  await test.step('Then: aria-expanded cambia a true', async () => {
-    await headerPage.mobileMenuToggleAriaExpandedIs(page, 'true');
-  });
 });
 
-test('header nav mobile: apertura y cierre del menú hamburguesa', async ({ page }) => {
-  await test.step('When: el usuario navega a la página principal', async () => {
+test('header nav mobile: abrir menú — aria-expanded y estado activo', { tag: ['@test', '@header'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
 
@@ -35,8 +27,16 @@ test('header nav mobile: apertura y cierre del menú hamburguesa', async ({ page
     await headerPage.openMobileMenu(page);
   });
 
-  await test.step('Then: el menú de navegación y el overlay están activos', async () => {
+  await test.step('Then: aria-expanded cambia a true y el menú está activo', async () => {
+    await headerPage.mobileMenuToggleAriaExpandedIs(page, 'true');
     await headerPage.mobileMenuIsOpen(page);
+  });
+});
+
+test('header nav mobile: click en el overlay cierra el menú', { tag: ['@test', '@header'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega y el menú está abierto', async () => {
+    await homePage.navigateHome(page);
+    await headerPage.openMobileMenu(page);
   });
 
   await test.step('When: el usuario hace click en el overlay', async () => {
@@ -46,9 +46,15 @@ test('header nav mobile: apertura y cierre del menú hamburguesa', async ({ page
   await test.step('Then: el menú está cerrado', async () => {
     await headerPage.mobileMenuIsClosed(page);
   });
+});
 
-  await test.step('When: el usuario vuelve a abrir el menú y pulsa Escape', async () => {
+test('header nav mobile: tecla Escape cierra el menú', { tag: ['@test', '@header'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega y el menú está abierto', async () => {
+    await homePage.navigateHome(page);
     await headerPage.openMobileMenu(page);
+  });
+
+  await test.step('When: el usuario pulsa Escape', async () => {
     await headerPage.closeWithEsc(page);
   });
 
@@ -57,19 +63,13 @@ test('header nav mobile: apertura y cierre del menú hamburguesa', async ({ page
   });
 });
 
-test('header visual: aspecto en mobile con menú cerrado', async ({ page }) => {
-  await test.step('When: el usuario navega a la página principal', async () => {
+test('header visual: aspecto en mobile (menú cerrado y abierto)', { tag: ['@test', '@header', '@styles'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
 
-  await test.step('Then: el header con menú cerrado coincide con el snapshot', async () => {
+  await test.step('Given: el header con menú cerrado coincide con el snapshot', async () => {
     await headerPage.headerMatchesSnapshot(page, 'header-mobile-closed.png');
-  });
-});
-
-test('header visual: aspecto en mobile con menú abierto', async ({ page }) => {
-  await test.step('When: el usuario navega a la página principal', async () => {
-    await homePage.navigateHome(page);
   });
 
   await test.step('When: el usuario abre el menú de navegación', async () => {
@@ -78,5 +78,48 @@ test('header visual: aspecto en mobile con menú abierto', async ({ page }) => {
 
   await test.step('Then: la página completa con menú abierto coincide con el snapshot', async () => {
     await headerPage.headerFullPageMatchesSnapshot(page, 'header-mobile-open.png');
+  });
+});
+
+test('header dark mode: dark mode se fuerza en mobile (375×667)', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página principal con localStorage limpio', async () => {
+    await homePage.navigateHome(page);
+    await headerPage.clearThemeFromLocalStorage(page);
+  });
+
+  await test.step('Then: el tema es dark y el toggle está oculto', async () => {
+    await headerPage.themeIsDark(page);
+    await headerPage.themeToggleIsHidden(page);
+  });
+});
+
+test('header dark mode: dark mode persiste en mobile tras recargar', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
+  await test.step('Given: localStorage limpio', async () => {
+    await homePage.navigateHome(page);
+    await headerPage.clearThemeFromLocalStorage(page);
+    await page.reload();
+  });
+
+  await test.step('When: el usuario recarga la página', async () => {
+    await page.reload();
+  });
+
+  await test.step('Then: el tema sigue siendo dark', async () => {
+    await headerPage.themeIsDark(page);
+  });
+});
+
+test('header dark mode: dark mode ignora localStorage light en mobile', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
+  await test.step('Given: localStorage tiene theme=light', async () => {
+    await homePage.navigateHome(page);
+    await headerPage.setLocalStorageThemeToLight(page);
+  });
+
+  await test.step('When: el usuario recarga la página', async () => {
+    await page.reload();
+  });
+
+  await test.step('Then: dark mode sigue forzado', async () => {
+    await headerPage.themeIsDark(page);
   });
 });

@@ -1,14 +1,17 @@
-import { test, expect } from '@playwright/test';
-import { footerLocators, scrollToFooter, footerDynamicMasks } from '@components/footer';
+import { test } from '@playwright/test';
+import * as footerPage from '@components/footer';
+import * as homePage from '@components/home';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/');
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
-  await scrollToFooter(page);
-});
+test('footer visual: footer en mobile', { tag: ['@test', '@footer', '@styles'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página principal', async () => {
+    await homePage.navigateHome(page);
+  });
 
-test('Footer - Mobile', async ({ page }) => {
-  const { container } = footerLocators(page);
-  await expect(container).toHaveScreenshot('footer-mobile.png', { animations: 'disabled', mask: footerDynamicMasks(page) });
+  await test.step('When: el usuario hace scroll al footer', async () => {
+    await footerPage.scrollToFooter(page);
+  });
+
+  await test.step('Then: el footer coincide con el snapshot', async () => {
+    await footerPage.footerMatchesSnapshot(page, 'footer-mobile.png');
+  });
 });

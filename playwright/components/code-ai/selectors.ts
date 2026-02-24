@@ -1,6 +1,9 @@
+export const route = '/code-ai';
+export const routePortfolioArticle = '/code-ai/como-construi-este-portfolio';
+export const routePpiaArticle = '/code-ai/automatizando-e2e-con-ia';
+export const routeNotFoundArticle = '/code-ai/non-existent-article';
 export const heading = 'h1';
 export const articleCards = '.article-card';
-export const mainContent = 'main';
 export const codeAiHeader = '.code-ai-header';
 export const articlesGrid = '.articles-grid';
 export const portfolioArticleLink = 'a[href*="/code-ai/como-construi-este-portfolio"]';

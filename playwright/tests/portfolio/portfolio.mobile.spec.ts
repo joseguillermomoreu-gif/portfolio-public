@@ -1,42 +1,58 @@
-import { test, expect } from '@playwright/test';
-import {
-  portfolioLocators,
-  navigateToPortfolio,
-  openModal,
-  closeModalByButton,
-  getModal,
-} from '@components/portfolio';
+import { test } from '@playwright/test';
+import * as portfolioPage from '@components/portfolio';
 
-test.beforeEach(async ({ page }) => {
-  await page.goto('/portfolio');
-  // eslint-disable-next-line playwright/no-networkidle
-  await page.waitForLoadState('networkidle');
+test('Portfolio mobile: las 4 categorías están presentes', { tag: ['@test', '@portfolio'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de portfolio', async () => {
+    await portfolioPage.navigateToPortfolio(page);
+  });
+
+  await test.step('Then: se renderizan 4 secciones de categoría', async () => {
+    await portfolioPage.hasCategoryCount(page, 4);
+  });
 });
 
-test('Portfolio - Header', async ({ page }) => {
-  const { portfolioHeader } = portfolioLocators(page);
-  await expect(portfolioHeader).toHaveScreenshot('portfolio-header-mobile.png', { animations: 'disabled' });
+test('Portfolio mobile: el modal TDD se abre correctamente', { tag: ['@test', '@portfolio'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página de portfolio', async () => {
+    await portfolioPage.navigateToPortfolio(page);
+  });
+
+  await test.step('When: abro el modal de TDD', async () => {
+    await portfolioPage.openModal(page, 'tdd');
+  });
+
+  await test.step('Then: el modal TDD es visible con el título correcto', async () => {
+    await portfolioPage.modalIsVisible(page, 'tdd');
+    await portfolioPage.modalHasTitle(page, 'tdd', 'Test-Driven Development');
+  });
 });
 
-test('Portfolio - Keywords Section', async ({ page }) => {
-  const { keywordsSection } = portfolioLocators(page);
-  await expect(keywordsSection).toHaveScreenshot('portfolio-keywords-mobile.png', { animations: 'disabled' });
+test('Portfolio mobile: el modal TDD se cierra con el botón', { tag: ['@test', '@portfolio'] }, async ({ page }) => {
+  await test.step('Given: el modal TDD está abierto', async () => {
+    await portfolioPage.navigateToPortfolio(page);
+    await portfolioPage.openModal(page, 'tdd');
+  });
+
+  await test.step('When: cierro el modal con el botón', async () => {
+    await portfolioPage.closeModalByButton(page);
+  });
+
+  await test.step('Then: el modal está oculto', async () => {
+    await portfolioPage.modalIsHidden(page, 'tdd');
+  });
 });
 
-test('Portfolio mobile - modal opens and closes', async ({ page }) => {
-  await navigateToPortfolio(page);
+// ─── Visual Regression ────────────────────────────────────────────────────────
 
-  await openModal(page, 'tdd');
+test('Portfolio visual: cabecera y keywords en mobile', { tag: ['@test', '@portfolio', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de portfolio', async () => {
+    await portfolioPage.navigateToPortfolio(page);
+  });
 
-  const modal = getModal(page, 'tdd');
-  await expect(modal).toBeVisible();
-  await expect(modal.locator('.modal-title')).toContainText('Test-Driven Development');
+  await test.step('Then: la cabecera coincide con el snapshot', async () => {
+    await portfolioPage.portfolioHeaderMatchesSnapshot(page, 'portfolio-header-mobile.png');
+  });
 
-  await closeModalByButton(page);
-  await expect(modal).toBeHidden();
-});
-
-test('Portfolio mobile - all 4 categories present', async ({ page }) => {
-  const { keywordCategories } = portfolioLocators(page);
-  await expect(keywordCategories).toHaveCount(4);
+  await test.step('Then: la sección de keywords coincide con el snapshot', async () => {
+    await portfolioPage.keywordsSectionMatchesSnapshot(page, 'portfolio-keywords-mobile.png');
+  });
 });

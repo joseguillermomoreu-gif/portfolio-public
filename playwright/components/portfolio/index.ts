@@ -1,38 +1,34 @@
-import { Page, Locator } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import * as selectors from './selectors';
 
-export function portfolioLocators(page: Page) {
-  return {
-    portfolioPage:        page.locator(selectors.portfolioPage),
-    portfolioHeader:      page.locator(selectors.portfolioHeader),
-    heading:              page.locator(selectors.heading),
-    subtitle:             page.locator(selectors.subtitle),
-    keywordsSection:      page.locator(selectors.keywordsSection),
-    keywordCategories:    page.locator(selectors.keywordCategories),
-    keywordItems:         page.locator(selectors.keywordItems),
-    categoryArquitectura: page.locator(selectors.categoryArquitectura),
-    categoryTesting:      page.locator(selectors.categoryTesting),
-    categoryBackend:      page.locator(selectors.categoryBackend),
-    categoryTooling:      page.locator(selectors.categoryTooling),
-    modalOverlay:         page.locator(selectors.modalOverlay),
-    modalClose:           page.locator('.modal:not(.hidden) .modal-close'),
-    modalCard:            page.locator(selectors.modalCard),
-    modalTitle:           page.locator(selectors.modalTitle),
-    modalBody:            page.locator(selectors.modalBody),
-  };
-}
-
 export async function navigateToPortfolio(page: Page): Promise<void> {
-  await page.goto('/portfolio');
+  await page.goto(selectors.route);
   await page.waitForLoadState('domcontentloaded');
+  await page.locator(selectors.heading).waitFor({ state: 'visible' });
 }
 
-export function getKeywordItem(page: Page, id: string): Locator {
-  return page.locator(selectors.keywordById(id));
+export async function titleIsCorrect(page: Page): Promise<void> {
+  await expect(page).toHaveTitle(/Portfolio.*José Moreu Peso/i);
 }
 
-export function getModal(page: Page, id: string): Locator {
-  return page.locator(selectors.modalById(id));
+export async function hasCategoryCount(page: Page, count: number): Promise<void> {
+  await expect(page.locator(selectors.keywordCategories)).toHaveCount(count);
+}
+
+export async function hasKeywordCount(page: Page, count: number): Promise<void> {
+  await expect(page.locator(selectors.keywordItems)).toHaveCount(count);
+}
+
+export async function categoryHasKeywordCount(page: Page, category: string, count: number): Promise<void> {
+  await expect(
+    page.locator(selectors.categoryByName(category)).locator(selectors.keywordItems)
+  ).toHaveCount(count);
+}
+
+export async function categoryLabelContains(page: Page, category: string, text: string): Promise<void> {
+  await expect(
+    page.locator(selectors.categoryByName(category)).locator(selectors.categoryLabel)
+  ).toContainText(text);
 }
 
 export async function openModal(page: Page, keywordId: string): Promise<void> {
@@ -42,7 +38,7 @@ export async function openModal(page: Page, keywordId: string): Promise<void> {
 
 export async function closeModalByButton(page: Page): Promise<void> {
   // Target only the visible modal's close button (others have display:none)
-  await page.locator('.modal:not(.hidden) .modal-close').click();
+  await page.locator(selectors.activeModalClose).click();
   await page.locator(selectors.modalOverlay).waitFor({ state: 'hidden' });
 }
 
@@ -56,4 +52,52 @@ export async function closeModalByOverlay(page: Page): Promise<void> {
 export async function closeModalByEsc(page: Page): Promise<void> {
   await page.keyboard.press('Escape');
   await page.locator(selectors.modalOverlay).waitFor({ state: 'hidden' });
+}
+
+export async function modalOverlayIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.modalOverlay)).toBeVisible();
+}
+
+export async function modalOverlayIsHidden(page: Page): Promise<void> {
+  await expect(page.locator(selectors.modalOverlay)).toBeHidden();
+}
+
+export async function modalIsVisible(page: Page, id: string): Promise<void> {
+  await expect(page.locator(selectors.modalById(id))).toBeVisible();
+}
+
+export async function modalIsHidden(page: Page, id: string): Promise<void> {
+  await expect(page.locator(selectors.modalById(id))).toBeHidden();
+}
+
+export async function modalHasTitle(page: Page, id: string, text: string): Promise<void> {
+  await expect(
+    page.locator(selectors.modalById(id)).locator(selectors.modalTitle)
+  ).toContainText(text);
+}
+
+export async function modalHasBody(page: Page, id: string, text: string): Promise<void> {
+  await expect(
+    page.locator(selectors.modalById(id)).locator(selectors.modalBody)
+  ).toContainText(text);
+}
+
+export async function modalBrandIconIsVisible(page: Page, id: string, brandSlug: string): Promise<void> {
+  const icon = page.locator(selectors.modalById(id)).locator(selectors.modalIconBrand);
+  await expect(icon).toBeVisible();
+  await expect(icon).toHaveAttribute('src', new RegExp(`simpleicons\\.org/${brandSlug}`));
+}
+
+export async function modalMonogramIsVisible(page: Page, id: string): Promise<void> {
+  await expect(
+    page.locator(selectors.modalById(id)).locator(selectors.modalIconMonogram)
+  ).toBeVisible();
+}
+
+export async function portfolioHeaderMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.portfolioHeader)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function keywordsSectionMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.keywordsSection)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
