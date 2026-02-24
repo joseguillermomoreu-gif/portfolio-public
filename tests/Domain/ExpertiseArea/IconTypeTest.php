@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\ExpertiseArea;
+namespace App\Tests\Domain\ExpertiseArea;
 
 use App\Domain\ExpertiseArea\IconType;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ final class IconTypeTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\IconTypeDataProvider::getEnumValueData()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\IconTypeDataProvider::getEnumValueData()
      */
     public function enumValueShouldMatchExpectedString(IconType $iconType, string $expected): void
     {
@@ -29,7 +29,7 @@ final class IconTypeTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\IconTypeDataProvider::getValidFromStringData()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\IconTypeDataProvider::getValidFromStringData()
      */
     public function fromStringShouldReturnExpectedIconType(string $value, IconType $expected): void
     {

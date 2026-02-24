@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\ExpertiseArea;
+namespace App\Tests\Domain\ExpertiseArea;
 
 use App\Domain\ExpertiseArea\ExpertiseArea;
 use App\Domain\ExpertiseArea\ExpertiseAreas;

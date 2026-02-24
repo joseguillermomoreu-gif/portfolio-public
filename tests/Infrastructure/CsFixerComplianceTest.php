@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Infrastructure;
+namespace App\Tests\Infrastructure;
 
 use PHPUnit\Framework\TestCase;
 
@@ -18,7 +18,7 @@ class CsFixerComplianceTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->projectRoot = dirname(__DIR__, 3);
+        $this->projectRoot = dirname(__DIR__, 2);
     }
 
     public function testPhpCsFixerBinaryExists(): void

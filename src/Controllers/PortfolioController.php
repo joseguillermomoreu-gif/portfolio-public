@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controllers;
 
-use App\Domain\ExpertiseArea\ExpertiseAreaRepository;
-use App\Domain\Portfolio\PortfolioRepository;
+use App\Application\Service\ExpertiseArea\ExpertiseAreaService;
+use App\Application\Service\Portfolio\PortfolioService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -13,15 +13,15 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PortfolioController extends AbstractController
 {
     public function __construct(
-        private readonly PortfolioRepository $portfolioRepository,
-        private readonly ExpertiseAreaRepository $expertiseAreaRepository
+        private readonly PortfolioService $portfolioService,
+        private readonly ExpertiseAreaService $expertiseAreaService
     ) {
     }
 
     #[Route('/', name: 'home')]
     public function index(): Response
     {
-        $portfolio = $this->portfolioRepository->find();
+        $portfolio = $this->portfolioService->getPortfolio();
 
         return $this->render('pages/portfolio/index.html.twig', [
             'portfolio' => $portfolio,
@@ -44,7 +44,7 @@ final class PortfolioController extends AbstractController
             throw new \RuntimeException('Invalid CV JSON format');
         }
 
-        $portfolio = $this->portfolioRepository->find();
+        $portfolio = $this->portfolioService->getPortfolio();
 
         // Enlace al CV PDF real
         $cvPdfUrl = '/cv2025.pdf';
@@ -59,7 +59,7 @@ final class PortfolioController extends AbstractController
     #[Route('/contacto', name: 'contact')]
     public function contact(): Response
     {
-        $portfolio = $this->portfolioRepository->find();
+        $portfolio = $this->portfolioService->getPortfolio();
 
         return $this->render('pages/portfolio/contact.html.twig', [
             'portfolio' => $portfolio,
@@ -75,7 +75,7 @@ final class PortfolioController extends AbstractController
     #[Route('/portfolio', name: 'portfolio')]
     public function portfolioPage(): Response
     {
-        $keywords = $this->expertiseAreaRepository->findAll()->toArray();
+        $keywords = $this->expertiseAreaService->getAllAsArray();
 
         return $this->render('pages/portfolio/portfolio.html.twig', [
             'keywords' => $keywords,

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\ExpertiseArea;
+namespace App\Tests\Domain\ExpertiseArea;
 
 use App\Domain\ExpertiseArea\ExpertiseArea;
 use App\Domain\ExpertiseArea\ExpertiseCategory;
@@ -77,7 +77,7 @@ final class ExpertiseAreaTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
      */
     public function constructorShouldThrowWhenIdIsEmpty(string $emptyValue): void
     {
@@ -98,7 +98,7 @@ final class ExpertiseAreaTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
      */
     public function constructorShouldThrowWhenLabelIsEmpty(string $emptyValue): void
     {
@@ -119,7 +119,7 @@ final class ExpertiseAreaTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
      */
     public function constructorShouldThrowWhenFullTitleIsEmpty(string $emptyValue): void
     {
@@ -140,7 +140,7 @@ final class ExpertiseAreaTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
      */
     public function constructorShouldThrowWhenIconValueIsEmpty(string $emptyValue): void
     {
@@ -161,7 +161,7 @@ final class ExpertiseAreaTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\ExpertiseAreaDataProvider::getEmptyStringValues()
      */
     public function constructorShouldThrowWhenDescriptionIsEmpty(string $emptyValue): void
     {

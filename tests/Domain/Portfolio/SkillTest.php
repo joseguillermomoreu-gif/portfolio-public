@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Portfolio;
+namespace App\Tests\Domain\Portfolio;
 
 use App\Domain\Portfolio\Skill;
 use App\Domain\Portfolio\SkillLevel;

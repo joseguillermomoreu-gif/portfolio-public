@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\Article;
+namespace App\Tests\Domain\Article;
 
 use App\Domain\Article\Tag;
 use PHPUnit\Framework\TestCase;

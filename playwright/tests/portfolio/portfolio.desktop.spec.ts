@@ -12,9 +12,9 @@ test('Portfolio: título, categorías y keywords son correctos', { tag: ['@test'
     await portfolioPage.titleIsCorrect(page);
   });
 
-  await test.step('Then: se renderizan 4 categorías y 16 keywords', async () => {
+  await test.step('Then: se renderizan 4 categorías y 17 keywords', async () => {
     await portfolioPage.hasCategoryCount(page, 4);
-    await portfolioPage.hasKeywordCount(page, 16);
+    await portfolioPage.hasKeywordCount(page, 17);
   });
 
   await test.step('Then: arquitectura y testing tienen 4 keywords y sus etiquetas son visibles', async () => {

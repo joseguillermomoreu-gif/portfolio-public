@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Domain\ExpertiseArea;
+namespace App\Tests\Domain\ExpertiseArea;
 
 use App\Domain\ExpertiseArea\ExpertiseCategory;
 use PHPUnit\Framework\TestCase;
@@ -19,7 +19,7 @@ final class ExpertiseCategoryTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\ExpertiseCategoryDataProvider::getEnumValueData()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\ExpertiseCategoryDataProvider::getEnumValueData()
      */
     public function enumValueShouldMatchExpectedString(ExpertiseCategory $category, string $expected): void
     {
@@ -29,7 +29,7 @@ final class ExpertiseCategoryTest extends TestCase
     /**
      * @test
      *
-     * @dataProvider \App\Tests\Unit\Domain\ExpertiseArea\DataProvider\ExpertiseCategoryDataProvider::getValidFromStringData()
+     * @dataProvider \App\Tests\Domain\ExpertiseArea\DataProvider\ExpertiseCategoryDataProvider::getValidFromStringData()
      */
     public function fromStringShouldReturnExpectedCategory(string $value, ExpertiseCategory $expected): void
     {

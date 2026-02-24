@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Unit\Application\Service;
+namespace App\Tests\Application\Service;
 
 use App\Application\Service\Portfolio\PortfolioService;
 use App\Domain\Portfolio\ContactInfo;
