@@ -7,6 +7,7 @@ namespace App\Controllers;
 use App\Application\Service\ExpertiseArea\ExpertiseAreaService;
 use App\Application\Service\Portfolio\PortfolioService;
 use Dompdf\Dompdf;
+use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -54,7 +55,11 @@ final class PortfolioController extends AbstractController
             $content = str_replace('src="/photo.png"', 'src="' . $photoBase64 . '"', $content);
         }
 
-        $dompdf = new Dompdf();
+        $options = new Options();
+        $options->setIsHtml5ParserEnabled(true);
+        $options->setDefaultFont('DejaVu Sans');
+
+        $dompdf = new Dompdf($options);
         $dompdf->loadHtml($content);
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
