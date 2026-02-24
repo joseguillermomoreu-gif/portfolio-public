@@ -6,6 +6,7 @@ namespace App\Controllers;
 
 use App\Application\Service\ExpertiseArea\ExpertiseAreaService;
 use App\Application\Service\Portfolio\PortfolioService;
+use Dompdf\Dompdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -25,6 +26,42 @@ final class PortfolioController extends AbstractController
 
         return $this->render('pages/portfolio/index.html.twig', [
             'portfolio' => $portfolio,
+        ]);
+    }
+
+    #[Route('/cv/pdf', name: 'cv_pdf')]
+    public function cvPdf(): Response
+    {
+        $projectDir = $this->getParameter('kernel.project_dir');
+
+        if (!is_string($projectDir)) {
+            throw new \RuntimeException('kernel.project_dir is not a string');
+        }
+
+        $htmlPath = $projectDir . '/public/cv.html';
+        $content = file_get_contents($htmlPath);
+
+        if (false === $content) {
+            throw new \RuntimeException('Failed to read CV HTML file');
+        }
+
+        // Embed photo as base64 so Dompdf can render it without HTTP
+        $photoPath = $projectDir . '/public/photo.png';
+        $photoContent = file_get_contents($photoPath);
+
+        if (false !== $photoContent) {
+            $photoBase64 = 'data:image/png;base64,' . base64_encode($photoContent);
+            $content = str_replace('src="/photo.png"', 'src="' . $photoBase64 . '"', $content);
+        }
+
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($content);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        return new Response($dompdf->output(), Response::HTTP_OK, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="cv-jose-moreu-peso.pdf"',
         ]);
     }
 
