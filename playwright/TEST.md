@@ -1,9 +1,8 @@
 # TEST.md — E2E Test Suite
 
-> Generado automáticamente desde el JSON reporter de Playwright.
-> Última actualización: 2026-02-23
+> Última actualización: 2026-02-25
 
-**Total tests: 72** | Proyectos: desktop · mobile · tablet-small · tablet-large
+**Total tests: 77** | Proyectos: desktop · mobile · tablet-small · tablet-large
 
 ---
 
@@ -75,51 +74,54 @@
 
 | # | Test Title | Path | Tags | Time | Gherkin |
 |---|---|---|---|---|---|
-| 45 | CV: título, descarga PDF y carrusel son correctos | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` | 1.0s | When: el usuario navega a la página CV<br>Then: el título de la página contiene CV y el nombre del autor<br>Then: el enlace de descarga del PDF es visible y el carrusel tiene el título "Stack Técnico" |
-| 46 | CV visual: cabecera, PDF y técnica en desktop | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` `@styles` | 1.9s | When: el usuario navega a la página CV<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de descarga PDF coincide con el snapshot<br>Then: la información técnica coincide con el snapshot |
-| 47 | CV: la sección del carrusel de skills es visible con título | `playwright/tests/cv/cv.mobile.spec.ts` | `@test` `@cv` | 639ms | When: el usuario navega a la página CV<br>Then: el carrusel de skills es visible y tiene el título "Stack Técnico" |
-| 48 | CV visual: cabecera, PDF y técnica en mobile | `playwright/tests/cv/cv.mobile.spec.ts` | `@test` `@cv` `@styles` | 1.3s | When: el usuario navega a la página CV<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de descarga PDF coincide con el snapshot<br>Then: la información técnica coincide con el snapshot |
+| 45 | CV: título, botones Ver HTML y Descargar PDF son correctos | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` | 1.2s | When: el usuario navega a la página CV<br>Then: el título contiene CV y el nombre del autor<br>Then: el botón Ver HTML es visible<br>Then: el enlace Descargar PDF es visible con href y atributo download correctos<br>Then: el carrusel de skills tiene el título Stack Técnico |
+| 46 | CV HTML: la página carga y muestra el contenido del CV | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` | 677ms | When: el usuario navega a /cv.html<br>Then: el título contiene CV y el nombre del autor<br>Then: el contenido del CV es visible |
+| 47 | CV PDF: el endpoint /cv/pdf devuelve un PDF válido | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` | 1.4s | Then: GET /cv/pdf devuelve HTTP 200 y Content-Type application/pdf |
+| 48 | CV visual: cabecera, tarjeta PDF y stack técnico en desktop | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` `@styles` | 4.0s | When: el usuario navega a la página CV<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de descarga PDF coincide con el snapshot<br>Then: la información técnica coincide con el snapshot |
+| 49 | CV HTML visual: el CV en HTML coincide con el snapshot en desktop | `playwright/tests/cv/cv.desktop.spec.ts` | `@test` `@cv` `@styles` | 2.0s | When: el usuario navega a /cv.html<br>Then: el CV en HTML coincide con el snapshot |
+| 50 | CV mobile: botones y carrusel de skills son visibles | `playwright/tests/cv/cv.mobile.spec.ts` | `@test` `@cv` | 1.0s | When: el usuario navega a la página CV<br>Then: el botón Ver HTML es visible<br>Then: el enlace Descargar PDF es visible<br>Then: el carrusel de skills tiene el título Stack Técnico |
+| 51 | CV visual: cabecera, tarjeta PDF y técnica en mobile | `playwright/tests/cv/cv.mobile.spec.ts` | `@test` `@cv` `@styles` | 3.3s | When: el usuario navega a la página CV<br>Then: la cabecera coincide con el snapshot<br>Then: la tarjeta de descarga PDF coincide con el snapshot<br>Then: la información técnica coincide con el snapshot |
 
 ## Code & AI
 
 | # | Test Title | Path | Tags | Time | Gherkin |
 |---|---|---|---|---|---|
-| 49 | Code & AI: título, artículos y enlace al portfolio son correctos | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.1s | When: el usuario navega a la página Code & AI<br>Then: el título de la página contiene Code & AI y el nombre del autor<br>Then: se renderiza al menos una tarjeta y el enlace al portfolio es visible |
-| 50 | Code & AI: navega de la lista al detalle de artículo | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.0s | Given: estoy en la página de listado de Code & AI<br>When: hago click en el enlace al artículo portfolio<br>Then: llego a la página de detalle con el título correcto |
-| 51 | Code & AI detalle: título, fechas y párrafos del artículo portfolio | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.1s | When: el usuario navega al detalle del artículo del portfolio<br>Then: el título de la página coincide con el artículo<br>Then: el artículo muestra fecha y contiene párrafos |
-| 52 | Code & AI detalle: carga el artículo automatizando-e2e-con-ia | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.0s | When: el usuario navega al artículo de PPiA<br>Then: el título de la página coincide con el artículo de PPiA |
-| 53 | Code & AI: devuelve 404 para un artículo inexistente | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 276ms | When: el usuario navega a un artículo inexistente |
-| 54 | Code & AI visual: cabecera y grid en desktop | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` `@styles` | 1.7s | When: el usuario navega a la página Code & AI<br>Then: la cabecera coincide con el snapshot<br>Then: el grid de artículos coincide con el snapshot |
-| 55 | Code & AI visual: cabecera y grid en mobile | `playwright/tests/code-ai/code-ai.mobile.spec.ts` | `@test` `@code_ai` `@styles` | 1.0s | When: el usuario navega a la página Code & AI<br>Then: la cabecera coincide con el snapshot<br>Then: el grid de artículos coincide con el snapshot |
+| 52 | Code & AI: título, artículos y enlace al portfolio son correctos | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.1s | When: el usuario navega a la página Code & AI<br>Then: el título de la página contiene Code & AI y el nombre del autor<br>Then: se renderiza al menos una tarjeta y el enlace al portfolio es visible |
+| 53 | Code & AI: navega de la lista al detalle de artículo | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.0s | Given: estoy en la página de listado de Code & AI<br>When: hago click en el enlace al artículo portfolio<br>Then: llego a la página de detalle con el título correcto |
+| 54 | Code & AI detalle: título, fechas y párrafos del artículo portfolio | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.1s | When: el usuario navega al detalle del artículo del portfolio<br>Then: el título de la página coincide con el artículo<br>Then: el artículo muestra fecha y contiene párrafos |
+| 55 | Code & AI detalle: carga el artículo automatizando-e2e-con-ia | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 1.0s | When: el usuario navega al artículo de PPiA<br>Then: el título de la página coincide con el artículo de PPiA |
+| 56 | Code & AI: devuelve 404 para un artículo inexistente | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` | 276ms | When: el usuario navega a un artículo inexistente |
+| 57 | Code & AI visual: cabecera y grid en desktop | `playwright/tests/code-ai/code-ai.desktop.spec.ts` | `@test` `@code_ai` `@styles` | 1.7s | When: el usuario navega a la página Code & AI<br>Then: la cabecera coincide con el snapshot<br>Then: el grid de artículos coincide con el snapshot |
+| 58 | Code & AI visual: cabecera y grid en mobile | `playwright/tests/code-ai/code-ai.mobile.spec.ts` | `@test` `@code_ai` `@styles` | 1.0s | When: el usuario navega a la página Code & AI<br>Then: la cabecera coincide con el snapshot<br>Then: el grid de artículos coincide con el snapshot |
 
 ## PPiA
 
 | # | Test Title | Path | Tags | Time | Gherkin |
 |---|---|---|---|---|---|
-| 56 | PPiA: título correcto y cabecera coincide con snapshot | `playwright/tests/ppia/ppia.desktop.spec.ts` | `@test` `@ppia` `@styles` | 904ms | When: el usuario navega a la página PPiA<br>Then: el título de la página contiene PPiA<br>Then: la cabecera coincide con el snapshot |
-| 57 | PPiA visual: cabecera en mobile | `playwright/tests/ppia/ppia.mobile.spec.ts` | `@test` `@ppia` `@styles` | 644ms | When: el usuario navega a la página PPiA<br>Then: la cabecera coincide con el snapshot |
+| 59 | PPiA: título correcto y cabecera coincide con snapshot | `playwright/tests/ppia/ppia.desktop.spec.ts` | `@test` `@ppia` `@styles` | 904ms | When: el usuario navega a la página PPiA<br>Then: el título de la página contiene PPiA<br>Then: la cabecera coincide con el snapshot |
+| 60 | PPiA visual: cabecera en mobile | `playwright/tests/ppia/ppia.mobile.spec.ts` | `@test` `@ppia` `@styles` | 644ms | When: el usuario navega a la página PPiA<br>Then: la cabecera coincide con el snapshot |
 
 ## Proyectos
 
 | # | Test Title | Path | Tags | Time | Gherkin |
 |---|---|---|---|---|---|
-| 58 | Proyectos: conteo, enlaces y visibilidad de tarjetas son correctos | `playwright/tests/projects/projects.desktop.spec.ts` | `@test` `@projects` | 765ms | When: el usuario navega a la página de proyectos<br>Then: se renderizan exactamente 6 tarjetas de proyecto<br>Then: POM-PPIA tiene enlace a GitHub y Portfolio tiene enlace a producción<br>Then: la tarjeta PPIA es privada y no tiene enlace de GitHub |
-| 59 | Proyectos visual: cabecera, grid y footer en desktop | `playwright/tests/projects/projects.desktop.spec.ts` | `@test` `@projects` `@styles` | 1.2s | When: el usuario navega a la página de proyectos<br>Then: la cabecera coincide con el snapshot<br>Then: el grid coincide con el snapshot<br>Then: el footer coincide con el snapshot |
-| 60 | Proyectos visual: cabecera, grid y footer en mobile | `playwright/tests/projects/projects.mobile.spec.ts` | `@test` `@projects` `@styles` | 980ms | When: el usuario navega a la página de proyectos<br>Then: la cabecera coincide con el snapshot<br>Then: el grid coincide con el snapshot<br>Then: el footer coincide con el snapshot |
+| 61 | Proyectos: conteo, enlaces y visibilidad de tarjetas son correctos | `playwright/tests/projects/projects.desktop.spec.ts` | `@test` `@projects` | 765ms | When: el usuario navega a la página de proyectos<br>Then: se renderizan exactamente 6 tarjetas de proyecto<br>Then: POM-PPIA tiene enlace a GitHub y Portfolio tiene enlace a producción<br>Then: la tarjeta PPIA es privada y no tiene enlace de GitHub |
+| 62 | Proyectos visual: cabecera, grid y footer en desktop | `playwright/tests/projects/projects.desktop.spec.ts` | `@test` `@projects` `@styles` | 1.2s | When: el usuario navega a la página de proyectos<br>Then: la cabecera coincide con el snapshot<br>Then: el grid coincide con el snapshot<br>Then: el footer coincide con el snapshot |
+| 63 | Proyectos visual: cabecera, grid y footer en mobile | `playwright/tests/projects/projects.mobile.spec.ts` | `@test` `@projects` `@styles` | 980ms | When: el usuario navega a la página de proyectos<br>Then: la cabecera coincide con el snapshot<br>Then: el grid coincide con el snapshot<br>Then: el footer coincide con el snapshot |
 
 ## Portfolio
 
 | # | Test Title | Path | Tags | Time | Gherkin |
 |---|---|---|---|---|---|
-| 61 | Portfolio: título, categorías y keywords son correctos | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.1s | When: el usuario navega a la página de portfolio<br>Then: el título contiene Portfolio y el nombre del autor<br>Then: se renderizan 4 categorías y 16 keywords<br>Then: arquitectura y testing tienen 4 keywords y sus etiquetas son visibles |
-| 62 | Portfolio: al hacer click en DDD se abre el modal con título y cuerpo | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.1s | Given: el usuario navega a la página de portfolio<br>When: hago click en la keyword DDD<br>Then: el modal DDD es visible con título, contenido y overlay |
-| 63 | Portfolio: al hacer click en cerrar se oculta el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.2s | Given: el modal DDD está abierto<br>When: hago click en el botón de cierre<br>Then: el modal y el overlay están ocultos |
-| 64 | Portfolio: al hacer click en el overlay se cierra el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 659ms | Given: el modal de Playwright está abierto<br>When: hago click en el overlay<br>Then: el modal está oculto |
-| 65 | Portfolio: al pulsar ESC se cierra el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 703ms | Given: el modal de Docker está abierto<br>When: pulso Escape<br>Then: el modal está oculto |
-| 66 | Portfolio: el modal de simpleicons muestra la imagen de marca | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 772ms | Given: el usuario navega a la página de portfolio<br>When: abro el modal de Symfony<br>Then: la cabecera del modal muestra un icono de marca |
-| 67 | Portfolio: el modal de monograma muestra el elemento de monograma | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.0s | Given: el usuario navega a la página de portfolio<br>When: abro el modal de DDD<br>Then: la cabecera del modal muestra un monograma |
-| 68 | Portfolio visual: cabecera y keywords en desktop | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` `@styles` | 1.1s | When: el usuario navega a la página de portfolio<br>Then: la cabecera coincide con el snapshot<br>Then: la sección de keywords coincide con el snapshot |
-| 69 | Portfolio mobile: las 4 categorías están presentes | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 527ms | When: el usuario navega a la página de portfolio<br>Then: se renderizan 4 secciones de categoría |
-| 70 | Portfolio mobile: el modal TDD se abre correctamente | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 774ms | Given: el usuario navega a la página de portfolio<br>When: abro el modal de TDD<br>Then: el modal TDD es visible con el título correcto |
-| 71 | Portfolio mobile: el modal TDD se cierra con el botón | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 1.1s | Given: el modal TDD está abierto<br>When: cierro el modal con el botón<br>Then: el modal está oculto |
-| 72 | Portfolio visual: cabecera y keywords en mobile | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` `@styles` | 765ms | When: el usuario navega a la página de portfolio<br>Then: la cabecera coincide con el snapshot<br>Then: la sección de keywords coincide con el snapshot |
+| 64 | Portfolio: título, categorías y keywords son correctos | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.1s | When: el usuario navega a la página de portfolio<br>Then: el título contiene Portfolio y el nombre del autor<br>Then: se renderizan 4 categorías y 16 keywords<br>Then: arquitectura y testing tienen 4 keywords y sus etiquetas son visibles |
+| 65 | Portfolio: al hacer click en DDD se abre el modal con título y cuerpo | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.1s | Given: el usuario navega a la página de portfolio<br>When: hago click en la keyword DDD<br>Then: el modal DDD es visible con título, contenido y overlay |
+| 66 | Portfolio: al hacer click en cerrar se oculta el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.2s | Given: el modal DDD está abierto<br>When: hago click en el botón de cierre<br>Then: el modal y el overlay están ocultos |
+| 67 | Portfolio: al hacer click en el overlay se cierra el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 659ms | Given: el modal de Playwright está abierto<br>When: hago click en el overlay<br>Then: el modal está oculto |
+| 68 | Portfolio: al pulsar ESC se cierra el modal | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 703ms | Given: el modal de Docker está abierto<br>When: pulso Escape<br>Then: el modal está oculto |
+| 69 | Portfolio: el modal de simpleicons muestra la imagen de marca | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 772ms | Given: el usuario navega a la página de portfolio<br>When: abro el modal de Symfony<br>Then: la cabecera del modal muestra un icono de marca |
+| 70 | Portfolio: el modal de monograma muestra el elemento de monograma | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` | 1.0s | Given: el usuario navega a la página de portfolio<br>When: abro el modal de DDD<br>Then: la cabecera del modal muestra un monograma |
+| 71 | Portfolio visual: cabecera y keywords en desktop | `playwright/tests/portfolio/portfolio.desktop.spec.ts` | `@test` `@portfolio` `@styles` | 1.1s | When: el usuario navega a la página de portfolio<br>Then: la cabecera coincide con el snapshot<br>Then: la sección de keywords coincide con el snapshot |
+| 72 | Portfolio mobile: las 4 categorías están presentes | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 527ms | When: el usuario navega a la página de portfolio<br>Then: se renderizan 4 secciones de categoría |
+| 73 | Portfolio mobile: el modal TDD se abre correctamente | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 774ms | Given: el usuario navega a la página de portfolio<br>When: abro el modal de TDD<br>Then: el modal TDD es visible con el título correcto |
+| 74 | Portfolio mobile: el modal TDD se cierra con el botón | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` | 1.1s | Given: el modal TDD está abierto<br>When: cierro el modal con el botón<br>Then: el modal está oculto |
+| 75 | Portfolio visual: cabecera y keywords en mobile | `playwright/tests/portfolio/portfolio.mobile.spec.ts` | `@test` `@portfolio` `@styles` | 765ms | When: el usuario navega a la página de portfolio<br>Then: la cabecera coincide con el snapshot<br>Then: la sección de keywords coincide con el snapshot |

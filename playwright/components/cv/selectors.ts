@@ -1,8 +1,12 @@
 export const route = '/cv';
+export const routeHtml = '/cv.html';
+export const routePdf = '/cv/pdf';
 export const heading = 'h1';
-export const pdfLink = 'a[href*=".pdf"]';
+export const pdfLink = 'a.cv-btn--download';
+export const viewHtmlButton = '.cv-btn--view';
 export const cvHeader = '.cv-header';
 export const pdfDownloadCard = '.pdf-download-card';
 export const cvTechInfo = '.cv-tech-info';
 export const skillsCarouselSection = '.skills-carousel-section';
 export const skillsCarouselTitle = 'Stack Técnico';
+export const cvHtmlName = '.cv-name';
