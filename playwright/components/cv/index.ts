@@ -70,3 +70,19 @@ export async function cvTechInfoMatchesSnapshot(page: Page, snapshotName: string
 export async function cvHtmlMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
   await expect(page).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
+
+export async function desiredSkillsSectionIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.desiredSkillsSection)).toBeVisible();
+}
+
+export async function hasDesiredSkillCount(page: Page, count: number): Promise<void> {
+  await expect(page.locator(selectors.desiredSkillCard)).toHaveCount(count);
+}
+
+export async function desiredSkillsHaveProgressBars(page: Page): Promise<void> {
+  const cards = page.locator(selectors.desiredSkillCard);
+  const count = await cards.count();
+  for (let i = 0; i < count; i++) {
+    await expect(cards.nth(i).locator(selectors.progressBar)).toBeVisible();
+  }
+}

@@ -8,6 +8,7 @@ use App\Domain\Portfolio\Portfolio;
 use App\Domain\Portfolio\PortfolioRepository;
 use App\Domain\Portfolio\Skill;
 use App\Domain\Portfolio\SkillLevel;
+use App\Domain\Portfolio\SkillType;
 use App\Infrastructure\Persistence\Json\JsonPortfolioRepository;
 use PHPUnit\Framework\TestCase;
 
@@ -111,6 +112,26 @@ final class JsonPortfolioRepositoryTest extends TestCase
         $this->assertSame('PHP', $skills[0]->name());
         $this->assertSame(SkillLevel::Expert, $skills[0]->level());
         $this->assertSame('Testing', $skills[1]->name());
+    }
+
+    public function testLoadsDesiredSkills(): void
+    {
+        // Arrange
+        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+
+        // Act
+        $portfolio = $repository->find();
+        $desiredSkills = $portfolio->desiredSkills();
+
+        // Assert
+        $this->assertIsArray($desiredSkills);
+        $this->assertCount(2, $desiredSkills);
+        $this->assertContainsOnlyInstancesOf(Skill::class, $desiredSkills);
+        $this->assertSame('Python', $desiredSkills[0]->name());
+        $this->assertSame(SkillType::Desired, $desiredSkills[0]->type());
+        $this->assertSame(20, $desiredSkills[0]->progress());
+        $this->assertSame('Kubernetes', $desiredSkills[1]->name());
+        $this->assertSame(10, $desiredSkills[1]->progress());
     }
 
     public function testThrowsExceptionIfFileDoesNotExist(): void

@@ -9,6 +9,7 @@ use App\Domain\Portfolio\PersonalInfo;
 use App\Domain\Portfolio\Portfolio;
 use App\Domain\Portfolio\Skill;
 use App\Domain\Portfolio\SkillLevel;
+use App\Domain\Portfolio\SkillType;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -119,5 +120,101 @@ final class PortfolioTest extends TestCase
         );
 
         $this->assertSame($this->contactInfo, $portfolio->contactInfo());
+    }
+
+    // ─── Desired Skills ──────────────────────────────────────────────────────────
+
+    public function testDesiredSkillsReturnsEmptyArrayByDefault(): void
+    {
+        $portfolio = new Portfolio(
+            personalInfo: $this->personalInfo,
+            contactInfo: $this->contactInfo,
+            socialNetworks: [],
+            skills: []
+        );
+
+        $this->assertSame([], $portfolio->desiredSkills());
+    }
+
+    public function testDesiredSkillsReturnsDesiredSkillObjects(): void
+    {
+        $desired = new Skill('Python', null, null, null, 'Learning AI', SkillType::Desired, 20);
+        $portfolio = new Portfolio(
+            personalInfo: $this->personalInfo,
+            contactInfo: $this->contactInfo,
+            socialNetworks: [],
+            skills: [],
+            desiredSkills: [$desired]
+        );
+
+        $desiredSkills = $portfolio->desiredSkills();
+
+        $this->assertCount(1, $desiredSkills);
+        $this->assertInstanceOf(Skill::class, $desiredSkills[0]);
+        $this->assertSame('Python', $desiredSkills[0]->name());
+        $this->assertSame(SkillType::Desired, $desiredSkills[0]->type());
+        $this->assertSame(20, $desiredSkills[0]->progress());
+    }
+
+    public function testFromArrayWithDesiredSkillsLoadsCorrectly(): void
+    {
+        $data = [
+            'personal_info' => [
+                'name' => 'Jose Test',
+                'title' => 'Test Developer',
+                'tagline' => 'Test tagline',
+                'bio' => 'Test bio',
+                'location' => 'Test City',
+            ],
+            'contact' => [
+                'email' => 'test@example.com',
+                'phone' => '+34 600 000 000',
+                'github' => 'testuser',
+                'linkedin' => 'testuser',
+                'website' => 'https://example.com',
+            ],
+            'social_networks' => [],
+            'skills' => [
+                ['name' => 'PHP', 'level' => 'expert', 'years' => 9],
+            ],
+            'desired_skills' => [
+                ['name' => 'Python', 'type' => 'desired', 'progress' => 20, 'description' => 'Learning AI'],
+            ],
+        ];
+
+        $portfolio = Portfolio::fromArray($data);
+
+        $this->assertCount(1, $portfolio->skills());
+        $this->assertCount(1, $portfolio->desiredSkills());
+        $this->assertSame('Python', $portfolio->desiredSkills()[0]->name());
+        $this->assertSame(SkillType::Desired, $portfolio->desiredSkills()[0]->type());
+    }
+
+    public function testFromArrayWithoutDesiredSkillsReturnsEmptyArray(): void
+    {
+        $data = [
+            'personal_info' => [
+                'name' => 'Jose Test',
+                'title' => 'Test Developer',
+                'tagline' => 'Test tagline',
+                'bio' => 'Test bio',
+                'location' => 'Test City',
+            ],
+            'contact' => [
+                'email' => 'test@example.com',
+                'phone' => '+34 600 000 000',
+                'github' => 'testuser',
+                'linkedin' => 'testuser',
+                'website' => 'https://example.com',
+            ],
+            'social_networks' => [],
+            'skills' => [
+                ['name' => 'PHP', 'level' => 'expert', 'years' => 9],
+            ],
+        ];
+
+        $portfolio = Portfolio::fromArray($data);
+
+        $this->assertSame([], $portfolio->desiredSkills());
     }
 }

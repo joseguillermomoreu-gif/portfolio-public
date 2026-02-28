@@ -36,5 +36,18 @@
       "years": 3,
       "stars": 5
     }
+  ],
+  "desired_skills": [
+    {
+      "name": "Python",
+      "progress": 20,
+      "icon": "brain",
+      "description": "Learning AI development"
+    },
+    {
+      "name": "Kubernetes",
+      "progress": 10,
+      "description": "Container orchestration"
+    }
   ]
 }

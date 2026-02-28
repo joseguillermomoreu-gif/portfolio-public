@@ -10,3 +10,7 @@ export const cvTechInfo = '.cv-tech-info';
 export const skillsCarouselSection = '.skills-carousel-section';
 export const skillsCarouselTitle = 'Stack Técnico';
 export const cvHtmlName = '.cv-name';
+export const desiredSkillsSection = '.desired-skills-section';
+export const desiredSkillCard = '.desired-skill-card';
+export const progressBar = '.progress-bar';
+export const progressFill = '.progress-fill';

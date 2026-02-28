@@ -9,12 +9,14 @@ final class Portfolio
     /**
      * @param array<array<string, mixed>> $socialNetworks
      * @param Skill[]                     $skills
+     * @param Skill[]                     $desiredSkills
      */
     public function __construct(
         private readonly PersonalInfo $personalInfo,
         private readonly ContactInfo $contactInfo,
         private readonly array $socialNetworks,
-        private readonly array $skills
+        private readonly array $skills,
+        private readonly array $desiredSkills = [],
     ) {
     }
 
@@ -42,6 +44,14 @@ final class Portfolio
     public function skills(): array
     {
         return $this->skills;
+    }
+
+    /**
+     * @return Skill[]
+     */
+    public function desiredSkills(): array
+    {
+        return $this->desiredSkills;
     }
 
     /**
@@ -104,11 +114,26 @@ final class Portfolio
             $rawSkills
         );
 
+        $desiredSkills = [];
+        if (isset($data['desired_skills']) && is_array($data['desired_skills'])) {
+            /** @var array<array<string, mixed>> $rawDesiredSkills */
+            $rawDesiredSkills = $data['desired_skills'];
+            $desiredSkills = array_map(
+                static function (array $skillData): Skill {
+                    $skillData['type'] = 'desired';
+
+                    return Skill::fromArray($skillData);
+                },
+                $rawDesiredSkills
+            );
+        }
+
         return new self(
             new PersonalInfo($name, $title, $tagline, $bio, $location, $photo, $website),
             new ContactInfo($email, $phone, $github, $linkedin, $instagram, $contactWebsite),
             $data['social_networks'],
-            $skills
+            $skills,
+            $desiredSkills
         );
     }
 }
