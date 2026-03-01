@@ -84,15 +84,8 @@ jobs:
       - name: 🐳 Build Docker image
         run: make build
 
-      - name: 🐳 Start containers
-        run: make up
-
       - name: 🎭 Run E2E Tests (Production)
-        run: make e2e-prod
-
-      - name: 🐳 Stop containers
-        if: always()
-        run: make down
+        run: docker compose run --rm -e BASE_URL=https://josemoreupeso.es web npm test
 
   # ==========================================
   # QA STATUS (gate)
