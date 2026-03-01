@@ -81,22 +81,18 @@ jobs:
       - name: 📥 Checkout code
         uses: actions/checkout@v4
 
-      - name: 🎭 Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: 'npm'
+      - name: 🐳 Build Docker image
+        run: make build
 
-      - name: 📦 Install Node dependencies
-        run: npm ci
-
-      - name: 🎭 Install Playwright browsers
-        run: npx playwright install chromium --with-deps
+      - name: 🐳 Start containers
+        run: make up
 
       - name: 🎭 Run E2E Tests (Production)
-        env:
-          BASE_URL: https://josemoreupeso.es
-        run: npx playwright test
+        run: make e2e-prod
+
+      - name: 🐳 Stop containers
+        if: always()
+        run: make down
 
   # ==========================================
   # QA STATUS (gate)

@@ -1,0 +1,21 @@
+services:
+  web:
+    build: .
+    container_name: portfolio_web
+    volumes:
+      - .:/app                 # Código fuente (desarrollo)
+      - /app/vendor            # Preservar vendor bakeado en la imagen
+      - /app/node_modules      # Preservar node_modules bakeado en la imagen
+    ports:
+      - "8080:8080"
+    command: php -S 0.0.0.0:8080 -t public public/index.php
+    working_dir: /app
+    environment:
+      - APP_ENV=dev
+      - BASE_URL=http://localhost:8080
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
