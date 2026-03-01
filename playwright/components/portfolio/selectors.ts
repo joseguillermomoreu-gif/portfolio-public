@@ -19,6 +19,11 @@ export const categoryLabel     = '.category-label';
 export const modalIconBrand    = '.modal-icon--brand';
 export const modalIconMonogram = '.modal-icon--monogram';
 
+// ── Syntax highlighting ──────────────────────────────────────
+export const modalCard          = '.modal:not(.hidden) .modal-card';
+export const modalCodeBlock     = '.modal-body pre code';
+export const modalHighlightedToken = '.modal-body pre code [class^="hljs-"]';
+
 // ── Dynamic helpers ────────────────────────────────────────────
 export const categoryByName = (name: string): string => `[data-category="${name}"]`;
 export const modalById      = (id: string): string  => `#modal-${id}`;

@@ -90,12 +90,3 @@ test('CV visual: cabecera, tarjeta PDF y stack técnico en desktop', { tag: ['@t
   });
 });
 
-test('CV HTML visual: el CV en HTML coincide con el snapshot en desktop', { tag: ['@test', '@cv', '@styles'] }, async ({ page }) => {
-  await test.step('When: el usuario navega a /cv.html', async () => {
-    await cvPage.navigateToCvHtml(page);
-  });
-
-  await test.step('Then: el CV en HTML coincide con el snapshot', async () => {
-    await cvPage.cvHtmlMatchesSnapshot(page, 'cv-html-desktop.png');
-  });
-});

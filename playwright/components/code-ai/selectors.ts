@@ -9,3 +9,6 @@ export const articlesGrid = '.articles-grid';
 export const portfolioArticleLink = 'a[href*="/code-ai/como-construi-este-portfolio"]';
 export const articleContent = 'body';
 export const articleParagraph = 'p';
+export const codeBlock = '.article-content pre code';
+export const highlightedToken = '.article-content pre code [class^="hljs-"]';
+export const articlePreBlock = '.article-content pre';

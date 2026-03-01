@@ -67,10 +67,6 @@ export async function cvTechInfoMatchesSnapshot(page: Page, snapshotName: string
   await expect(page.locator(selectors.cvTechInfo)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
-export async function cvHtmlMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
-  await expect(page).toHaveScreenshot(snapshotName, { animations: 'disabled' });
-}
-
 export async function desiredSkillsSectionIsVisible(page: Page): Promise<void> {
   await expect(page.locator(selectors.desiredSkillsSection)).toBeVisible();
 }

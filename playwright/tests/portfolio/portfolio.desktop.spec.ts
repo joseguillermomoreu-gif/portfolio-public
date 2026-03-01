@@ -117,6 +117,22 @@ test('Portfolio: el modal de monograma muestra el elemento de monograma', { tag:
   });
 });
 
+// ─── Syntax Highlighting ─────────────────────────────────────────────────────
+
+test('Portfolio: el modal TDD tiene syntax highlighting en bloques de código', { tag: ['@test', '@portfolio'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página de portfolio', async () => {
+    await portfolioPage.navigateToPortfolio(page);
+  });
+
+  await test.step('When: abro el modal de TDD', async () => {
+    await portfolioPage.openModal(page, 'tdd');
+  });
+
+  await test.step('Then: los bloques de código tienen syntax highlighting con highlight.js', async () => {
+    await portfolioPage.modalCodeBlocksHaveSyntaxHighlighting(page, 'tdd');
+  });
+});
+
 // ─── Visual Regression ────────────────────────────────────────────────────────
 
 test('Portfolio visual: cabecera y keywords en desktop', { tag: ['@test', '@portfolio', '@styles'] }, async ({ page }) => {
@@ -130,5 +146,19 @@ test('Portfolio visual: cabecera y keywords en desktop', { tag: ['@test', '@port
 
   await test.step('Then: la sección de keywords coincide con el snapshot', async () => {
     await portfolioPage.keywordsSectionMatchesSnapshot(page, 'portfolio-keywords-desktop.png');
+  });
+});
+
+test('Portfolio visual: modal TDD con syntax highlighting en desktop', { tag: ['@test', '@portfolio', '@styles'] }, async ({ page }) => {
+  await test.step('Given: el usuario navega a la página de portfolio', async () => {
+    await portfolioPage.navigateToPortfolio(page);
+  });
+
+  await test.step('When: abro el modal de TDD', async () => {
+    await portfolioPage.openModal(page, 'tdd');
+  });
+
+  await test.step('Then: el modal TDD coincide con el snapshot', async () => {
+    await portfolioPage.modalCardMatchesSnapshot(page, 'tdd', 'portfolio-modal-tdd-desktop.png');
   });
 });

@@ -101,3 +101,20 @@ export async function portfolioHeaderMatchesSnapshot(page: Page, snapshotName: s
 export async function keywordsSectionMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
   await expect(page.locator(selectors.keywordsSection)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
+
+export async function modalCardMatchesSnapshot(page: Page, id: string, snapshotName: string): Promise<void> {
+  await expect(
+    page.locator(selectors.modalById(id)).locator('.modal-card')
+  ).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function modalCodeBlocksHaveSyntaxHighlighting(page: Page, id: string): Promise<void> {
+  const modal = page.locator(selectors.modalById(id));
+  const codeBlocks = modal.locator(selectors.modalCodeBlock);
+  expect(await codeBlocks.count()).toBeGreaterThan(0);
+
+  const firstBlock = codeBlocks.first();
+  await expect(firstBlock).toHaveAttribute('class', /hljs/);
+
+  expect(await modal.locator(selectors.modalHighlightedToken).count()).toBeGreaterThan(0);
+}

@@ -59,6 +59,26 @@ test('Code & AI detalle: carga el artículo automatizando-e2e-con-ia', { tag: ['
   });
 });
 
+test('Code & AI detalle: los bloques de código tienen syntax highlighting', { tag: ['@test', '@code_ai'] }, async ({ page }) => {
+  await test.step('When: el usuario navega al detalle del artículo del portfolio', async () => {
+    await codeAiPage.navigateToPortfolioArticle(page);
+  });
+
+  await test.step('Then: los bloques de código tienen syntax highlighting con highlight.js', async () => {
+    await codeAiPage.codeBlocksHaveSyntaxHighlighting(page);
+  });
+});
+
+test('Code & AI visual: bloque de código con syntax highlighting', { tag: ['@test', '@code_ai', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega al detalle del artículo del portfolio', async () => {
+    await codeAiPage.navigateToPortfolioArticle(page);
+  });
+
+  await test.step('Then: el primer bloque de código coincide con el snapshot', async () => {
+    await codeAiPage.firstCodeBlockMatchesSnapshot(page, 'code-ai-codeblock-desktop.png');
+  });
+});
+
 // ─── 404 ──────────────────────────────────────────────────────────────────────
 
 test('Code & AI: devuelve 404 para un artículo inexistente', { tag: ['@test', '@code_ai'] }, async ({ page }) => {

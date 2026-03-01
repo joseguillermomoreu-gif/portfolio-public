@@ -63,3 +63,17 @@ export async function codeAiHeaderMatchesSnapshot(page: Page, snapshotName: stri
 export async function articlesGridMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
   await expect(page.locator(selectors.articlesGrid)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
+
+export async function firstCodeBlockMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.articlePreBlock).first()).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function codeBlocksHaveSyntaxHighlighting(page: Page): Promise<void> {
+  const codeBlocks = page.locator(selectors.codeBlock);
+  expect(await codeBlocks.count()).toBeGreaterThan(0);
+
+  const firstBlock = codeBlocks.first();
+  await expect(firstBlock).toHaveAttribute('class', /hljs/);
+
+  expect(await page.locator(selectors.highlightedToken).count()).toBeGreaterThan(0);
+}
