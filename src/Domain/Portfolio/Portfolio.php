@@ -106,6 +106,7 @@ final class Portfolio
         $photo = isset($personalInfo['photo']) && is_string($personalInfo['photo']) ? $personalInfo['photo'] : null;
         $website = isset($personalInfo['website']) && is_string($personalInfo['website']) ? $personalInfo['website'] : null;
         $instagram = isset($contact['instagram']) && is_string($contact['instagram']) ? $contact['instagram'] : null;
+        $donationUrl = isset($contact['donation_url']) && is_string($contact['donation_url']) ? $contact['donation_url'] : null;
 
         /** @var array<array<string, mixed>> $rawSkills */
         $rawSkills = $data['skills'];
@@ -130,7 +131,7 @@ final class Portfolio
 
         return new self(
             new PersonalInfo($name, $title, $tagline, $bio, $location, $photo, $website),
-            new ContactInfo($email, $phone, $github, $linkedin, $instagram, $contactWebsite),
+            new ContactInfo($email, $phone, $github, $linkedin, $instagram, $contactWebsite, $donationUrl),
             $data['social_networks'],
             $skills,
             $desiredSkills

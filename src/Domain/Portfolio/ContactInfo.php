@@ -12,7 +12,8 @@ final class ContactInfo
         private readonly string $github,
         private readonly string $linkedin,
         private readonly ?string $instagram,
-        private readonly string $website
+        private readonly string $website,
+        private readonly ?string $donationUrl = null
     ) {
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new \InvalidArgumentException("Invalid email: '{$email}'");
@@ -51,5 +52,10 @@ final class ContactInfo
     public function website(): string
     {
         return $this->website;
+    }
+
+    public function donationUrl(): ?string
+    {
+        return $this->donationUrl;
     }
 }

@@ -247,6 +247,40 @@ final class ContactInfoTest extends TestCase
         );
     }
 
+    public function testDonationUrlCanBeNull(): void
+    {
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com'
+        );
+
+        // Assert
+        $this->assertNull($contactInfo->donationUrl());
+    }
+
+    public function testDonationUrlCanHaveValue(): void
+    {
+        // Arrange & Act
+        $contactInfo = new ContactInfo(
+            email: 'jose@example.com',
+            phone: '+34 600 000 000',
+            github: 'pepeton',
+            linkedin: 'jose-moreu',
+            instagram: null,
+            website: 'https://example.com',
+            donationUrl: 'https://paypal.me/Joseguillermomoreu'
+        );
+
+        // Assert
+        $this->assertNotNull($contactInfo->donationUrl());
+        $this->assertSame('https://paypal.me/Joseguillermomoreu', $contactInfo->donationUrl());
+    }
+
     public function testInvalidWebsiteUrlThrowsInvalidArgumentException(): void
     {
         $this->expectException(\InvalidArgumentException::class);

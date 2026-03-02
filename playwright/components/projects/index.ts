@@ -38,10 +38,22 @@ export async function projectsHeaderMatchesSnapshot(page: Page, snapshotName: st
   await expect(page.locator(selectors.projectsHeader)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
-export async function projectsGridMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
-  await expect(page.locator(selectors.projectsGrid)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+export async function projectCardMatchesSnapshot(page: Page, index: number, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.projectCards).nth(index)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
 export async function projectsFooterMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
   await expect(page.locator(selectors.projectsFooter)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function donationSectionIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.donationSection)).toBeVisible();
+}
+
+export async function donationLinkIs(page: Page, href: string): Promise<void> {
+  await expect(page.locator(selectors.donationLink)).toHaveAttribute('href', href);
+}
+
+export async function donationSectionMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.donationSection)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }

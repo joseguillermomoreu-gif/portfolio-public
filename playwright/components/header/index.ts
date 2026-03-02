@@ -114,7 +114,7 @@ export async function closeWithEsc(page: Page): Promise<void> {
 }
 
 export async function hideHeader(page: Page): Promise<void> {
-  await page.locator('header').evaluate((el) => {
+  await page.locator(selectors.container).evaluate((el) => {
     (el as HTMLElement).style.visibility = 'hidden';
   });
 }

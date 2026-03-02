@@ -18,6 +18,11 @@ test('Proyectos: conteo, enlaces y visibilidad de tarjetas son correctos', { tag
   await test.step('Then: la tarjeta PPIA es privada y no tiene enlace de GitHub', async () => {
     await projectsPage.ppiaProjectIsPrivate(page);
   });
+
+  await test.step('Then: la sección de donación es visible con enlace PayPal correcto', async () => {
+    await projectsPage.donationSectionIsVisible(page);
+    await projectsPage.donationLinkIs(page, 'https://paypal.me/Joseguillermomoreu');
+  });
 });
 
 // ─── Visual Regression ────────────────────────────────────────────────────────
@@ -31,8 +36,15 @@ test('Proyectos visual: cabecera, grid y footer en desktop', { tag: ['@test', '@
     await projectsPage.projectsHeaderMatchesSnapshot(page, 'projects-header-desktop.png');
   });
 
-  await test.step('Then: el grid coincide con el snapshot', async () => {
-    await projectsPage.projectsGridMatchesSnapshot(page, 'projects-grid-desktop.png');
+  await test.step('Then: la sección de donación coincide con el snapshot', async () => {
+    await projectsPage.donationSectionMatchesSnapshot(page, 'projects-donation-desktop.png');
+  });
+
+  await test.step('Then: cada tarjeta de proyecto coincide con su snapshot', async () => {
+    const projectNames = ['tlotp', 'portfolio', 'pom-ppia', 'auto-skills', 'end2endguru99', 'ppia'];
+    for (let i = 0; i < projectNames.length; i++) {
+      await projectsPage.projectCardMatchesSnapshot(page, i, `projects-card-${projectNames[i]}-desktop.png`);
+    }
   });
 
   await test.step('Then: el footer coincide con el snapshot', async () => {
