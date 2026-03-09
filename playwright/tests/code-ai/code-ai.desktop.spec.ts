@@ -98,7 +98,11 @@ test('Code & AI visual: cabecera y grid en desktop', { tag: ['@test', '@code_ai'
     await codeAiPage.codeAiHeaderMatchesSnapshot(page, 'code-ai-header-desktop.png');
   });
 
-  await test.step('Then: el grid de artículos coincide con el snapshot', async () => {
-    await codeAiPage.articlesGridMatchesSnapshot(page, 'code-ai-grid-desktop.png');
+  await test.step('Then: la primera card de artículo coincide con el snapshot', async () => {
+    await codeAiPage.firstArticleCardMatchesSnapshot(page, 'code-ai-first-card-desktop.png');
+  });
+
+  await test.step('Then: la última card de artículo coincide con el snapshot', async () => {
+    await codeAiPage.lastArticleCardMatchesSnapshot(page, 'code-ai-last-card-desktop.png');
   });
 });

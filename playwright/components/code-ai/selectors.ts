@@ -6,6 +6,8 @@ export const heading = 'h1';
 export const articleCards = '.article-card';
 export const codeAiHeader = '.code-ai-header';
 export const articlesGrid = '.articles-grid';
+export const firstArticleCard = '.articles-grid .article-card:first-child';
+export const lastArticleCard = '.articles-grid .article-card:last-child';
 export const portfolioArticleLink = 'a[href*="/code-ai/como-construi-este-portfolio"]';
 export const articleContent = 'body';
 export const articleParagraph = 'p';

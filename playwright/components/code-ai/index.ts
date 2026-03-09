@@ -60,8 +60,12 @@ export async function codeAiHeaderMatchesSnapshot(page: Page, snapshotName: stri
   await expect(page.locator(selectors.codeAiHeader)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
-export async function articlesGridMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
-  await expect(page.locator(selectors.articlesGrid)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+export async function firstArticleCardMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.firstArticleCard)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function lastArticleCardMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.lastArticleCard)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
 export async function firstCodeBlockMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
