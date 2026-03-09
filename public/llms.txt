@@ -1,0 +1,40 @@
+# José Moreu Peso
+
+> Senior Backend Developer especializado en PHP/Symfony con 8+ años de experiencia.
+> Tech Lead en automatización E2E con Playwright y TypeScript.
+> Explorando activamente LLMs e integración de IA en flujos de desarrollo.
+
+## Secciones
+
+- [Home](https://josemoreupeso.es/): Presentación, skills técnicas y stack principal
+- [CV](https://josemoreupeso.es/cv): Currículum completo con experiencia y formación
+- [Portfolio Técnico](https://josemoreupeso.es/portfolio): Stack técnico y metodologías en profundidad (DDD, Hexagonal, TDD, Playwright...)
+- [Code & AI](https://josemoreupeso.es/code-ai): Artículos sobre desarrollo asistido por IA y experiencias personales
+- [Proyectos](https://josemoreupeso.es/proyectos): Portfolio de proyectos open-source
+- [PPiA](https://josemoreupeso.es/ppia): Playwright Page Inspector with AI — herramienta propia
+- [Contacto](https://josemoreupeso.es/contacto): Formulario y datos de contacto
+
+## Sobre mí
+
+Backend developer con expertise en arquitectura hexagonal, DDD y TDD estricto.
+8+ años de experiencia en PHP/Symfony. Tech Lead en testing E2E automatizado con Playwright.
+Actualmente en El Confidencial (via Akkodis) y desarrollando proyectos de IA propios.
+
+## Stack principal
+
+- Backend: PHP 8.1+, Symfony 6.4, Doctrine ORM
+- Testing: PHPUnit, PHPStan level 9, Playwright + TypeScript
+- Arquitectura: Hexagonal (Ports & Adapters), DDD, TDD
+- DevOps: Docker, GitHub Actions CI/CD, rsync deploy
+
+## Proyectos destacados
+
+- TLOTP (The Lord of the Prompt): prompt interactivo para configurar Claude Code
+- POM-PPIA: generador de Page Object Models con Python + OpenAI GPT-4
+- Portfolio: este mismo sitio, construido con Symfony + Arquitectura Hexagonal
+
+## Contacto
+
+- Web: https://josemoreupeso.es
+- GitHub: https://github.com/joseguillermomoreu-gif
+- LinkedIn: https://linkedin.com/in/josemoreupeso
