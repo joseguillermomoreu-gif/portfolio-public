@@ -14,3 +14,5 @@ export const articleParagraph = 'p';
 export const codeBlock = '.article-content pre code';
 export const highlightedToken = '.article-content pre code [class^="hljs-"]';
 export const articlePreBlock = '.article-content pre';
+export const articleNav = '.article-nav';
+export const navBack = '.article-nav .nav-back';

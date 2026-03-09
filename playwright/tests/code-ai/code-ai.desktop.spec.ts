@@ -79,6 +79,46 @@ test('Code & AI visual: bloque de código con syntax highlighting', { tag: ['@te
   });
 });
 
+// ─── Article Navigation ───────────────────────────────────────────────────────
+
+test('Code & AI detalle: el botón volver apunta a /code-ai con el texto correcto', { tag: ['@test', '@code_ai'] }, async ({ page }) => {
+  await test.step('When: el usuario navega al detalle del artículo del portfolio', async () => {
+    await codeAiPage.navigateToPortfolioArticle(page);
+  });
+
+  await test.step('Then: el botón volver apunta a /code-ai', async () => {
+    await codeAiPage.backButtonPointsToCodeAi(page);
+  });
+
+  await test.step('And: el texto del botón volver es correcto', async () => {
+    await codeAiPage.backButtonHasCorrectText(page);
+  });
+});
+
+test('Code & AI detalle: el botón volver navega de vuelta a /code-ai', { tag: ['@test', '@code_ai'] }, async ({ page }) => {
+  await test.step('Given: estoy en el detalle del artículo del portfolio', async () => {
+    await codeAiPage.navigateToPortfolioArticle(page);
+  });
+
+  await test.step('When: hago click en el botón volver', async () => {
+    await codeAiPage.clickBackButton(page);
+  });
+
+  await test.step('Then: vuelvo a la página Code & AI', async () => {
+    await codeAiPage.titleIsCorrect(page);
+  });
+});
+
+test('Code & AI visual: navegación del artículo en desktop', { tag: ['@test', '@code_ai', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega al detalle del artículo del portfolio', async () => {
+    await codeAiPage.navigateToPortfolioArticle(page);
+  });
+
+  await test.step('Then: la barra de navegación del artículo coincide con el snapshot', async () => {
+    await codeAiPage.articleNavMatchesSnapshot(page, 'code-ai-article-nav-desktop.png');
+  });
+});
+
 // ─── 404 ──────────────────────────────────────────────────────────────────────
 
 test('Code & AI: devuelve 404 para un artículo inexistente', { tag: ['@test', '@code_ai'] }, async ({ page }) => {

@@ -23,3 +23,13 @@ test('Code & AI visual: cabecera y grid en mobile', { tag: ['@test', '@code_ai',
     await codeAiPage.lastArticleCardMatchesSnapshot(page, 'code-ai-last-card-mobile.png');
   });
 });
+
+test('Code & AI visual: navegación del artículo en mobile', { tag: ['@test', '@code_ai', '@styles'] }, async ({ page }) => {
+  await test.step('When: el usuario navega al detalle del artículo del portfolio', async () => {
+    await codeAiPage.navigateToPortfolioArticle(page);
+  });
+
+  await test.step('Then: la barra de navegación del artículo coincide con el snapshot', async () => {
+    await codeAiPage.articleNavMatchesSnapshot(page, 'code-ai-article-nav-mobile.png');
+  });
+});

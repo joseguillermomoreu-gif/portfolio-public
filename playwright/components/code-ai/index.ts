@@ -72,6 +72,23 @@ export async function firstCodeBlockMatchesSnapshot(page: Page, snapshotName: st
   await expect(page.locator(selectors.articlePreBlock).first()).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
+export async function backButtonPointsToCodeAi(page: Page): Promise<void> {
+  await expect(page.locator(selectors.navBack)).toHaveAttribute('href', '/code-ai');
+}
+
+export async function backButtonHasCorrectText(page: Page): Promise<void> {
+  await expect(page.locator(selectors.navBack)).toContainText('Volver a Code & AI');
+}
+
+export async function clickBackButton(page: Page): Promise<void> {
+  await page.locator(selectors.navBack).click();
+  await page.waitForLoadState('domcontentloaded');
+}
+
+export async function articleNavMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.articleNav)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
 export async function codeBlocksHaveSyntaxHighlighting(page: Page): Promise<void> {
   const codeBlocks = page.locator(selectors.codeBlock);
   expect(await codeBlocks.count()).toBeGreaterThan(0);
