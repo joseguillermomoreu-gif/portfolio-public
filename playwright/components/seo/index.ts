@@ -84,9 +84,10 @@ export async function llmsTxtReturns200(page: Page): Promise<void> {
 }
 
 export async function llmsTxtContainsAuthorInfo(page: Page): Promise<void> {
-  const content = await page.content();
-  expect(content).toContain('José Moreu Peso');
-  expect(content).toContain('josemoreupeso.es');
+  const response = await page.request.get('/llms.txt');
+  const text = await response.text();
+  expect(text).toContain('José Moreu Peso');
+  expect(text).toContain('josemoreupeso.es');
 }
 
 export async function pageHasMetaDescription(page: Page): Promise<void> {
