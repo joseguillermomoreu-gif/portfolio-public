@@ -11,6 +11,29 @@ export async function hasProjectCount(page: Page, count: number): Promise<void> 
   await expect(page.locator(selectors.projectCards)).toHaveCount(count);
 }
 
+export async function expandCard(page: Page, projectName: string): Promise<void> {
+  const card = page.locator(selectors.projectCards).filter({
+    has: page.locator(selectors.projectName, { hasText: projectName }),
+  }).first();
+  await card.locator(selectors.projectToggle).click();
+}
+
+export async function cardIsExpanded(page: Page, projectName: string): Promise<void> {
+  const card = page.locator(selectors.projectCards).filter({
+    has: page.locator(selectors.projectName, { hasText: projectName }),
+  }).first();
+  await expect(card).toHaveAttribute('data-expanded', 'true');
+  await expect(card.locator(selectors.projectToggle)).toHaveAttribute('aria-expanded', 'true');
+}
+
+export async function cardIsCollapsed(page: Page, projectName: string): Promise<void> {
+  const card = page.locator(selectors.projectCards).filter({
+    has: page.locator(selectors.projectName, { hasText: projectName }),
+  }).first();
+  await expect(card).toHaveAttribute('data-expanded', 'false');
+  await expect(card.locator(selectors.projectToggle)).toHaveAttribute('aria-expanded', 'false');
+}
+
 export async function projectGithubLinkIs(page: Page, projectName: string, href: string): Promise<void> {
   const card = page.locator(selectors.projectCards).filter({
     has: page.locator(selectors.projectName, { hasText: projectName }),
@@ -40,6 +63,13 @@ export async function projectsHeaderMatchesSnapshot(page: Page, snapshotName: st
 
 export async function projectCardMatchesSnapshot(page: Page, index: number, snapshotName: string): Promise<void> {
   await expect(page.locator(selectors.projectCards).nth(index)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
+
+export async function expandedCardMatchesSnapshot(page: Page, projectName: string, snapshotName: string): Promise<void> {
+  const card = page.locator(selectors.projectCards).filter({
+    has: page.locator(selectors.projectName, { hasText: projectName }),
+  }).first();
+  await expect(card).toHaveScreenshot(snapshotName, { animations: 'disabled' });
 }
 
 export async function projectsFooterMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {

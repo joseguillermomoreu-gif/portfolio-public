@@ -19,11 +19,16 @@ test('Proyectos visual: cabecera, donación, tarjetas y footer en mobile', { tag
     await projectsPage.donationSectionMatchesSnapshot(page, 'projects-donation-mobile.png');
   });
 
-  await test.step('Then: cada tarjeta de proyecto coincide con su snapshot', async () => {
+  await test.step('Then: cada tarjeta de proyecto (colapsada) coincide con su snapshot', async () => {
     const projectNames = ['tlotp', 'portfolio', 'pom-ppia', 'auto-skills', 'end2endguru99', 'ppia'];
     for (let i = 0; i < projectNames.length; i++) {
       await projectsPage.projectCardMatchesSnapshot(page, i, `projects-card-${projectNames[i]}-mobile.png`);
     }
+  });
+
+  await test.step('Then: la card de TLOTP expandida coincide con el snapshot', async () => {
+    await projectsPage.expandCard(page, 'TLOTP — The Lord of the Prompt');
+    await projectsPage.expandedCardMatchesSnapshot(page, 'TLOTP — The Lord of the Prompt', 'projects-card-tlotp-expanded-mobile.png');
   });
 
   await test.step('Then: el footer coincide con el snapshot', async () => {

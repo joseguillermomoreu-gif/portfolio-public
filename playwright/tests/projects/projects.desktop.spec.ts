@@ -25,9 +25,37 @@ test('Proyectos: conteo, enlaces y visibilidad de tarjetas son correctos', { tag
   });
 });
 
+// ─── Expand / Collapse ────────────────────────────────────────────────────────
+
+test('Proyectos: las cards se expanden y comprimen correctamente', { tag: ['@test', '@projects'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de proyectos', async () => {
+    await projectsPage.navigateToProjects(page);
+  });
+
+  await test.step('Then: todas las cards están colapsadas por defecto', async () => {
+    await projectsPage.cardIsCollapsed(page, 'TLOTP — The Lord of the Prompt');
+  });
+
+  await test.step('When: el usuario hace clic en la card de TLOTP', async () => {
+    await projectsPage.expandCard(page, 'TLOTP — The Lord of the Prompt');
+  });
+
+  await test.step('Then: la card de TLOTP se expande', async () => {
+    await projectsPage.cardIsExpanded(page, 'TLOTP — The Lord of the Prompt');
+  });
+
+  await test.step('When: el usuario vuelve a hacer clic en la card de TLOTP', async () => {
+    await projectsPage.expandCard(page, 'TLOTP — The Lord of the Prompt');
+  });
+
+  await test.step('Then: la card de TLOTP se colapsa de nuevo', async () => {
+    await projectsPage.cardIsCollapsed(page, 'TLOTP — The Lord of the Prompt');
+  });
+});
+
 // ─── Visual Regression ────────────────────────────────────────────────────────
 
-test('Proyectos visual: cabecera, grid y footer en desktop', { tag: ['@test', '@projects', '@styles'] }, async ({ page }) => {
+test('Proyectos visual: cabecera, lista y footer en desktop', { tag: ['@test', '@projects', '@styles'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página de proyectos', async () => {
     await projectsPage.navigateToProjects(page);
   });
@@ -40,11 +68,16 @@ test('Proyectos visual: cabecera, grid y footer en desktop', { tag: ['@test', '@
     await projectsPage.donationSectionMatchesSnapshot(page, 'projects-donation-desktop.png');
   });
 
-  await test.step('Then: cada tarjeta de proyecto coincide con su snapshot', async () => {
+  await test.step('Then: cada tarjeta de proyecto (colapsada) coincide con su snapshot', async () => {
     const projectNames = ['tlotp', 'portfolio', 'pom-ppia', 'auto-skills', 'end2endguru99', 'ppia'];
     for (let i = 0; i < projectNames.length; i++) {
       await projectsPage.projectCardMatchesSnapshot(page, i, `projects-card-${projectNames[i]}-desktop.png`);
     }
+  });
+
+  await test.step('Then: la card de TLOTP expandida coincide con el snapshot', async () => {
+    await projectsPage.expandCard(page, 'TLOTP — The Lord of the Prompt');
+    await projectsPage.expandedCardMatchesSnapshot(page, 'TLOTP — The Lord of the Prompt', 'projects-card-tlotp-expanded-desktop.png');
   });
 
   await test.step('Then: el footer coincide con el snapshot', async () => {
