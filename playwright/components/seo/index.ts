@@ -43,6 +43,7 @@ const ARTICLE_SLUGS = [
   'ppia-migracion-python',
   'el-vibe-coding-llego',
   'automatizando-e2e-con-ia',
+  'tlotp-sdd-ia-san-patricio',
 ];
 
 export async function sitemapContainsArticleUrls(page: Page): Promise<void> {
