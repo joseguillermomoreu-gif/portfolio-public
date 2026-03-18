@@ -13,6 +13,12 @@ export async function gotoHome(page: Page): Promise<void> {
   await page.waitForLoadState('domcontentloaded');
 }
 
+// ─── Redirect assertions ──────────────────────────────────────────────────────
+
+export async function expectRedirectToArticle(page: Page): Promise<void> {
+  await expect(page).toHaveURL(/articulos\/tlotp-sdd-ia-san-patricio/);
+}
+
 // ─── LocalStorage ─────────────────────────────────────────────────────────────
 
 export async function clearLocalStorage(page: Page): Promise<void> {

@@ -8,22 +8,31 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-final class SanPatricioController extends AbstractController
+class SanPatricioController extends AbstractController
 {
-    private const EXPIRY_DATETIME = '2026-03-17T23:59:59';
     private const TIMEZONE = 'Europe/Madrid';
+    private const SAN_PATRICIO_DAY = '17-03';
+    private const REDIRECT_URL = '/articulos/tlotp-sdd-ia-san-patricio';
+
+    public function __construct(
+        private readonly ?\DateTimeImmutable $now = null,
+    ) {
+    }
 
     #[Route('/san_patricio', name: 'san_patricio')]
     public function index(): Response
     {
-        $timezone = new \DateTimeZone(self::TIMEZONE);
-        $now = new \DateTimeImmutable('now', $timezone);
-        $expiry = new \DateTimeImmutable(self::EXPIRY_DATETIME, $timezone);
+        $now = $this->getNow();
 
-        if ($now < $expiry) {
+        if (self::SAN_PATRICIO_DAY === $now->format('d-m')) {
             return $this->render('pages/san_patricio/index.html.twig');
         }
 
-        return new Response('Esta página ya no está disponible.', Response::HTTP_OK);
+        return $this->redirect(self::REDIRECT_URL, Response::HTTP_MOVED_PERMANENTLY);
+    }
+
+    private function getNow(): \DateTimeImmutable
+    {
+        return $this->now ?? new \DateTimeImmutable('now', new \DateTimeZone(self::TIMEZONE));
     }
 }
