@@ -10,6 +10,7 @@ use App\Domain\Portfolio\Skill;
 use App\Domain\Portfolio\SkillLevel;
 use App\Domain\Portfolio\SkillType;
 use App\Infrastructure\Persistence\Json\JsonPortfolioRepository;
+use App\Tests\Integration\Infrastructure\Persistence\DataProvider\PortfolioDataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -19,12 +20,25 @@ use PHPUnit\Framework\TestCase;
  */
 final class JsonPortfolioRepositoryTest extends TestCase
 {
-    private const FIXTURE_PATH = __DIR__ . '/../../../Fixtures/portfolio.json';
+    private string $fixturePath = '';
+
+    protected function setUp(): void
+    {
+        $this->fixturePath = sys_get_temp_dir() . '/portfolio-test-' . uniqid() . '.json';
+        file_put_contents($this->fixturePath, (string) json_encode(PortfolioDataProvider::validPortfolio()));
+    }
+
+    protected function tearDown(): void
+    {
+        if (file_exists($this->fixturePath)) {
+            unlink($this->fixturePath);
+        }
+    }
 
     public function testImplementsInterface(): void
     {
         // Arrange
-        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+        $repository = new JsonPortfolioRepository($this->fixturePath);
 
         // Assert
         $this->assertInstanceOf(PortfolioRepository::class, $repository);
@@ -33,7 +47,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
     public function testCanLoadPortfolioFromJson(): void
     {
         // Arrange
-        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+        $repository = new JsonPortfolioRepository($this->fixturePath);
 
         // Act
         $portfolio = $repository->find();
@@ -45,7 +59,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
     public function testLoadsPersonalInfoCorrectly(): void
     {
         // Arrange
-        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+        $repository = new JsonPortfolioRepository($this->fixturePath);
 
         // Act
         $portfolio = $repository->find();
@@ -64,7 +78,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
     public function testLoadsContactInfoCorrectly(): void
     {
         // Arrange
-        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+        $repository = new JsonPortfolioRepository($this->fixturePath);
 
         // Act
         $portfolio = $repository->find();
@@ -82,7 +96,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
     public function testLoadsSocialNetworks(): void
     {
         // Arrange
-        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+        $repository = new JsonPortfolioRepository($this->fixturePath);
 
         // Act
         $portfolio = $repository->find();
@@ -99,7 +113,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
     public function testLoadsSkills(): void
     {
         // Arrange
-        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+        $repository = new JsonPortfolioRepository($this->fixturePath);
 
         // Act
         $portfolio = $repository->find();
@@ -117,7 +131,7 @@ final class JsonPortfolioRepositoryTest extends TestCase
     public function testLoadsDesiredSkills(): void
     {
         // Arrange
-        $repository = new JsonPortfolioRepository(self::FIXTURE_PATH);
+        $repository = new JsonPortfolioRepository($this->fixturePath);
 
         // Act
         $portfolio = $repository->find();

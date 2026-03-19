@@ -6,6 +6,7 @@ namespace App\Tests\Integration\Infrastructure\Persistence;
 
 use App\Domain\Article\Article;
 use App\Infrastructure\Persistence\Json\JsonArticleRepository;
+use App\Tests\Integration\Infrastructure\Persistence\DataProvider\ArticleDataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -15,14 +16,23 @@ use PHPUnit\Framework\TestCase;
  */
 final class JsonArticleRepositoryTest extends TestCase
 {
-    private const FIXTURE_PATH = __DIR__ . '/../../../fixtures/articles-test.json';
+    private string $fixturePath = '';
 
     /** @phpstan-ignore-next-line - Initialized in setUp() */
     private JsonArticleRepository $repository;
 
     protected function setUp(): void
     {
-        $this->repository = new JsonArticleRepository(self::FIXTURE_PATH);
+        $this->fixturePath = sys_get_temp_dir() . '/articles-test-' . uniqid() . '.json';
+        file_put_contents($this->fixturePath, (string) json_encode(ArticleDataProvider::validArticles()));
+        $this->repository = new JsonArticleRepository($this->fixturePath);
+    }
+
+    protected function tearDown(): void
+    {
+        if (file_exists($this->fixturePath)) {
+            unlink($this->fixturePath);
+        }
     }
 
     public function testItImplementsRepositoryInterface(): void
@@ -249,7 +259,7 @@ final class JsonArticleRepositoryTest extends TestCase
     public function testFindAllReturnsSameResultsOnMultipleCalls(): void
     {
         // Arrange
-        $repository = new JsonArticleRepository(self::FIXTURE_PATH);
+        $repository = new JsonArticleRepository($this->fixturePath);
 
         // Act: call multiple methods that internally call findAll()
         $firstCall = $repository->findAll();

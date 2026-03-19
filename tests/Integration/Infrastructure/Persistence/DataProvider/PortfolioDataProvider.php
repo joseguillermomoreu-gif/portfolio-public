@@ -1,0 +1,68 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Integration\Infrastructure\Persistence\DataProvider;
+
+final class PortfolioDataProvider
+{
+    /**
+     * @return array<string, mixed>
+     */
+    public static function validPortfolio(): array
+    {
+        return [
+            'personal_info' => [
+                'name' => 'Jose Test Portfolio',
+                'title' => 'Test Backend Developer',
+                'tagline' => 'Testing with TDD',
+                'bio' => 'This is a test portfolio for integration testing',
+                'location' => 'Test City, Spain',
+                'photo' => '/assets/images/test.jpg',
+                'website' => 'test.example.com',
+            ],
+            'contact' => [
+                'email' => 'test@example.com',
+                'phone' => '+34 600 000 000',
+                'github' => 'test-user',
+                'linkedin' => 'test-user',
+                'instagram' => '@testuser',
+                'website' => 'https://test.example.com',
+            ],
+            'social_networks' => [
+                [
+                    'name' => 'GitHub',
+                    'url' => 'https://github.com/test-user',
+                    'icon' => 'github',
+                ],
+            ],
+            'skills' => [
+                [
+                    'name' => 'PHP',
+                    'level' => 'expert',
+                    'years' => 5,
+                    'stars' => 5,
+                ],
+                [
+                    'name' => 'Testing',
+                    'level' => 'expert',
+                    'years' => 3,
+                    'stars' => 5,
+                ],
+            ],
+            'desired_skills' => [
+                [
+                    'name' => 'Python',
+                    'progress' => 20,
+                    'icon' => 'brain',
+                    'description' => 'Learning AI development',
+                ],
+                [
+                    'name' => 'Kubernetes',
+                    'progress' => 10,
+                    'description' => 'Container orchestration',
+                ],
+            ],
+        ];
+    }
+}
