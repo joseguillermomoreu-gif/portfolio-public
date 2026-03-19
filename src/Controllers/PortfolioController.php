@@ -114,6 +114,12 @@ final class PortfolioController extends AbstractController
         return $this->render('pages/portfolio/ppia.html.twig');
     }
 
+    #[Route('/tlotp', name: 'app_tlotp')]
+    public function tlotp(): Response
+    {
+        return $this->render('pages/portfolio/tlotp.html.twig');
+    }
+
     #[Route('/portfolio', name: 'portfolio')]
     public function portfolioPage(): Response
     {

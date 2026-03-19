@@ -72,7 +72,7 @@ test('SEO: llms.txt responde 200 con información del autor', { tag: ['@test', '
 // ─── Meta descriptions por página ─────────────────────────────────────────────
 
 test('SEO: todas las páginas tienen meta description propia', { tag: ['@test', '@seo'] }, async ({ page }) => {
-  const pages = ['/', '/cv', '/portfolio', '/code-ai', '/proyectos', '/ppia', '/contacto'];
+  const pages = ['/', '/cv', '/portfolio', '/code-ai', '/proyectos', '/ppia', '/tlotp', '/contacto'];
 
   for (const url of pages) {
     await test.step(`Then: ${url} tiene meta description`, async () => {
@@ -137,6 +137,16 @@ test('SEO: Proyectos tiene Schema.org de tipo CollectionPage', { tag: ['@test', 
 test('SEO: PPiA tiene Schema.org de tipo SoftwareApplication', { tag: ['@test', '@seo'] }, async ({ page }) => {
   await test.step('When: el usuario navega a /ppia', async () => {
     await page.goto('/ppia', { waitUntil: 'domcontentloaded' });
+  });
+
+  await test.step('Then: tiene JSON-LD de tipo SoftwareApplication', async () => {
+    await seo.schemaOrgTypeIs(page, 'SoftwareApplication');
+  });
+});
+
+test('SEO: TLOTP tiene Schema.org de tipo SoftwareApplication', { tag: ['@test', '@seo'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a /tlotp', async () => {
+    await page.goto('/tlotp', { waitUntil: 'domcontentloaded' });
   });
 
   await test.step('Then: tiene JSON-LD de tipo SoftwareApplication', async () => {

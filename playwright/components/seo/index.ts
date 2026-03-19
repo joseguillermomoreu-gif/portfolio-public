@@ -29,7 +29,7 @@ export async function sitemapContainsMainUrls(page: Page): Promise<void> {
   expect(content).toContain('https://josemoreupeso.es/portfolio');
   expect(content).toContain('https://josemoreupeso.es/code-ai');
   expect(content).toContain('https://josemoreupeso.es/proyectos');
-  expect(content).toContain('https://josemoreupeso.es/ppia');
+  expect(content).toContain('https://josemoreupeso.es/tlotp');
   expect(content).toContain('https://josemoreupeso.es/contacto');
 }
 

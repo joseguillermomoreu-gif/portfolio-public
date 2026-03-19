@@ -3,7 +3,7 @@ import * as homePage from '@components/home';
 import * as headerPage from '@components/header';
 import * as utils from '@components/index';
 
-const EXPECTED_NAV_ORDER = ['Home', 'CV', 'Portfolio', 'Code & AI', 'PPiA', 'Proyectos', 'Contacto'];
+const EXPECTED_NAV_ORDER = ['Home', 'CV', 'Portfolio', 'Code & AI', 'TLOTP', 'Proyectos', 'Contacto'];
 
 test('header nav: se renderiza con logo, 7 enlaces y aria-label correctos', { tag: ['@test', '@header'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página principal', async () => {
