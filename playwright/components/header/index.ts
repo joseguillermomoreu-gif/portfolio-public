@@ -32,6 +32,10 @@ export async function setLocalStorageThemeToLight(page: Page): Promise<void> {
   await page.evaluate(() => localStorage.setItem('theme', 'light'));
 }
 
+export async function setLocalStorageThemeToDark(page: Page): Promise<void> {
+  await page.evaluate(() => localStorage.setItem('theme', 'dark'));
+}
+
 // ─── Assertions ───────────────────────────────────────────────────────────────
 
 export async function themeIsDark(page: Page): Promise<void> {

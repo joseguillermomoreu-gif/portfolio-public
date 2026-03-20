@@ -59,15 +59,15 @@ test('header visual: aspecto en desktop (sin scroll y con scroll)', { tag: ['@te
   });
 });
 
-test('header dark mode: en desktop el tema es light por defecto y el toggle es visible', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
+test('header dark mode: en desktop el tema es dark por defecto y el toggle es visible', { tag: ['@test', '@header', '@dark_mode'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página principal con localStorage limpio', async () => {
     await homePage.navigateHome(page);
     await headerPage.clearThemeFromLocalStorage(page);
     await page.reload();
   });
 
-  await test.step('Then: el tema por defecto es light y el toggle es visible con aria-label', async () => {
-    await headerPage.themeIsLight(page);
+  await test.step('Then: el tema por defecto es dark y el toggle es visible con aria-label', async () => {
+    await headerPage.themeIsDark(page);
     await headerPage.themeToggleIsVisible(page);
     await headerPage.themeToggleHasAriaLabel(page);
   });

@@ -6,10 +6,11 @@ test('header dark mode: en tablets >= 850px el toggle funciona (1024×768)', { t
   await test.step('Given: el usuario navega con localStorage limpio', async () => {
     await homePage.navigateHome(page);
     await headerPage.clearThemeFromLocalStorage(page);
+    await page.reload();
   });
 
-  await test.step('Given: el tema por defecto es light y el toggle es visible', async () => {
-    await headerPage.themeIsLight(page);
+  await test.step('Given: el tema por defecto es dark y el toggle es visible', async () => {
+    await headerPage.themeIsDark(page);
     await headerPage.themeToggleIsVisible(page);
   });
 
@@ -17,7 +18,7 @@ test('header dark mode: en tablets >= 850px el toggle funciona (1024×768)', { t
     await headerPage.toggleTheme(page);
   });
 
-  await test.step('Then: el tema cambia a dark', async () => {
-    await headerPage.themeIsDark(page);
+  await test.step('Then: el tema cambia a light', async () => {
+    await headerPage.themeIsLight(page);
   });
 });

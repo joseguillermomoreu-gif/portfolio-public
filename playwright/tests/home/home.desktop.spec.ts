@@ -87,9 +87,8 @@ test('home contexto: el enlace a Akkodis y de El confidencial son validoses vál
 });
 
 test('home visual hero: modo oscuro', { tag: ['@test', '@home', '@styles', '@dark_mode'] }, async ({ page }) => {
-  await test.step('When: el usuario navega a la página principal y activa el modo oscuro', async () => {
+  await test.step('When: el usuario navega a la página principal (dark mode activo por defecto en desktop)', async () => {
     await homePage.navigateHome(page);
-    await headerPage.toggleTheme(page);
   });
 
   await test.step('Then: el tema activo es oscuro', async () => {
