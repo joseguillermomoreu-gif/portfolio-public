@@ -72,7 +72,9 @@ test('SEO: llms.txt responde 200 con información del autor', { tag: ['@test', '
 // ─── Meta descriptions por página ─────────────────────────────────────────────
 
 test('SEO: todas las páginas tienen meta description propia', { tag: ['@test', '@seo'] }, async ({ page }) => {
-  const pages = ['/', '/cv', '/portfolio', '/code-ai', '/proyectos', '/ppia', '/tlotp', '/contacto'];
+  // /tlotp excluido: en producción redirige al estático TLOTP (302 → /tlotp/index.html)
+  // que no tiene meta tags de Symfony. El SEO aplica solo al fallback Twig.
+  const pages = ['/', '/cv', '/portfolio', '/code-ai', '/proyectos', '/ppia', '/contacto'];
 
   for (const url of pages) {
     await test.step(`Then: ${url} tiene meta description`, async () => {
@@ -144,15 +146,9 @@ test('SEO: PPiA tiene Schema.org de tipo SoftwareApplication', { tag: ['@test', 
   });
 });
 
-test('SEO: TLOTP tiene Schema.org de tipo SoftwareApplication', { tag: ['@test', '@seo'] }, async ({ page }) => {
-  await test.step('When: el usuario navega a /tlotp', async () => {
-    await page.goto('/tlotp', { waitUntil: 'domcontentloaded' });
-  });
-
-  await test.step('Then: tiene JSON-LD de tipo SoftwareApplication', async () => {
-    await seo.schemaOrgTypeIs(page, 'SoftwareApplication');
-  });
-});
+// Test de JSON-LD para /tlotp eliminado: en producción el controller redirige (302)
+// al estático de TLOTP cuando existe /public/tlotp/index.html. El schema.org solo
+// aplica al fallback Twig (cuando TLOTP no está desplegado).
 
 test('SEO: Contacto tiene Schema.org de tipo ContactPage', { tag: ['@test', '@seo'] }, async ({ page }) => {
   await test.step('When: el usuario navega a /contacto', async () => {
