@@ -49,7 +49,7 @@ final class TlotpControllerTest extends TestCase
         $portfolioService = new PortfolioService($this->createMock(PortfolioRepository::class));
         $expertiseAreaService = new ExpertiseAreaService($this->createMock(ExpertiseAreaRepository::class));
 
-        $controller = new PortfolioController($portfolioService, $expertiseAreaService);
+        $controller = new PortfolioController($portfolioService, $expertiseAreaService, '/tmp');
 
         static::assertInstanceOf(PortfolioController::class, $controller);
     }

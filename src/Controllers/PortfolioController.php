@@ -9,6 +9,7 @@ use App\Application\Service\Portfolio\PortfolioService;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -16,7 +17,9 @@ final class PortfolioController extends AbstractController
 {
     public function __construct(
         private readonly PortfolioService $portfolioService,
-        private readonly ExpertiseAreaService $expertiseAreaService
+        private readonly ExpertiseAreaService $expertiseAreaService,
+        #[Autowire('%kernel.project_dir%')]
+        private readonly string $projectDir
     ) {
     }
 
@@ -117,6 +120,12 @@ final class PortfolioController extends AbstractController
     #[Route('/tlotp', name: 'app_tlotp')]
     public function tlotp(): Response
     {
+        $tlotpIndexFile = $this->projectDir . '/public/tlotp/index.html';
+
+        if (file_exists($tlotpIndexFile)) {
+            return $this->redirect('/tlotp/index.html');
+        }
+
         return $this->render('pages/portfolio/tlotp.html.twig');
     }
 

@@ -31,6 +31,23 @@ export async function versionMatchesSemver(page: Page): Promise<void> {
   expect(versionText).toMatch(/^v\d+\.\d+\.\d+$/);
 }
 
+export async function socialIconsAreRendered(page: Page): Promise<void> {
+  const socialIconSelectors = [
+    selectors.githubSocialLink,
+    selectors.linkedinSocialLink,
+    selectors.emailSocialLink,
+  ];
+
+  for (const linkSelector of socialIconSelectors) {
+    const icon = page.locator(selectors.container).locator(linkSelector).locator('svg, i');
+    await expect(icon).toBeVisible();
+    const box = await icon.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.width).toBeGreaterThan(0);
+    expect(box!.height).toBeGreaterThan(0);
+  }
+}
+
 export async function footerMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
   await expect(page.locator(selectors.container)).toHaveScreenshot(snapshotName, {
     animations: 'disabled',
