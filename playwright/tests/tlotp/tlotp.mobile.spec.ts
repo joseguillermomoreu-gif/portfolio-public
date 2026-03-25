@@ -1,12 +1,3 @@
-import { test } from '@playwright/test';
-import * as tlotpPage from '@components/tlotp';
-
-test('TLOTP visual: cabecera en mobile', { tag: ['@test', '@tlotp', '@styles'] }, async ({ page }) => {
-  await test.step('When: el usuario navega a la página TLOTP', async () => {
-    await tlotpPage.navigateToTlotp(page);
-  });
-
-  await test.step('Then: la cabecera coincide con el snapshot', async () => {
-    await tlotpPage.tlotpHeaderMatchesSnapshot(page, 'tlotp-header-mobile.png');
-  });
-});
+// Test de visual snapshot eliminado: en producción /tlotp redirige (302) al estático
+// TLOTP cuando está desplegado. El snapshot de cabecera pertenece a la página Twig
+// de Symfony (fallback sin TLOTP desplegado).
