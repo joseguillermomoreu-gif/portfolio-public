@@ -58,9 +58,16 @@ final class PortfolioController extends AbstractController
             $content = str_replace('src="/photo.png"', 'src="' . $photoBase64 . '"', $content);
         }
 
+        $fontCacheDir = $this->projectDir . '/var/cache/dompdf';
+        if (!is_dir($fontCacheDir)) {
+            mkdir($fontCacheDir, 0777, true);
+        }
+
         $options = new Options();
         $options->setIsHtml5ParserEnabled(true);
         $options->setDefaultFont('DejaVu Sans');
+        $options->setFontDir($fontCacheDir);
+        $options->setFontCache($fontCacheDir);
 
         $dompdf = new Dompdf($options);
         $dompdf->loadHtml($content);
