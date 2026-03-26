@@ -1,6 +1,6 @@
 # ─────────────────────────────────────────────────────────────
 # josemoreupeso.es - Imagen de desarrollo y QA
-# Playwright oficial (Chromium + fuentes + libs) + PHP 8.1
+# Playwright oficial (Chromium + fuentes + libs) + PHP 8.3
 #
 # Responsabilidades:
 #   - Servidor PHP integrado (make up)
@@ -13,10 +13,12 @@ FROM mcr.microsoft.com/playwright:v1.58.1-jammy
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Madrid
 
-# ── PHP 8.1 + extensiones necesarias ─────────────────────────
-RUN apt-get update && apt-get install -y \
-    php8.1-cli php8.1-xml php8.1-mbstring \
-    php8.1-curl php8.1-zip php8.1-gd \
+# ── PHP 8.3 + extensiones necesarias ─────────────────────────
+RUN apt-get update && apt-get install -y software-properties-common \
+    && add-apt-repository ppa:ondrej/php -y \
+    && apt-get update && apt-get install -y \
+    php8.3-cli php8.3-xml php8.3-mbstring \
+    php8.3-curl php8.3-zip php8.3-gd \
     && rm -rf /var/lib/apt/lists/*
 
 ENV DEBIAN_FRONTEND=dialog

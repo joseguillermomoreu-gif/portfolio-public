@@ -29,7 +29,7 @@ src/
 
 ## 🚀 Stack
 
-- PHP 8.1+ · Symfony 6.4 · Twig
+- PHP 8.3+ · Symfony 6.4 · Twig
 - GitHub Actions (CI/CD con QA bloqueante en PRs)
 
 ---

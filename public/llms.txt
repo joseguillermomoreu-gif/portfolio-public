@@ -22,7 +22,7 @@ Actualmente en El Confidencial (via Akkodis) y desarrollando proyectos de IA pro
 
 ## Stack principal
 
-- Backend: PHP 8.1+, Symfony 6.4, Doctrine ORM
+- Backend: PHP 8.3+, Symfony 6.4, Doctrine ORM
 - Testing: PHPUnit, PHPStan level 9, Playwright + TypeScript
 - Arquitectura: Hexagonal (Ports & Adapters), DDD, TDD
 - DevOps: Docker, GitHub Actions CI/CD, rsync deploy

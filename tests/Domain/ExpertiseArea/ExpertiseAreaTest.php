@@ -150,7 +150,7 @@ final class ExpertiseAreaTest extends TestCase
         new ExpertiseArea(
             id: 'php',
             label: 'PHP',
-            fullTitle: 'PHP 8.1+',
+            fullTitle: 'PHP 8.3+',
             iconType: IconType::SimpleIcons,
             iconValue: $emptyValue,
             category: ExpertiseCategory::Backend,
@@ -171,7 +171,7 @@ final class ExpertiseAreaTest extends TestCase
         new ExpertiseArea(
             id: 'php',
             label: 'PHP',
-            fullTitle: 'PHP 8.1+',
+            fullTitle: 'PHP 8.3+',
             iconType: IconType::SimpleIcons,
             iconValue: 'php',
             category: ExpertiseCategory::Backend,
@@ -188,7 +188,7 @@ final class ExpertiseAreaTest extends TestCase
 
         ExpertiseArea::fromArray([
             'label' => 'PHP',
-            'full_title' => 'PHP 8.1+',
+            'full_title' => 'PHP 8.3+',
             'icon_type' => 'simpleicons',
             'icon_value' => 'php',
             'category' => 'backend',
@@ -206,7 +206,7 @@ final class ExpertiseAreaTest extends TestCase
         ExpertiseArea::fromArray([
             'id' => 'php',
             'label' => 'PHP',
-            'full_title' => 'PHP 8.1+',
+            'full_title' => 'PHP 8.3+',
             'icon_type' => 'simpleicons',
             'icon_value' => 'php',
             'category' => 'invalid-category',
@@ -224,7 +224,7 @@ final class ExpertiseAreaTest extends TestCase
         ExpertiseArea::fromArray([
             'id' => 'php',
             'label' => 'PHP',
-            'full_title' => 'PHP 8.1+',
+            'full_title' => 'PHP 8.3+',
             'icon_type' => 'svg',
             'icon_value' => 'php',
             'category' => 'backend',

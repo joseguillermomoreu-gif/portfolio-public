@@ -1,5 +1,5 @@
 # josemoreupeso.es - Portfolio profesional con DDD
-# Imagen única: PHP 8.1 + Node.js 20 + Playwright
+# Imagen única: PHP 8.3 + Node.js 20 + Playwright
 
 # Colores para output
 RED    = \033[0;31m

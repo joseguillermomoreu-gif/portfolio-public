@@ -161,7 +161,7 @@ final class PortfolioController extends AbstractController
                 'name' => 'Portfolio',
                 'description' => 'Este mismo sitio web. Portfolio profesional construido con Symfony 6.4, Arquitectura Hexagonal, DDD y TDD desde el primer commit',
                 'status' => 'production',
-                'stack' => ['PHP 8.1+', 'Symfony 6.4', 'TypeScript', 'Playwright', 'CSS'],
+                'stack' => ['PHP 8.3+', 'Symfony 6.4', 'TypeScript', 'Playwright', 'CSS'],
                 'tags' => ['PHP', 'Symfony', 'Hexagonal', 'DDD', 'TDD', 'Portfolio', 'Open Source'],
                 'github' => 'https://github.com/joseguillermomoreu-gif/portfolio-public',
                 'url' => 'https://josemoreupeso.es',
