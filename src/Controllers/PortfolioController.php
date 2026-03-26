@@ -66,7 +66,6 @@ final class PortfolioController extends AbstractController
         $options = new Options();
         $options->setIsHtml5ParserEnabled(true);
         $options->setDefaultFont('DejaVu Sans');
-        $options->setFontDir($fontCacheDir);
         $options->setFontCache($fontCacheDir);
 
         $dompdf = new Dompdf($options);
