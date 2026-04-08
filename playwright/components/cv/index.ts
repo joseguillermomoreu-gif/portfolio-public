@@ -82,3 +82,42 @@ export async function desiredSkillsHaveProgressBars(page: Page): Promise<void> {
     await expect(cards.nth(i).locator(selectors.progressBar)).toBeVisible();
   }
 }
+
+export async function timelineSectionIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.timelineSection)).toBeVisible();
+}
+
+export async function timelineHasTitle(page: Page): Promise<void> {
+  const section = page.locator(selectors.timelineSection);
+  await expect(section).toContainText(selectors.timelineSectionTitle);
+}
+
+export async function hasTimelineItemCount(page: Page, count: number): Promise<void> {
+  await expect(page.locator(selectors.timelineItem)).toHaveCount(count);
+}
+
+export async function timelineCompaniesHaveNames(page: Page): Promise<void> {
+  const cards = page.locator(selectors.timelineCard);
+  const count = await cards.count();
+  for (let i = 0; i < count; i++) {
+    await expect(cards.nth(i).locator(selectors.timelineCompanyName)).toBeVisible();
+  }
+}
+
+export async function hasTimelineRoleCount(page: Page, count: number): Promise<void> {
+  await expect(page.locator(selectors.timelineRole)).toHaveCount(count);
+}
+
+export async function timelineRolesHaveContent(page: Page): Promise<void> {
+  const roles = page.locator(selectors.timelineRole);
+  const count = await roles.count();
+  for (let i = 0; i < count; i++) {
+    const role = roles.nth(i);
+    await expect(role.locator(selectors.timelinePosition)).toBeVisible();
+    await expect(role.locator(selectors.timelineTechTag).first()).toBeVisible();
+  }
+}
+
+export async function timelineSectionMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {
+  await expect(page.locator(selectors.timelineSection)).toHaveScreenshot(snapshotName, { animations: 'disabled' });
+}
