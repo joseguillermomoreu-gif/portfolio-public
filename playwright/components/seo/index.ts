@@ -44,6 +44,7 @@ const ARTICLE_SLUGS = [
   'el-vibe-coding-llego',
   'automatizando-e2e-con-ia',
   'tlotp-sdd-ia-san-patricio',
+  'diseno-sistemas-multi-agente-ia',
 ];
 
 export async function sitemapContainsArticleUrls(page: Page): Promise<void> {
