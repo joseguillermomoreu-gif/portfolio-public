@@ -36,16 +36,9 @@ export async function portfolioPublicRepoLinkIsValid(page: Page): Promise<void> 
   await expect(publicRepoLink).toHaveAttribute('target', '_blank');
 }
 
-export async function akkodisLinkIsValid(page: Page): Promise<void> {
-  await expect(page.locator(selectors.akkodisLink)).toBeVisible();
-  await expect(page.locator(selectors.akkodisLink)).toHaveAttribute('href', selectors.akkodisUrl);
-  await expect(page.locator(selectors.akkodisLink)).toHaveAttribute('target', '_blank');
-}
-
-export async function elConfidencialLinkIsValid(page: Page): Promise<void> {
-  await expect(page.locator(selectors.elConfidencialLink)).toBeVisible();
-  await expect(page.locator(selectors.elConfidencialLink)).toHaveAttribute('href', selectors.elConfidencialUrl);
-  await expect(page.locator(selectors.elConfidencialLink)).toHaveAttribute('target', '_blank');
+export async function openToWorkSectionIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.openToWorkLabel)).toBeVisible();
+  await expect(page.locator(selectors.openToWorkLabel)).toContainText('búsqueda activa');
 }
 
 export async function heroMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {

@@ -68,17 +68,13 @@ test('home contexto: existe el enlace al repositorio público del portfolio', { 
   });
 });
 
-test('home contexto: el enlace a Akkodis y de El confidencial son validoses válido', { tag: ['@test', '@home', '@styles'] }, async ({ page }) => {
+test('home contexto: la sección open-to-work es visible con el texto correcto', { tag: ['@test', '@home', '@styles'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
 
-  await test.step('Then: el enlace a Akkodis es visible con href y target correctos', async () => {
-    await homePage.akkodisLinkIsValid(page);
-  });
-
-  await test.step('Then: el enlace a El Confidencial es visible con href y target correctos', async () => {
-    await homePage.elConfidencialLinkIsValid(page);
+  await test.step('Then: la sección open-to-work es visible con el texto de búsqueda activa', async () => {
+    await homePage.openToWorkSectionIsVisible(page);
   });
 
   await test.step('Then: la sección de contexto coincide con el snapshot visual', async () => {
