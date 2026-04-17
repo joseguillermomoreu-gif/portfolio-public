@@ -21,7 +21,31 @@ test('Proyectos: conteo, enlaces y visibilidad de tarjetas son correctos', { tag
 
   await test.step('Then: la sección de donación es visible con enlace PayPal correcto', async () => {
     await projectsPage.donationSectionIsVisible(page);
-    await projectsPage.donationLinkIs(page, 'https://paypal.me/Joseguillermomoreu');
+    await projectsPage.donationPaypalLinkIs(page, 'https://paypal.me/Joseguillermomoreu');
+  });
+});
+
+// ─── Donation Modal ───────────────────────────────────────────────────────────
+
+test('Proyectos: el modal de donación abre y cierra correctamente', { tag: ['@test', '@projects'] }, async ({ page }) => {
+  await test.step('When: el usuario navega a la página de proyectos', async () => {
+    await projectsPage.navigateToProjects(page);
+  });
+
+  await test.step('When: el usuario hace clic en el botón de donación', async () => {
+    await projectsPage.donationModalOpens(page);
+  });
+
+  await test.step('Then: el modal muestra la imagen QR', async () => {
+    // Already verified inside donationModalOpens
+  });
+
+  await test.step('When: el usuario cierra el modal con el botón ×', async () => {
+    await projectsPage.donationModalClosesWithButton(page);
+  });
+
+  await test.step('When: el usuario abre el modal y lo cierra haciendo clic fuera', async () => {
+    await projectsPage.donationModalClosesWithBackdrop(page);
   });
 });
 

@@ -12,6 +12,10 @@ export const projectsHeader = '.projects-header';
 export const projectsFooter = '.projects-footer';
 export const donationSection = '[data-testid="donation-section"]';
 export const donationLink = '[data-testid="donation-link"]';
+export const donationModal = '[data-testid="donation-modal"]';
+export const donationQrImage = '[data-testid="donation-qr-image"]';
+export const donationPaypalLink = '[data-testid="donation-paypal-link"]';
+export const donationModalClose = '.donation-modal-close';
 
 export const ppiaProjectName = 'PPIA';
 export const ppiaStatusPrivate = 'Private';

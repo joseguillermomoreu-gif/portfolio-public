@@ -28,7 +28,7 @@ test('CV: título, botones Ver HTML y Descargar PDF son correctos', { tag: ['@te
 
 // ─── Desired Skills ──────────────────────────────────────────────────────────
 
-test('CV: la sección de skills deseadas muestra 3 skills con barras de progreso', { tag: ['@test', '@cv'] }, async ({ page }) => {
+test('CV: la sección de skills deseadas muestra 5 skills con barras de progreso', { tag: ['@test', '@cv'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página CV', async () => {
     await cvPage.navigateToCv(page);
   });
@@ -37,8 +37,8 @@ test('CV: la sección de skills deseadas muestra 3 skills con barras de progreso
     await cvPage.desiredSkillsSectionIsVisible(page);
   });
 
-  await test.step('Then: se muestran 3 skills deseadas', async () => {
-    await cvPage.hasDesiredSkillCount(page, 3);
+  await test.step('Then: se muestran 5 skills deseadas', async () => {
+    await cvPage.hasDesiredSkillCount(page, 5);
   });
 
   await test.step('Then: cada skill tiene barra de progreso', async () => {

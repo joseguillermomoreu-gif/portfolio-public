@@ -44,11 +44,11 @@ test('SEO: sitemap.xml contiene todos los artículos de Code & AI con lastmod', 
     await seo.sitemapReturns200(page);
   });
 
-  await test.step('Then: contiene los 11 slugs de artículos', async () => {
+  await test.step('Then: contiene los 12 slugs de artículos', async () => {
     await seo.sitemapContainsArticleUrls(page);
   });
 
-  await test.step('And: el número total de artículos es exactamente 11', async () => {
+  await test.step('And: el número total de artículos es exactamente 12', async () => {
     await seo.sitemapArticleCountIsCorrect(page);
   });
 

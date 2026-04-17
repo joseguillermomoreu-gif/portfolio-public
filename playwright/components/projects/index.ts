@@ -80,8 +80,31 @@ export async function donationSectionIsVisible(page: Page): Promise<void> {
   await expect(page.locator(selectors.donationSection)).toBeVisible();
 }
 
-export async function donationLinkIs(page: Page, href: string): Promise<void> {
-  await expect(page.locator(selectors.donationLink)).toHaveAttribute('href', href);
+export async function donationPaypalLinkIs(page: Page, href: string): Promise<void> {
+  // Open modal first to expose the PayPal fallback link
+  await page.locator(selectors.donationLink).click();
+  await expect(page.locator(selectors.donationModal)).toBeVisible();
+  await expect(page.locator(selectors.donationPaypalLink)).toHaveAttribute('href', href);
+  await page.locator(selectors.donationModalClose).click();
+}
+
+export async function donationModalOpens(page: Page): Promise<void> {
+  await page.locator(selectors.donationLink).click();
+  await expect(page.locator(selectors.donationModal)).toBeVisible();
+  await expect(page.locator(selectors.donationQrImage)).toBeVisible();
+}
+
+export async function donationModalClosesWithButton(page: Page): Promise<void> {
+  await page.locator(selectors.donationModalClose).click();
+  await expect(page.locator(selectors.donationModal)).toBeHidden();
+}
+
+export async function donationModalClosesWithBackdrop(page: Page): Promise<void> {
+  await page.locator(selectors.donationLink).click();
+  await expect(page.locator(selectors.donationModal)).toBeVisible();
+  // Click on the top-left corner of the backdrop, outside the modal content
+  await page.locator('.donation-modal-backdrop').click({ position: { x: 10, y: 10 } });
+  await expect(page.locator(selectors.donationModal)).toBeHidden();
 }
 
 export async function donationSectionMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {

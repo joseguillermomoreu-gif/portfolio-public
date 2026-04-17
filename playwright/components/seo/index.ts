@@ -34,6 +34,7 @@ export async function sitemapContainsMainUrls(page: Page): Promise<void> {
 }
 
 const ARTICLE_SLUGS = [
+  'claude-code-notebooklm-istqb',
   'remote-control-terracita-al-sol',
   'experimento-372-gamificacion',
   'matando-moscas-canonazos',
