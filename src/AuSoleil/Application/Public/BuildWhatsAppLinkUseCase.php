@@ -29,7 +29,7 @@ final class BuildWhatsAppLinkUseCase
                 $total->format(),
             );
         } else {
-            $message = sprintf('Hola, me interesa el piso "%s". ¿Podrías darme más información?', $flat->title);
+            $message = 'Hola, me gustaría información sobre el apartamento';
         }
 
         return sprintf('https://wa.me/%s?text=%s', $normalized, rawurlencode($message));
