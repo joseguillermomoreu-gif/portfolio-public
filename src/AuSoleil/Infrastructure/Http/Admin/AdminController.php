@@ -6,6 +6,7 @@ namespace App\AuSoleil\Infrastructure\Http\Admin;
 
 use App\AuSoleil\Application\Admin\CreateBookingUseCase;
 use App\AuSoleil\Application\Admin\ListAllFlatsUseCase;
+use App\AuSoleil\Application\Admin\ReorderFlatPhotosUseCase;
 use App\AuSoleil\Application\Admin\UpdateFlatUseCase;
 use App\AuSoleil\Domain\Booking\BookingRepository;
 use App\AuSoleil\Domain\Flat\FlatRepository;
@@ -21,6 +22,7 @@ final class AdminController extends AbstractController
         private readonly ListAllFlatsUseCase $listAllFlats,
         private readonly UpdateFlatUseCase $updateFlat,
         private readonly CreateBookingUseCase $createBooking,
+        private readonly ReorderFlatPhotosUseCase $reorderFlatPhotos,
         private readonly FlatRepository $flatRepository,
         private readonly BookingRepository $bookingRepository,
     ) {
@@ -110,6 +112,37 @@ final class AdminController extends AbstractController
         return $this->render('ausoleil/admin/flat_edit.html.twig', [
             'flat' => $flat,
         ]);
+    }
+
+    #[Route('/au-soleil/admin/pisos/{id}/fotos/reorder', name: 'ausoleil_admin_flat_photos_reorder', methods: ['POST'])]
+    public function reorderPhotos(string $id, Request $request): RedirectResponse
+    {
+        $flat = $this->flatRepository->findById($id);
+        if (null === $flat) {
+            $this->addFlash('error', 'Piso no encontrado');
+
+            return $this->redirectToRoute('ausoleil_admin_flats');
+        }
+
+        /** @var array<int|string, mixed> $rawIds */
+        $rawIds = $request->request->all('photo_ids');
+
+        $photoIds = [];
+        foreach ($rawIds as $rawId) {
+            if (!is_string($rawId) || '' === $rawId) {
+                continue;
+            }
+            $photoIds[] = $rawId;
+        }
+
+        try {
+            $this->reorderFlatPhotos->execute($id, array_values($photoIds));
+            $this->addFlash('success', 'Orden de fotos actualizado');
+        } catch (\InvalidArgumentException $e) {
+            $this->addFlash('error', 'No se pudo actualizar el orden: ' . $e->getMessage());
+        }
+
+        return $this->redirectToRoute('ausoleil_admin_flat_edit', ['id' => $id]);
     }
 
     #[Route('/au-soleil/admin/reservas', name: 'ausoleil_admin_bookings', methods: ['GET', 'POST'])]

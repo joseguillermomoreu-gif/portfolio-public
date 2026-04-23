@@ -181,6 +181,49 @@ final class Flat
     }
 
     /**
+     * Returns a new Flat with its photos reordered according to the given list
+     * of photo IDs. The new photos preserve id/url/alt and get their position
+     * renumbered to 0..n-1 matching the given order.
+     *
+     * @param list<string> $orderedPhotoIds
+     *
+     * @throws \InvalidArgumentException if the given IDs do not match the current set of photo IDs exactly
+     */
+    public function withReorderedPhotos(array $orderedPhotoIds): self
+    {
+        $currentIds = array_map(static fn (Photo $p): string => $p->id, $this->photos);
+
+        if (\count($orderedPhotoIds) !== \count($currentIds)) {
+            throw new \InvalidArgumentException('La lista de IDs de fotos no coincide con la cantidad actual de fotos del piso.');
+        }
+
+        if (\count(array_unique($orderedPhotoIds)) !== \count($orderedPhotoIds)) {
+            throw new \InvalidArgumentException('La lista de IDs de fotos contiene duplicados.');
+        }
+
+        $currentSet = array_fill_keys($currentIds, true);
+        foreach ($orderedPhotoIds as $id) {
+            if (!isset($currentSet[$id])) {
+                throw new \InvalidArgumentException(sprintf('El ID de foto "%s" no pertenece al piso.', $id));
+            }
+        }
+
+        /** @var array<string, Photo> $byId */
+        $byId = [];
+        foreach ($this->photos as $p) {
+            $byId[$p->id] = $p;
+        }
+
+        $reordered = [];
+        foreach ($orderedPhotoIds as $index => $id) {
+            $existing = $byId[$id];
+            $reordered[] = new Photo($existing->id, $existing->url, $existing->alt, $index);
+        }
+
+        return $this->cloneWithPhotos(array_values($reordered));
+    }
+
+    /**
      * Returns a new Flat with the PriceRange matching the given id replaced.
      */
     public function withUpdatedPriceRange(string $id, PriceRange $updated): self
@@ -230,6 +273,34 @@ final class Flat
             $this->published,
             $this->photos,
             $ranges,
+            $this->airbnbUrl,
+        );
+    }
+
+    /**
+     * @param list<Photo> $photos
+     */
+    private function cloneWithPhotos(array $photos): self
+    {
+        return new self(
+            $this->id,
+            $this->slug,
+            $this->title,
+            $this->shortDescription,
+            $this->description,
+            $this->city,
+            $this->region,
+            $this->capacity,
+            $this->bedrooms,
+            $this->bathrooms,
+            $this->amenities,
+            $this->basePrice,
+            $this->minStayNights,
+            $this->lat,
+            $this->lon,
+            $this->published,
+            $photos,
+            $this->priceRanges,
             $this->airbnbUrl,
         );
     }
