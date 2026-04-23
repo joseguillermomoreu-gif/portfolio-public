@@ -70,6 +70,7 @@ final class UpdateFlatUseCase
             isset($input['published']) ? (bool) $input['published'] : $existing->published,
             $existing->photos,
             $existing->priceRanges,
+            $existing->airbnbUrl,
         );
 
         $this->flatRepository->save($updated);

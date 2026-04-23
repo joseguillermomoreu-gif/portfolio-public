@@ -33,6 +33,7 @@ final class Flat
         public readonly bool $published,
         public readonly array $photos,
         public readonly array $priceRanges,
+        public readonly ?string $airbnbUrl = null,
     ) {
     }
 
@@ -86,6 +87,9 @@ final class Flat
         $lat = is_numeric($latRaw) ? (float) $latRaw : null;
         $lon = is_numeric($lonRaw) ? (float) $lonRaw : null;
 
+        $airbnbUrlRaw = $data['airbnb_url'] ?? null;
+        $airbnbUrl = (is_string($airbnbUrlRaw) && '' !== $airbnbUrlRaw) ? $airbnbUrlRaw : null;
+
         return new self(
             $id,
             $slug,
@@ -105,6 +109,7 @@ final class Flat
             $published,
             array_values($photos),
             array_values($priceRanges),
+            $airbnbUrl,
         );
     }
 
@@ -132,6 +137,7 @@ final class Flat
             'published' => $this->published,
             'photos' => array_map(static fn (Photo $p): array => $p->toArray(), $this->photos),
             'price_ranges' => array_map(static fn (PriceRange $r): array => $r->toArray(), $this->priceRanges),
+            'airbnb_url' => $this->airbnbUrl,
         ];
     }
 
@@ -224,6 +230,7 @@ final class Flat
             $this->published,
             $this->photos,
             $ranges,
+            $this->airbnbUrl,
         );
     }
 }
