@@ -150,10 +150,14 @@ final class JsonBookingRepository implements BookingRepository
             @mkdir($dir, 0o775, true);
         }
 
-        file_put_contents(
+        $result = file_put_contents(
             $this->filePath,
             json_encode($data, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_UNICODE | \JSON_UNESCAPED_SLASHES) . "\n",
             \LOCK_EX,
         );
+
+        if (false === $result) {
+            throw new \RuntimeException(sprintf('No se pudo escribir en %s', $this->filePath));
+        }
     }
 }

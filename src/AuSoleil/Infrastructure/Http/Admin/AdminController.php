@@ -74,8 +74,12 @@ final class AdminController extends AbstractController
             return $this->redirectToRoute('ausoleil_admin_flats');
         }
 
-        $this->updateFlat->execute($id, ['published' => !$flat->published]);
-        $this->addFlash('success', sprintf('Piso "%s" %s', $flat->title, !$flat->published ? 'publicado' : 'despublicado'));
+        try {
+            $this->updateFlat->execute($id, ['published' => !$flat->published]);
+            $this->addFlash('success', sprintf('Piso "%s" %s', $flat->title, !$flat->published ? 'publicado' : 'despublicado'));
+        } catch (\RuntimeException $e) {
+            $this->addFlash('error', 'No se pudo actualizar el piso: ' . $e->getMessage());
+        }
 
         return $this->redirectToRoute('ausoleil_admin_flats');
     }
@@ -103,8 +107,12 @@ final class AdminController extends AbstractController
                 'min_stay_nights' => (int) $request->request->get('min_stay_nights', (string) $flat->minStayNights),
                 'published' => (bool) $request->request->get('published'),
             ];
-            $this->updateFlat->execute($id, $input);
-            $this->addFlash('success', 'Piso actualizado');
+            try {
+                $this->updateFlat->execute($id, $input);
+                $this->addFlash('success', 'Piso actualizado');
+            } catch (\RuntimeException $e) {
+                $this->addFlash('error', 'No se pudo actualizar el piso: ' . $e->getMessage());
+            }
 
             return $this->redirectToRoute('ausoleil_admin_flat_edit', ['id' => $id]);
         }
@@ -138,7 +146,7 @@ final class AdminController extends AbstractController
         try {
             $this->reorderFlatPhotos->execute($id, array_values($photoIds));
             $this->addFlash('success', 'Orden de fotos actualizado');
-        } catch (\InvalidArgumentException $e) {
+        } catch (\InvalidArgumentException|\RuntimeException $e) {
             $this->addFlash('error', 'No se pudo actualizar el orden: ' . $e->getMessage());
         }
 
@@ -180,8 +188,12 @@ final class AdminController extends AbstractController
     #[Route('/au-soleil/admin/reservas/{id}/cancel', name: 'ausoleil_admin_booking_cancel', methods: ['POST'])]
     public function cancelBooking(string $id): RedirectResponse
     {
-        $this->bookingRepository->cancel($id);
-        $this->addFlash('success', 'Reserva cancelada');
+        try {
+            $this->bookingRepository->cancel($id);
+            $this->addFlash('success', 'Reserva cancelada');
+        } catch (\RuntimeException $e) {
+            $this->addFlash('error', 'No se pudo cancelar la reserva: ' . $e->getMessage());
+        }
 
         return $this->redirectToRoute('ausoleil_admin_bookings');
     }
