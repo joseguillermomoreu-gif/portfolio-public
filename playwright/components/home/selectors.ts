@@ -13,4 +13,4 @@ export const stackItemOpen = '.stack-item--expandable.is-open';
 export const stackDescriptionRevealed = '.stack-description.is-revealed';
 export const publicRepoLink = 'a[href*="portfolio-public"]';
 export const publicRepoUrl = 'https://github.com/joseguillermomoreu-gif/portfolio-public';
-export const openToWorkLabel = '.current-focus .focus-label';
+export const currentRoleLabel = '.current-focus .focus-label';

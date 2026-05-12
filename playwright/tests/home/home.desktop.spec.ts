@@ -68,13 +68,13 @@ test('home contexto: existe el enlace al repositorio público del portfolio', { 
   });
 });
 
-test('home contexto: la sección open-to-work es visible con el texto correcto', { tag: ['@test', '@home', '@styles'] }, async ({ page }) => {
+test('home contexto: la sección de rol actual es visible con el texto correcto', { tag: ['@test', '@home', '@styles'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la página principal', async () => {
     await homePage.navigateHome(page);
   });
 
-  await test.step('Then: la sección open-to-work es visible con el texto de búsqueda activa', async () => {
-    await homePage.openToWorkSectionIsVisible(page);
+  await test.step('Then: la sección de rol actual es visible con el texto "Rol actual"', async () => {
+    await homePage.currentRoleSectionIsVisible(page);
   });
 
   await test.step('Then: la sección de contexto coincide con el snapshot visual', async () => {

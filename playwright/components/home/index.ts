@@ -36,9 +36,9 @@ export async function portfolioPublicRepoLinkIsValid(page: Page): Promise<void> 
   await expect(publicRepoLink).toHaveAttribute('target', '_blank');
 }
 
-export async function openToWorkSectionIsVisible(page: Page): Promise<void> {
-  await expect(page.locator(selectors.openToWorkLabel)).toBeVisible();
-  await expect(page.locator(selectors.openToWorkLabel)).toContainText('búsqueda activa');
+export async function currentRoleSectionIsVisible(page: Page): Promise<void> {
+  await expect(page.locator(selectors.currentRoleLabel)).toBeVisible();
+  await expect(page.locator(selectors.currentRoleLabel)).toContainText('Rol actual');
 }
 
 export async function heroMatchesSnapshot(page: Page, snapshotName: string): Promise<void> {

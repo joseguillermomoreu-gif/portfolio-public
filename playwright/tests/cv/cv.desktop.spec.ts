@@ -48,7 +48,7 @@ test('CV: la sección de skills deseadas muestra 5 skills con barras de progreso
 
 // ─── Timeline ────────────────────────────────────────────────────────────────
 
-test('CV: el timeline muestra 2 empresas con 4 roles anidados', { tag: ['@test', '@cv'] }, async ({ page }) => {
+test('CV: el timeline muestra 3 empresas con 5 roles anidados', { tag: ['@test', '@cv'] }, async ({ page }) => {
   await test.step('When: el usuario navega a la pagina CV', async () => {
     await cvPage.navigateToCv(page);
   });
@@ -58,16 +58,16 @@ test('CV: el timeline muestra 2 empresas con 4 roles anidados', { tag: ['@test',
     await cvPage.timelineHasTitle(page);
   });
 
-  await test.step('Then: se muestran 2 empresas en el timeline', async () => {
-    await cvPage.hasTimelineItemCount(page, 2);
+  await test.step('Then: se muestran 3 empresas en el timeline', async () => {
+    await cvPage.hasTimelineItemCount(page, 3);
   });
 
   await test.step('Then: cada empresa muestra su nombre', async () => {
     await cvPage.timelineCompaniesHaveNames(page);
   });
 
-  await test.step('Then: se muestran 4 roles anidados en total', async () => {
-    await cvPage.hasTimelineRoleCount(page, 4);
+  await test.step('Then: se muestran 5 roles anidados en total', async () => {
+    await cvPage.hasTimelineRoleCount(page, 5);
   });
 
   await test.step('Then: cada rol tiene posicion y tecnologias', async () => {
